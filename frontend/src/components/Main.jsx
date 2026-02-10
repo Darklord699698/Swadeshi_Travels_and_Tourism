@@ -2,11 +2,12 @@ import { useState, useEffect } from "react";
 import "./styles.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { assets } from "../assets/assets.js";
+import { Link } from "react-router-dom";
+
 
 function Travel() {
-  const [menuActive, setMenuActive] = useState(false);
-  const [searchActive, setSearchActive] = useState(false);
-  const [loginActive, setLoginActive] = useState(false);
+  
+
   const [videoSrc, setVideoSrc] = useState(assets.video1);
 
   // Handle scroll reset (window.onscroll)
@@ -33,74 +34,8 @@ function Travel() {
 
   return (
     <>
-      {/* HEADER */}
-      <header>
-        <div
-          id="menu-bar"
-          className={`fas fa-bars ${menuActive ? "fa-times" : ""}`}
-          onClick={() => setMenuActive(!menuActive)}
-        ></div>
-
-        <a href="#" className="logo">
-          <span>T</span>ravel
-        </a>
-
-        <nav className={`navbar ${menuActive ? "active" : ""}`}>
-          <a href="#home">home</a>
-          <a href="#book">book</a>
-          <a href="#packages">packages</a>
-          <a href="#services">services</a>
-          <a href="#gallery">gallery</a>
-          <a href="#review">review</a>
-          <a href="#contact">contact</a>
-        </nav>
-
-        <div className="icons">
-          <i
-            className={`fas fa-search ${searchActive ? "fa-times" : ""}`}
-            onClick={() => setSearchActive(!searchActive)}
-          ></i>
-
-          <i
-            className="fas fa-user"
-            onClick={() => setLoginActive(true)}
-          ></i>
-        </div>
-
-        <form
-          className={`search-bar-container ${
-            searchActive ? "active" : ""
-          }`}
-        >
-          <input type="search" placeholder="Search here ..." />
-          <label className="fas fa-search"></label>
-        </form>
-      </header>
-
-      {/* LOGIN FORM */}
-      <div
-        className={`login-form-container ${
-          loginActive ? "active" : ""
-        }`}
-      >
-        <i
-          className="fas fa-times"
-          id="form-close"
-          onClick={() => setLoginActive(false)}
-        ></i>
-
-        <form>
-          <h3>login</h3>
-          <input type="email" className="box" placeholder="enter your email..." />
-          <input type="password" className="box" placeholder="password..." />
-          <input type="submit" value="login now" className="btn" />
-          <input type="checkbox" id="remember" />
-          <label htmlFor="remember">remember me</label>
-          <p>forget password <a href="#">click here</a></p>
-          <p>dont have a account? <a href="#">register now</a></p>
-        </form>
-      </div>
-
+     
+    
       {/* HOME */}
       <section className="home" id="home">
         <div className="content">

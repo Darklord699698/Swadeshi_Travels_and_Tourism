@@ -1,15 +1,22 @@
-import React from 'react';
-import Main from './components/Main'
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+
+import Main from "./components/Main";
+import BookNow from "./components/BookNow";
+import Header from "./components/Header";
 
 const App = () => {
   return (
-    <div>
-      <div className="flex">
-        <div className="w-full">
-          <Main/>
-        </div>
-      </div>
-    </div>
+    <>
+      <Header />
+
+      <Routes>
+        <Route path="/" element={<Main />} />
+        <Route path="/book" element={<BookNow />} />
+        
+
+      </Routes>
+    </>
   );
 };
 
