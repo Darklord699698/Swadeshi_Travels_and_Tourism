@@ -1,12 +1,36 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect,useRef } from "react";
 import "./styles.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { assets } from "../assets/assets.js";
 import { Link } from "react-router-dom";
-
+import Lottie from 'react-lottie';
+import animationData1 from "../assets/animationData1.json";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 function Travel() {
-  
+    const defaultOptions = {
+        loop: true,
+        autoplay: true,
+        animationData: animationData1,
+        rendererSettings: {
+          preserveAspectRatio: 'xMidYMid slice'
+        }
+      };
+    // 1. Inside your Travel component, before the return statement:
+const videoRefs = useRef([]);
+
+const sliderSettings = {
+  dots: true,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  autoplay: true,
+  autoplaySpeed: 5000,
+  pauseOnHover: true
+};
 
   const [videoSrc, setVideoSrc] = useState(assets.video1);
 
@@ -393,78 +417,278 @@ function Travel() {
 
 
 
-<section className="contact">
-    <h1 className="space-x-2 font-bold heading">
-        <span>C</span>
-        <span>O</span>
-        <span>N</span>
-        <span>T</span>
-        <span>A</span>
-        <span>C</span>
-        <span>T</span>
+<section className="py-20 contact bg-gray-50" id="contact">
+  {/* Centered Heading with Letter Gaps */}
+  <h1 className="flex justify-center mb-16 space-x-3 font-bold heading">
+    <span className="px-4 py-2 text-orange-600 bg-orange-100 rounded-lg">C</span>
+    <span className="px-4 py-2 text-orange-600 bg-orange-100 rounded-lg">O</span>
+    <span className="px-4 py-2 text-orange-600 bg-orange-100 rounded-lg">N</span>
+    <span className="px-4 py-2 text-orange-600 bg-orange-100 rounded-lg">T</span>
+    <span className="px-4 py-2 text-orange-600 bg-orange-100 rounded-lg">A</span>
+    <span className="px-4 py-2 text-orange-600 bg-orange-100 rounded-lg">C</span>
+    <span className="px-4 py-2 text-orange-600 bg-orange-100 rounded-lg">T</span>
+  </h1>
+
+  {/* Main Container */}
+  <div className="container mx-auto px-[9%]">
+    <div className="flex flex-wrap items-center justify-center gap-12 row">
+      
+      {/* Lottie Animation Side */}
+      <div className="flex-1 min-w-[350px] max-w-[700px] transform hover:scale-105 transition-transform duration-500">
+        <Lottie 
+          options={defaultOptions} 
+          height="100%" 
+          width="100%" 
+          isClickToPauseDisabled={true}
+        />
+      </div>
+
+      {/* Modern Redesigned Form */}
+      <form className="flex-1 min-w-[320px] max-w-[650px] p-10 bg-white border border-gray-100 shadow-[0_20px_50px_rgba(0,0,0,0.1)] rounded-3xl space-y-6">
+        
+        <div className="space-y-2">
+          <h2 className="text-4xl font-extrabold text-gray-800">Get in Touch</h2>
+          <p className="text-xl text-gray-500">We'd love to hear from you. Send us a message!</p>
+        </div>
+
+        <div className="flex flex-wrap gap-6">
+          <div className="flex-1 min-w-[200px]">
+            <input 
+              type="text" 
+              placeholder="Full Name" 
+              className="w-full p-4 text-xl transition-all duration-300 border border-transparent outline-none bg-gray-50 rounded-xl focus:border-orange-400 focus:bg-white focus:ring-4 focus:ring-orange-100"
+            />
+          </div>
+          <div className="flex-1 min-w-[200px]">
+            <input 
+              type="email" 
+              placeholder="Email Address" 
+              className="w-full p-4 text-xl transition-all duration-300 border border-transparent outline-none bg-gray-50 rounded-xl focus:border-orange-400 focus:bg-white focus:ring-4 focus:ring-orange-100"
+            />
+          </div>
+        </div>
+
+        <div className="flex flex-wrap gap-6">
+          <div className="flex-1 min-w-[200px]">
+            <input 
+              type="number" 
+              placeholder="Phone Number" 
+              className="w-full p-4 text-xl transition-all duration-300 border border-transparent outline-none bg-gray-50 rounded-xl focus:border-orange-400 focus:bg-white focus:ring-4 focus:ring-orange-100"
+            />
+          </div>
+          <div className="flex-1 min-w-[200px]">
+            <input 
+              type="text" 
+              placeholder="Subject" 
+              className="w-full p-4 text-xl transition-all duration-300 border border-transparent outline-none bg-gray-50 rounded-xl focus:border-orange-400 focus:bg-white focus:ring-4 focus:ring-orange-100"
+            />
+          </div>
+        </div>
+
+        <textarea 
+          placeholder="Your Message" 
+          rows="5"
+          className="w-full p-4 text-xl transition-all duration-300 border border-transparent outline-none resize-none bg-gray-50 rounded-xl focus:border-orange-400 focus:bg-white focus:ring-4 focus:ring-orange-100"
+        ></textarea>
+
+        <button 
+          type="submit" 
+          className="w-full py-5 text-2xl font-bold tracking-widest text-white uppercase transition-all duration-300 shadow-lg bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl shadow-orange-200 hover:shadow-orange-300 hover:-translate-y-1 active:scale-95"
+        >
+          Send Message
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+{/*// 2. In your JSX (Below the Contact section):*/}
+{/* Section with a refined background: added a faint grid and soft radial glows */}
+{/* Section: Changed bg-white to bg-[#0a0a0a] (Deep Charcoal Black) */}
+{/* Section: Gradient from Deep Navy to Black */}
+<section className="relative flex flex-col items-center justify-center pt-10 pb-20 overflow-hidden bg-gradient-to-b from-[#0f172a] to-[#020617]" id="highlights">
+  
+  {/* TOPOGRAPHICAL TEXTURE */}
+  {/* This adds subtle wavy lines that look like mountain elevations */}
+  <div className="absolute inset-0 opacity-[0.08] pointer-events-none invert" 
+       style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/topography.png")` }}>
+  </div>
+  
+  {/* AMBIENT LIGHTING */}
+  {/* A soft "Moonlight" glow from the top left */}
+  <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-blue-500/10 blur-[120px] rounded-full -translate-y-1/2 -translate-x-1/4 pointer-events-none"></div>
+
+  <div className="relative z-10 w-full max-w-[90%] px-4">
+    
+    {/* Heading: Frosted Glass Style for the letters */}
+    <h1 className="flex justify-center mb-6 space-x-3 font-bold heading">
+      {['V','I','S','U','A','L','S'].map((letter, i) => (
+        <span key={i} className="px-5 py-3 text-white transition-colors duration-300 border shadow-xl bg-white/10 backdrop-blur-md border-white/20 rounded-xl hover:border-orange-400">
+          {letter}
+        </span>
+      ))}
     </h1>
-    <div className="row">
-        <div className="image">
-            <img src={assets.img1} alt=""/>
-        </div>
-        <form action="">
-            <div className="inputBox">
-                <input type="text" placeholder="name"/>
-                <input type="email" placeholder="email"/>
-            </div>
-            <div className="inputBox">
-                <input type="number" placeholder="number"/>
-                <input type="text" placeholder="subject"/>
-            </div>
-            <textarea placeholder="message" name="" id="" cols="30" rows="10"></textarea>
-            <input type="submit" className="btn" value="send message"/>
-        </form>
+
+    {/* Slider Wrapper: Elevated "Floating" Container */}
+    <div className="p-2 mx-auto bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] rounded-[2rem]">
+      <div className="bg-[#020617] rounded-[1.8rem] p-2">
+        <Slider {...sliderSettings} className="w-full slick-custom">
+          {/* Slide 1 */}
+          <div className="px-1 outline-none">
+            <video 
+              ref={el => videoRefs.current[0] = el} 
+              controls 
+              className="w-full h-[450px] object-cover rounded-2xl" 
+              autoPlay 
+              loop 
+              muted
+            >
+              <source src={assets.video1} type="video/mp4" />
+            </video>
+          </div>
+          
+          {/* Slide 2 */}
+          <div className="px-1 outline-none">
+            <video 
+              ref={el => videoRefs.current[1] = el} 
+              controls 
+              className="w-full h-[450px] object-cover rounded-2xl" 
+              autoPlay 
+              loop 
+              muted
+            >
+              <source src={assets.video2} type="video/mp4" />
+            </video>
+          </div>
+
+          {/* Slide 3 */}
+          <div className="px-1 outline-none">
+            <video 
+              ref={el => videoRefs.current[2] = el} 
+              controls 
+              className="w-full h-[450px] object-cover rounded-2xl" 
+              autoPlay 
+              loop 
+              muted
+            >
+              <source src={assets.video3} type="video/mp4" />
+            </video>
+          </div>
+        </Slider>
+      </div>
     </div>
+  </div>
 </section>
 
-<section className="brand-container">
-    <div className="swiper-container brand-slider">
-        <div className="swiper-wrapper">
-            <div className="swiper-slide"><img src={assets.night} alt=""/></div>
-        </div>
-    </div>
-</section>
 
+<section className="relative pt-20 pb-10 overflow-hidden bg-[#020617] text-white">
+  {/* Top Accent Line */}
+  <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-orange-500 to-transparent opacity-30"></div>
+  
+  <div className="container mx-auto px-[5%]">
+    <div className="grid grid-cols-1 gap-10 md:grid-cols-3 lg:grid-cols-5 box-container">
+      
+      {/* 1. Brand & Newsletter */}
+      <div className="space-y-6 md:col-span-1 lg:col-span-1">
+        <h3 className="text-3xl font-bold tracking-tighter text-orange-500 uppercase">Bharat Trails</h3>
+        <p className="text-lg leading-relaxed text-gray-400">
+          Your premier gateway to the mystical lands of Uttarakhand. We craft journeys that stay in your heart forever.
+        </p>
+        <div className="pt-4 space-y-4">
+          <p className="text-sm font-semibold text-gray-300 uppercase">Join the Community</p>
+          <div className="flex overflow-hidden transition-all border rounded-lg bg-white/5 border-white/10 focus-within:border-orange-500">
+            <input 
+              type="email" 
+              placeholder="Your Email" 
+              className="w-full px-4 py-2 text-base text-white bg-transparent outline-none"
+            />
+            <button className="px-4 py-2 transition-colors bg-orange-500 hover:bg-orange-600">
+              <i className="fas fa-paper-plane"></i>
+            </button>
+          </div>
+        </div>
+      </div>
 
-<section className="footer">
-    <div className="box-container">
-        <div className="box">
-            <h3>about us</h3>
-            <p>We are just a bunch of web designers who are trying to create a website for the people to help them in travelling
-                amazing spots in the Uttarakhand state of India in affordable and with quality based services.
-            </p>
+      {/* 2. Trending Destinations */}
+      <div className="space-y-4">
+        <h3 className="inline-block pb-2 text-xl font-bold tracking-widest text-white uppercase border-b border-orange-500/30">Trending</h3>
+        <ul className="space-y-3 text-lg text-gray-400">
+          {['Kedarnath Trek', 'Auli Skiing', 'Rishikesh Rafting', 'Valley of Flowers', 'Mussoorie Hills'].map((item) => (
+            <li key={item} className="flex items-center gap-2 transition-all cursor-pointer hover:text-orange-400">
+              <span className="w-1.5 h-1.5 rounded-full bg-orange-500"></span>{item}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* 3. REPLACED: Experience (The Adventure Hub) */}
+      <div className="space-y-4">
+        <h3 className="inline-block pb-2 text-xl font-bold tracking-widest text-white uppercase border-b border-orange-500/30">Experience</h3>
+        <nav className="flex flex-col space-y-3 text-lg">
+          <a href="#book" className="text-gray-400 transition-all duration-300 hover:text-orange-500 hover:translate-x-2">
+            <i className="mr-2 text-xs text-orange-500 fas fa-campground"></i> Camping Sites
+          </a>
+          <a href="#packages" className="text-gray-400 transition-all duration-300 hover:text-orange-500 hover:translate-x-2">
+            <i className="mr-2 text-xs text-orange-500 fas fa-mountain"></i> Mountain Treks
+          </a>
+          <a href="#services" className="text-gray-400 transition-all duration-300 hover:text-orange-500 hover:translate-x-2">
+            <i className="mr-2 text-xs text-orange-500 fas fa-om"></i> Spiritual Tours
+          </a>
+          <a href="#gallery" className="text-gray-400 transition-all duration-300 hover:text-orange-500 hover:translate-x-2">
+            <i className="mr-2 text-xs text-orange-500 fas fa-camera-retro"></i> Photo Expeditions
+          </a>
+          <a href="#review" className="text-gray-400 transition-all duration-300 hover:text-orange-500 hover:translate-x-2">
+            <i className="mr-2 text-xs text-orange-500 fas fa-star"></i> Guest Stories
+          </a>
+        </nav>
+      </div>
+
+      {/* 4. Support & Trust */}
+      <div className="space-y-4">
+        <h3 className="inline-block pb-2 text-xl font-bold tracking-widest text-white uppercase border-b border-orange-500/30">Support</h3>
+        <ul className="space-y-3 text-lg text-gray-400">
+          <li className="cursor-pointer hover:text-white">Help Center</li>
+          <li className="cursor-pointer hover:text-white">Safety Guidelines</li>
+          <li className="cursor-pointer hover:text-white">Terms of Service</li>
+          <li className="cursor-pointer hover:text-white">Privacy Policy</li>
+          <li className="cursor-pointer hover:text-white">Partner with Us</li>
+        </ul>
+      </div>
+
+      {/* 5. Contact & Socials */}
+      <div className="space-y-6">
+        <h3 className="inline-block pb-2 text-xl font-bold tracking-widest text-white uppercase border-b border-orange-500/30">Contact</h3>
+        <div className="space-y-3 text-lg text-gray-400">
+          <p className="flex items-center gap-3"><i className="text-orange-500 fas fa-phone-alt"></i> +91 98765 43210</p>
+          <p className="flex items-center gap-3"><i className="text-orange-500 fas fa-envelope"></i> info@bharattrails.com</p>
+          <p className="flex items-start gap-3"><i className="mt-1 text-orange-500 fas fa-map-marker-alt"></i> Dehradun, Uttarakhand, India</p>
         </div>
-        <div className="box">
-            <h3>branch locations</h3>
-            <a href="#">India</a>
-            <a href="#">Japan</a>
-            <a href="#">Usa</a>
-            <a href="#">Russia</a>
+        <div className="flex gap-3 pt-4">
+          {['facebook-f', 'instagram', 'twitter', 'linkedin-in'].map((icon, i) => (
+            <a key={i} href="#" className="flex items-center justify-center w-10 h-10 transition-all border rounded-full bg-white/5 border-white/10 hover:bg-orange-500 hover:scale-110">
+              <i className={`fab fa-${icon} text-base`}></i>
+            </a>
+          ))}
         </div>
-        <div className="box">
-            <h3>quick links</h3>
-            <a href="#">home</a>
-            <a href="#">book</a>
-            <a href="#">packages</a>
-            <a href="#">services</a>
-            <a href="#">gallery</a>
-            <a href="#">review</a>
-            <a href="#">contact</a>
-        </div>
-        <div className="box">
-            <h3>follow us</h3>
-            <a href="#">facebook</a>
-            <a href="#">instagram</a>
-            <a href="#">twitter</a>
-            <a href="#">linkedin</a>
-        </div>
+      </div>
+
     </div>
-    <h1 className="credit">created by Mr web designer <span>| All rights reserved! |</span> </h1>
+
+    {/* Bottom Bar: Payments & Copyright */}
+    <div className="flex flex-wrap items-center justify-between gap-6 pt-8 mt-16 border-t border-white/5">
+      <div className="flex items-center gap-4 transition-opacity opacity-50 grayscale hover:opacity-100">
+        <i className="text-3xl fab fa-cc-visa"></i>
+        <i className="text-3xl fab fa-cc-mastercard"></i>
+        <i className="text-3xl fab fa-cc-apple-pay"></i>
+        <i className="text-3xl fab fa-cc-amazon-pay"></i>
+      </div>
+      
+      <p className="text-lg tracking-wide text-gray-500">
+        Created by <span className="font-semibold text-orange-500">Ujjwal Tomar</span> 
+        <span className="mx-3">|</span> 
+        &copy; {new Date().getFullYear()} All Rights Reserved.
+      </p>
+    </div>
+  </div>
 </section>
 
       {/* ALL OTHER SECTIONS REMAIN SAME */}
