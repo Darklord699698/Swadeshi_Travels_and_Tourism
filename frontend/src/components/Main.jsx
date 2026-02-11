@@ -580,28 +580,39 @@ const sliderSettings = {
 </section>
 
 
-<section className="relative pt-20 pb-10 overflow-hidden bg-[#020617] text-white">
+<section className="relative pt-24 pb-12 overflow-hidden bg-[#020617] text-white">
   {/* Top Accent Line */}
-  <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-orange-500 to-transparent opacity-30"></div>
+  <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-transparent via-orange-500 to-transparent opacity-40"></div>
   
-  <div className="container mx-auto px-[5%]">
-    <div className="grid grid-cols-1 gap-10 md:grid-cols-3 lg:grid-cols-5 box-container">
+  {/* px-[4%] and w-full ensures it stretches across the screen */}
+  <div className="w-full px-[4%]">
+    <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-6 box-container">
       
-      {/* 1. Brand & Newsletter */}
-      <div className="space-y-6 md:col-span-1 lg:col-span-1">
-        <h3 className="text-3xl font-bold tracking-tighter text-orange-500 uppercase">Bharat Trails</h3>
-        <p className="text-lg leading-relaxed text-gray-400">
-          Your premier gateway to the mystical lands of Uttarakhand. We craft journeys that stay in your heart forever.
-        </p>
-        <div className="pt-4 space-y-4">
-          <p className="text-sm font-semibold text-gray-300 uppercase">Join the Community</p>
-          <div className="flex overflow-hidden transition-all border rounded-lg bg-white/5 border-white/10 focus-within:border-orange-500">
+      {/* 1. Brand & Newsletter - Given 2 columns to prevent squishing others */}
+      <div className="space-y-8 lg:col-span-2">
+  <h3 className="flex gap-1 text-6xl font-black tracking-tighter uppercase">
+    {/* Saffron (Saffron/Orange) */}
+    <span className="text-[#FF9933]">BHA</span>
+    
+    {/* White (with a subtle glow to pop on dark bg) */}
+    <span className="text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]">RAT</span>
+    
+    {/* Green (India Green) */}
+    <span className="text-[#138808]">TRAILS</span>
+  </h3>
+  
+  <p className="max-w-xl text-2xl leading-relaxed text-gray-300">
+    Your premier gateway to the mystical lands of Uttarakhand. We craft journeys that stay in your heart forever. Join thousands of adventurers today.
+  </p>
+        <div className="pt-4 space-y-5">
+          <p className="text-xl font-bold tracking-widest text-gray-200 uppercase">Join the Community</p>
+          <div className="flex h-20 max-w-xl overflow-hidden transition-all border-2 rounded-2xl bg-white/5 border-white/10 focus-within:border-orange-500">
             <input 
               type="email" 
-              placeholder="Your Email" 
-              className="w-full px-4 py-2 text-base text-white bg-transparent outline-none"
+              placeholder="Your Email Address" 
+              className="w-full px-8 text-2xl text-white bg-transparent outline-none placeholder:text-gray-500"
             />
-            <button className="px-4 py-2 transition-colors bg-orange-500 hover:bg-orange-600">
+            <button className="px-10 text-3xl transition-colors bg-orange-500 hover:bg-orange-600">
               <i className="fas fa-paper-plane"></i>
             </button>
           </div>
@@ -609,84 +620,78 @@ const sliderSettings = {
       </div>
 
       {/* 2. Trending Destinations */}
-      <div className="space-y-4">
-        <h3 className="inline-block pb-2 text-xl font-bold tracking-widest text-white uppercase border-b border-orange-500/30">Trending</h3>
-        <ul className="space-y-3 text-lg text-gray-400">
+      <div className="space-y-6 lg:col-span-1">
+        <h3 className="inline-block pb-3 text-2xl font-bold tracking-widest text-white uppercase border-b-2 border-orange-500/50">Trending</h3>
+        <ul className="space-y-5 text-xl text-gray-400">
           {['Kedarnath Trek', 'Auli Skiing', 'Rishikesh Rafting', 'Valley of Flowers', 'Mussoorie Hills'].map((item) => (
-            <li key={item} className="flex items-center gap-2 transition-all cursor-pointer hover:text-orange-400">
-              <span className="w-1.5 h-1.5 rounded-full bg-orange-500"></span>{item}
+            <li key={item} className="flex items-center gap-3 transition-all cursor-pointer hover:text-orange-400 hover:translate-x-1">
+              <span className="w-2.5 h-2.5 rounded-full bg-orange-500 shadow-[0_0_8px_rgba(249,115,22,0.8)]"></span>{item}
             </li>
           ))}
         </ul>
       </div>
 
-      {/* 3. REPLACED: Experience (The Adventure Hub) */}
-      <div className="space-y-4">
-        <h3 className="inline-block pb-2 text-xl font-bold tracking-widest text-white uppercase border-b border-orange-500/30">Experience</h3>
-        <nav className="flex flex-col space-y-3 text-lg">
+      {/* 3. Experience Hub */}
+      <div className="space-y-6 lg:col-span-1">
+        <h3 className="inline-block pb-3 text-2xl font-bold tracking-widest text-white uppercase border-b-2 border-orange-500/50">Experience</h3>
+        <nav className="flex flex-col space-y-5 text-xl font-medium">
           <a href="#book" className="text-gray-400 transition-all duration-300 hover:text-orange-500 hover:translate-x-2">
-            <i className="mr-2 text-xs text-orange-500 fas fa-campground"></i> Camping Sites
+            <i className="mr-3 text-orange-500 fas fa-campground"></i> Camping Sites
           </a>
           <a href="#packages" className="text-gray-400 transition-all duration-300 hover:text-orange-500 hover:translate-x-2">
-            <i className="mr-2 text-xs text-orange-500 fas fa-mountain"></i> Mountain Treks
+            <i className="mr-3 text-orange-500 fas fa-mountain"></i> Mountain Treks
           </a>
           <a href="#services" className="text-gray-400 transition-all duration-300 hover:text-orange-500 hover:translate-x-2">
-            <i className="mr-2 text-xs text-orange-500 fas fa-om"></i> Spiritual Tours
+            <i className="mr-3 text-orange-500 fas fa-om"></i> Spiritual Tours
           </a>
           <a href="#gallery" className="text-gray-400 transition-all duration-300 hover:text-orange-500 hover:translate-x-2">
-            <i className="mr-2 text-xs text-orange-500 fas fa-camera-retro"></i> Photo Expeditions
-          </a>
-          <a href="#review" className="text-gray-400 transition-all duration-300 hover:text-orange-500 hover:translate-x-2">
-            <i className="mr-2 text-xs text-orange-500 fas fa-star"></i> Guest Stories
+            <i className="mr-3 text-orange-500 fas fa-camera-retro"></i> Photo Expeditions
           </a>
         </nav>
       </div>
 
-      {/* 4. Support & Trust */}
-      <div className="space-y-4">
-        <h3 className="inline-block pb-2 text-xl font-bold tracking-widest text-white uppercase border-b border-orange-500/30">Support</h3>
-        <ul className="space-y-3 text-lg text-gray-400">
-          <li className="cursor-pointer hover:text-white">Help Center</li>
-          <li className="cursor-pointer hover:text-white">Safety Guidelines</li>
-          <li className="cursor-pointer hover:text-white">Terms of Service</li>
-          <li className="cursor-pointer hover:text-white">Privacy Policy</li>
-          <li className="cursor-pointer hover:text-white">Partner with Us</li>
+      {/* 4. Support */}
+      <div className="space-y-6 lg:col-span-1">
+        <h3 className="inline-block pb-3 text-2xl font-bold tracking-widest text-white uppercase border-b-2 border-orange-500/50">Support</h3>
+        <ul className="space-y-5 text-xl font-medium text-gray-400">
+          <li className="transition-colors cursor-pointer hover:text-orange-400">Help Center</li>
+          <li className="transition-colors cursor-pointer hover:text-orange-400">Safety Guides</li>
+          <li className="transition-colors cursor-pointer hover:text-orange-400">Privacy Policy</li>
+          <li className="transition-colors cursor-pointer hover:text-orange-400">Partner with Us</li>
         </ul>
       </div>
 
-      {/* 5. Contact & Socials */}
-      <div className="space-y-6">
-        <h3 className="inline-block pb-2 text-xl font-bold tracking-widest text-white uppercase border-b border-orange-500/30">Contact</h3>
-        <div className="space-y-3 text-lg text-gray-400">
-          <p className="flex items-center gap-3"><i className="text-orange-500 fas fa-phone-alt"></i> +91 98765 43210</p>
-          <p className="flex items-center gap-3"><i className="text-orange-500 fas fa-envelope"></i> info@bharattrails.com</p>
-          <p className="flex items-start gap-3"><i className="mt-1 text-orange-500 fas fa-map-marker-alt"></i> Dehradun, Uttarakhand, India</p>
-        </div>
-        <div className="flex gap-3 pt-4">
-          {['facebook-f', 'instagram', 'twitter', 'linkedin-in'].map((icon, i) => (
-            <a key={i} href="#" className="flex items-center justify-center w-10 h-10 transition-all border rounded-full bg-white/5 border-white/10 hover:bg-orange-500 hover:scale-110">
-              <i className={`fab fa-${icon} text-base`}></i>
-            </a>
-          ))}
+      {/* 5. Contact Info - Now has its own stable column */}
+      <div className="space-y-8 lg:col-span-1">
+        <h3 className="inline-block pb-3 text-2xl font-bold tracking-widest text-white uppercase border-b-2 border-orange-500/50">Contact</h3>
+        <div className="space-y-5 text-xl text-gray-300">
+          <p className="flex items-center gap-4"><i className="text-2xl text-orange-500 fas fa-phone-alt"></i> +91 98765 43210</p>
+          <p className="flex items-center gap-4"><i className="text-2xl text-orange-500 fas fa-envelope"></i> info@bharattrails.com</p>
+          <div className="flex gap-4 pt-4">
+            {['facebook-f', 'instagram', 'twitter', 'linkedin-in'].map((icon, i) => (
+              <a key={i} href="#" className="flex items-center justify-center w-12 h-12 transition-all border-2 shadow-lg rounded-xl bg-white/5 border-white/10 hover:bg-orange-500 hover:scale-110">
+                <i className={`fab fa-${icon} text-xl`}></i>
+              </a>
+            ))}
+          </div>
         </div>
       </div>
 
     </div>
 
-    {/* Bottom Bar: Payments & Copyright */}
-    <div className="flex flex-wrap items-center justify-between gap-6 pt-8 mt-16 border-t border-white/5">
-      <div className="flex items-center gap-4 transition-opacity opacity-50 grayscale hover:opacity-100">
-        <i className="text-3xl fab fa-cc-visa"></i>
-        <i className="text-3xl fab fa-cc-mastercard"></i>
-        <i className="text-3xl fab fa-cc-apple-pay"></i>
-        <i className="text-3xl fab fa-cc-amazon-pay"></i>
+    {/* Bottom Bar */}
+    <div className="flex flex-wrap items-center justify-between gap-10 pt-12 mt-20 border-t-2 border-white/5">
+      <div className="flex items-center gap-8 transition-opacity opacity-60 grayscale hover:opacity-100 hover:grayscale-0">
+        <i className="text-6xl fab fa-cc-visa"></i>
+        <i className="text-6xl fab fa-cc-mastercard"></i>
+        <i className="text-6xl fab fa-cc-apple-pay"></i>
+        <i className="text-6xl fab fa-cc-amazon-pay"></i>
       </div>
       
-      <p className="text-lg tracking-wide text-gray-500">
-        Created by <span className="font-semibold text-orange-500">Ujjwal Tomar</span> 
-        <span className="mx-3">|</span> 
-        &copy; {new Date().getFullYear()} All Rights Reserved.
-      </p>
+      <div className="text-2xl tracking-wide text-right text-gray-500">
+        <p>Created by <span className="font-bold text-orange-500">Ujjwal Tomar</span></p>
+        <p className="mt-1 text-lg">&copy; {new Date().getFullYear()} Bharat Trails Tourism. All Rights Reserved.</p>
+      </div>
     </div>
   </div>
 </section>

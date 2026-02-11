@@ -11,58 +11,63 @@ const Header = () => {
   const [menuActive, setMenuActive] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 right-0 bg-[#333] z-50 flex items-center justify-between px-[9%] py-8">
+    <header className="fixed top-0 left-0 right-0 bg-[#020617]/90 backdrop-blur-md z-[1000] flex items-center justify-between px-[7%] py-8 border-b border-white/10">
       
       {/* Left Section: Menu & Logo */}
       <div className="flex items-center">
         <div
           id="menu-bar"
-          className={`fas fa-bars ${menuActive ? "fa-times" : ""} text-white text-3xl cursor-pointer md:hidden mr-4`}
+          className={`fas ${menuActive ? "fa-times" : "fa-bars"} text-white text-3xl cursor-pointer lg:hidden mr-6 transition-all duration-300`}
           onClick={() => setMenuActive(!menuActive)}
         ></div>
 
-        <Link to="/" className="logo">
-          <span>B</span>harat <span>T</span>rails
+        <Link to="/" className="flex items-baseline gap-1 text-4xl font-black tracking-tighter uppercase">
+          <span className="text-[#FF9933]">BHA</span>
+          <span className="text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">RAT</span>
+          <span className="text-[#138808]">TRAILS</span>
         </Link>
       </div>
 
-      {/* Right Section: Navbar and Icons grouped together */}
-      <div className="flex items-center space-x-12">
+      {/* Right Section: Navbar and Icons */}
+      <div className="flex items-center space-x-10">
         
         {/* Navbar */}
-        <nav className={`navbar flex items-center space-x-8 ${menuActive ? "active" : ""}`}>
-          <Link to="/" className="text-2xl text-white transition hover:text-orange-400">home</Link>
-          <Link to="/book" className="text-2xl text-white transition hover:text-orange-400">book</Link>
-          <a href="#packages" className="text-2xl text-white transition hover:text-orange-400">packages</a>
-          <a href="#services" className="text-2xl text-white transition hover:text-orange-400">services</a>
-          <a href="#gallery" className="text-2xl text-white transition hover:text-orange-400">gallery</a>
-          <a href="#review" className="text-2xl text-white transition hover:text-orange-400">review</a>
-          <a href="#contact" className="text-2xl text-white transition hover:text-orange-400">contact</a>
-        </nav>
-
+        <nav className={`
+  absolute top-full left-0 right-0 bg-[#020617] border-b border-white/10 flex flex-col p-8 space-y-6 transition-all duration-300 origin-top
+  lg:static lg:bg-transparent lg:border-none lg:flex-row lg:space-y-0 lg:p-0 lg:space-x-8 lg:scale-y-100
+  ${menuActive ? "scale-y-100" : "scale-y-0 lg:scale-y-100"}
+`}>
+  {['home', 'book', 'packages', 'services', 'gallery', 'review', 'contact'].map((item) => (
+    <Link 
+      key={item}
+      // If the item is home, go to '/', otherwise go to '/item' (e.g., /contact)
+      to={item === 'home' ? '/' : `/${item}`} 
+      onClick={() => setMenuActive(false)}
+      className="text-2xl font-medium text-white capitalize transition-all hover:text-orange-500 hover:scale-105"
+    >
+      {item}
+    </Link>
+  ))}
+</nav>
         {/* Login / User Icon */}
-        <div className="flex items-center icons">
+        <div className="flex items-center">
           <SignedOut>
             <SignInButton mode="modal">
-              <i
-                className="fas fa-user"
-                style={{
-                  cursor: "pointer",
-                  color: "#fff",
-                  fontSize: "2.5rem",
-                }}
-              ></i>
+              <div className="flex items-center justify-center transition-all border shadow-lg cursor-pointer w-14 h-14 rounded-xl bg-white/5 border-white/10 hover:bg-orange-600 hover:border-orange-600 group">
+                <i className="text-3xl text-white transition-transform fas fa-user group-hover:scale-110"></i>
+              </div>
             </SignInButton>
           </SignedOut>
 
           <SignedIn>
+            {/* Removed the wrapping div and orange border classes */}
             <UserButton
               afterSignOutUrl="/"
               appearance={{
                 elements: {
                   avatarBox: {
-                    width: "40px",
-                    height: "40px",
+                    width: "36px",
+                    height: "36px",
                   },
                 },
               }}
