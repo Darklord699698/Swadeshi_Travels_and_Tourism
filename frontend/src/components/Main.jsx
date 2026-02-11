@@ -64,178 +64,147 @@ function Travel() {
           ></video>
         </div>
       </section>
-      <section className="book" id="book">
-        <h1 className="heading">
-            <span>b</span>
-            <span>o</span>
-            <span>o</span>
-            <span>k</span>
-            <span className="space"></span>
-            <span>n</span>
-            <span>0</span>
-            <span>w</span>
-        </h1>
-        <div className="row">
-            <div className="image">
-                <img src={assets.img2} alt=""/>
-            </div>
-            <form action="">
-                <div className="inputBox">
-                    <h3>where to</h3>
-                    <input type="text" placeholder="place name"/>
-                </div>
-                <div className="inputBox">
-                    <h3>how many</h3>
-                    <input type="number" placeholder="number of guests"/>
-                </div>
-                <div className="inputBox">
-                    <h3>arrivals</h3>
-                    <input type="date"/>
-                </div>
-                <div className="inputBox">
-                    <h3>leaving</h3>
-                    <input type="date"/>
-                </div>
-                <input type="submit" className="btn" value="book now"/>
-            </form>
-        </div>
-
-    </section>
+      
     <section className="packages" id="packages">
-        <h1 className="heading">
-            <span>p</span>
-            <span>a</span>
-            <span>c</span>
-            <span>k</span>
-            <span>a</span>
-            <span>g</span>
-            <span>e</span>
-            <span>s</span>
+        <h1 className="space-x-2 font-bold heading">
+            <span>P</span>
+            <span>A</span>
+            <span>C</span>
+            <span>K</span>
+            <span>A</span>
+            <span>G</span>
+            <span>E</span>
+            <span>S</span>
         </h1>
-        <div className="box-container">
-            <div className="box">
-                <img src={assets.Dehradun} alt=""/>
-                <div className="content">
-                    <h3><i className="fas fa-map-marker-alt"></i>Dehradun</h3>
-                    <p>Also known as the 'Adobe of Drona', Dehradun has always been an important center for Garhwal rulers which was captured by the British.
-                         The headquarters of many National Institutes and Organizations like ONGC, Survey Of India, Forest Research Institute, Indian Institute of Petroleum etc are located in the city.
-                    </p>
-                    <div className="stars">
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="far fa-star"></i>
-                    </div>
-                    <div className="price">Rs 999.00 <span>Rs 1299.00</span></div>
-                    <a href="#" className="btn"> book now </a>
-                </div>
+        <div className="flex flex-wrap items-stretch justify-center gap-6 box-container">
+    <div className="box flex flex-col flex-1 basis-[30rem] rounded-lg overflow-hidden shadow-md bg-white">
+        <img src={assets.Dehradun} alt="" className="object-cover w-full h-64" />
+        <div className="flex flex-col flex-grow p-6 content">
+            <h3 className="text-3xl font-bold text-gray-800"><i className="mr-2 text-orange-500 fas fa-map-marker-alt"></i>Dehradun</h3>
+            <p className="flex-grow py-4 text-xl leading-relaxed text-gray-600">
+                Also known as the 'Adobe of Drona', Dehradun has always been an important center for Garhwal rulers which was captured by the British.
+                The headquarters of many National Institutes and Organizations like ONGC, Survey Of India, Forest Research Institute, Indian Institute of Petroleum etc are located in the city.
+            </p>
+            <div className="py-2 text-xl text-orange-500 stars">
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="far fa-star"></i>
             </div>
-            <div className="box">
-                <img src={assets.Rudraprayag} alt=""/>
-                <div className="content">
-                    <h3><i className="fas fa-map-marker-alt"></i>Rudraprayag</h3>
-                    <p>While the town is known for revered temples and pristine natural beauty, the presence of two separate routes for Badrinath (around 150 km away) and Kedarnath Dham (around 50 km away)
-                         from Rudraprayag make it an important destination for religious tourism, attracting tourists and devotees throughout the year, who make a beeline for the Shiva and Jagdamba temples here.
-                    </p>
-                    <div className="stars">
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="far fa-star"></i>
-                    </div>
-                    <div className="price">Rs 2999.00 <span>Rs 4999.00</span></div>
-                    <a href="#" className="btn"> book now </a>
-                </div>
-            </div>
-            <div className="box">
-                <img src={assets.Badrinath} alt=""/>
-                <div className="content">
-                    <h3><i className="fas fa-map-marker-alt"></i>Badrinath Temple</h3>
-                    <p>Badarinath or Badarinarayana Temple is a Hindu temple dedicated to Vishnu. It is situated in the town of Badrinath in Uttarakhand, India. The temple is also one of the 108 Divya Desams dedicated to Vishnu—holy shrines for Vaishnavas—who is worshipped as Badrinath.
-                         It is open for six months every year (between the end of April and the beginning of November), because of extreme weather conditions in the Himalayan region.
-                    </p>
-                    <div className="stars">
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="far fa-star"></i>
-                    </div>
-                    <div className="price">Rs 4999.00 <span>Rs 7999.00</span></div>
-                    <a href="#" className="btn"> book now </a>
-                </div>
-            </div>
-            <div className="box">
-                <img src={assets.Uttarkashi} alt=""/>
-                <div className="content">
-                    <h3><i className="fas fa-map-marker-alt"></i>Gangotri</h3>
-                    <p>Gangotri is a town and a Nagar Panchayat (municipality) in Uttarkashi district in the state of Uttarakhand, India.
-                         It is 99 km from Uttarkashi, the main district headquarter. It is a Hindu pilgrim town on the banks of the river Bhagirathi – the origin of the river Ganges. The town is located on the Greater Himalayan Range, at a height of 3,100 metres (10,200 ft). According to a popular Hindu legend, the goddess Ganga descended here when Shiva released the mighty river from the locks of his hair.
-                    </p>
-                    <div className="stars">
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="far fa-star"></i>
-                    </div>
-                    <div className="price">Rs 1999.00 <span>Rs 3999.00</span></div>
-                    <a href="#" className="btn"> book now </a>
-                </div>
-            </div>
-            <div className="box">
-                <img src={assets.Yamunotri} alt=""/>
-                <div className="content">
-                    <h3><i className="fas fa-map-marker-alt"></i>Yamunotri</h3>
-                    <p>Yamunotri, also Jamnotri, is the source of the Yamuna River and the seat of the Goddess Yamuna in Hinduism.
-                        It is situated at an altitude of 3,293 metres (10,804 ft) in the Garhwal Himalayas and located approximately 150 kilometres (93 mi) North of Uttarkashi, the headquarters of the Uttarkashi district in the Garhwal Division of Uttarakhand, India.
-                         It is one of the four sites in India's Chota Char Dham pilgrimage.
-                    </p>
-                    <div className="stars">
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="far fa-star"></i>
-                    </div>
-                    <div className="price">Rs 1499.00 <span>Rs 2599.00</span></div>
-                    <a href="#" className="btn"> book now </a>
-                </div>
-            </div>
-            <div className="box">
-                <img src={assets.kedarnath} alt=""/>
-                <div className="content">
-                    <h3><i className="fas fa-map-marker-alt"></i>Kedarnath</h3>
-                    <p>Kedarnath is a town and Nagar Panchayat in Rudraprayag district of Uttarakhand, India, known primarily for the Kedarnath Temple. It is approximately 86 kilometres from Rudraprayag, the district headquarter. Kedarnath is the most remote of the four Chota Char Dham pilgrimage sites. It is located in the Himalayas, about 3,583 m (11,755 ft) above sea level near the Chorabari Glacier, which is the source of the Mandakini river.
-                         The town is flanked by snow-capped peaks, most prominently the Kedarnath Mountain.
-                    </p>
-                    <div className="stars">
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="far fa-star"></i>
-                    </div>
-                    <div className="price">Rs 7999.00 <span>Rs 9999.00</span></div>
-                    <a href="#" className="btn"> book now </a>
-                </div>
-            </div>
-            
+            <div className="py-2 text-2xl font-bold text-gray-800 price">Rs 999.00 <span className="ml-2 text-lg font-normal text-gray-400 line-through">Rs 1299.00</span></div>
+            <a href="#" className="inline-block mt-4 text-center btn"> book now </a>
         </div>
+    </div>
+
+    <div className="box flex flex-col flex-1 basis-[30rem] rounded-lg overflow-hidden shadow-md bg-white">
+        <img src={assets.Rudraprayag} alt="" className="object-cover w-full h-64" />
+        <div className="flex flex-col flex-grow p-6 content">
+            <h3 className="text-3xl font-bold text-gray-800"><i className="mr-2 text-orange-500 fas fa-map-marker-alt"></i>Rudraprayag</h3>
+            <p className="flex-grow py-4 text-xl leading-relaxed text-gray-600">
+                While the town is known for revered temples and pristine natural beauty, the presence of two separate routes for Badrinath (around 150 km away) and Kedarnath Dham (around 50 km away)
+                from Rudraprayag make it an important destination for religious tourism, attracting tourists and devotees throughout the year.
+            </p>
+            <div className="py-2 text-xl text-orange-500 stars">
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="far fa-star"></i>
+            </div>
+            <div className="py-2 text-2xl font-bold text-gray-800 price">Rs 2999.00 <span className="ml-2 text-lg font-normal text-gray-400 line-through">Rs 4999.00</span></div>
+            <a href="#" className="inline-block mt-4 text-center btn"> book now </a>
+        </div>
+    </div>
+
+    <div className="box flex flex-col flex-1 basis-[30rem] rounded-lg overflow-hidden shadow-md bg-white">
+        <img src={assets.Badrinath} alt="" className="object-cover w-full h-64" />
+        <div className="flex flex-col flex-grow p-6 content">
+            <h3 className="text-3xl font-bold text-gray-800"><i className="mr-2 text-orange-500 fas fa-map-marker-alt"></i>Badrinath Temple</h3>
+            <p className="flex-grow py-4 text-xl leading-relaxed text-gray-600">
+                Badarinath or Badarinarayana Temple is a Hindu temple dedicated to Vishnu. It is situated in the town of Badrinath in Uttarakhand, India. The temple is also one of the 108 Divya Desams dedicated to Vishnu.
+            </p>
+            <div className="py-2 text-xl text-orange-500 stars">
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="far fa-star"></i>
+            </div>
+            <div className="py-2 text-2xl font-bold text-gray-800 price">Rs 4999.00 <span className="ml-2 text-lg font-normal text-gray-400 line-through">Rs 7999.00</span></div>
+            <a href="#" className="inline-block mt-4 text-center btn"> book now </a>
+        </div>
+    </div>
+
+    <div className="box flex flex-col flex-1 basis-[30rem] rounded-lg overflow-hidden shadow-md bg-white">
+        <img src={assets.Uttarkashi} alt="" className="object-cover w-full h-64" />
+        <div className="flex flex-col flex-grow p-6 content">
+            <h3 className="text-3xl font-bold text-gray-800"><i className="mr-2 text-orange-500 fas fa-map-marker-alt"></i>Gangotri</h3>
+            <p className="flex-grow py-4 text-xl leading-relaxed text-gray-600">
+                It is a Hindu pilgrim town on the banks of the river Bhagirathi – the origin of the river Ganges. The town is located on the Greater Himalayan Range, at a height of 3,100 metres (10,200 ft).
+            </p>
+            <div className="py-2 text-xl text-orange-500 stars">
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="far fa-star"></i>
+            </div>
+            <div className="py-2 text-2xl font-bold text-gray-800 price">Rs 1999.00 <span className="ml-2 text-lg font-normal text-gray-400 line-through">Rs 3999.00</span></div>
+            <a href="#" className="inline-block mt-4 text-center btn"> book now </a>
+        </div>
+    </div>
+
+    <div className="box flex flex-col flex-1 basis-[30rem] rounded-lg overflow-hidden shadow-md bg-white">
+        <img src={assets.Yamunotri} alt="" className="object-cover w-full h-64" />
+        <div className="flex flex-col flex-grow p-6 content">
+            <h3 className="text-3xl font-bold text-gray-800"><i className="mr-2 text-orange-500 fas fa-map-marker-alt"></i>Yamunotri</h3>
+            <p className="flex-grow py-4 text-xl leading-relaxed text-gray-600">
+                Yamunotri, also Jamnotri, is the source of the Yamuna River and the seat of the Goddess Yamuna in Hinduism. It is situated at an altitude of 3,293 metres.
+            </p>
+            <div className="py-2 text-xl text-orange-500 stars">
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="far fa-star"></i>
+            </div>
+            <div className="py-2 text-2xl font-bold text-gray-800 price">Rs 1499.00 <span className="ml-2 text-lg font-normal text-gray-400 line-through">Rs 2599.00</span></div>
+            <a href="#" className="inline-block mt-4 text-center btn"> book now </a>
+        </div>
+    </div>
+
+    <div className="box flex flex-col flex-1 basis-[30rem] rounded-lg overflow-hidden shadow-md bg-white">
+        <img src={assets.kedarnath} alt="" className="object-cover w-full h-64" />
+        <div className="flex flex-col flex-grow p-6 content">
+            <h3 className="text-3xl font-bold text-gray-800"><i className="mr-2 text-orange-500 fas fa-map-marker-alt"></i>Kedarnath</h3>
+            <p className="flex-grow py-4 text-xl leading-relaxed text-gray-600">
+                Kedarnath is the most remote of the four Chota Char Dham pilgrimage sites. It is located in the Himalayas, about 3,583 m (11,755 ft) above sea level near the Chorabari Glacier.
+            </p>
+            <div className="py-2 text-xl text-orange-500 stars">
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="far fa-star"></i>
+            </div>
+            <div className="py-2 text-2xl font-bold text-gray-800 price">Rs 7999.00 <span className="ml-2 text-lg font-normal text-gray-400 line-through">Rs 9999.00</span></div>
+            <a href="#" className="inline-block mt-4 text-center btn"> book now </a>
+        </div>
+    </div>
+</div>
     </section>
 
 <section className="services" id="services">
-    <h1 className="heading">
-        <span>s</span>
-        <span>e</span>
-        <span>r</span>
-        <span>v</span>
-        <span>i</span>
-        <span>c</span>
-        <span>e</span>
-        <span>s</span>
+    <h1 className="space-x-2 font-bold heading">
+        <span>S</span>
+        <span>E</span>
+        <span>R</span>
+        <span>V</span>
+        <span>I</span>
+        <span>C</span>
+        <span>E</span>
+        <span>S</span>
     </h1>
     <div className="box-container">
         <div className="box">
@@ -285,96 +254,47 @@ function Travel() {
 
 
 <section className="gallery" id="gallery">
-    <h1 className="heading">
-        <span>g</span>
-        <span>a</span>
-        <span>l</span>
-        <span>l</span>
-        <span>e</span>
-        <span>r</span>
-        <span>y</span>
+    <h1 className="space-x-2 font-bold heading">
+        <span>G</span>
+        <span>A</span>
+        <span>L</span>
+        <span>L</span>
+        <span>E</span>
+        <span>R</span>
+        <span>Y</span>
     </h1>
-    <div className="box-container">
-        <div className="box">
-            <img src={assets.nainital} alt=""/>
-            <div className="content">
-                <h3>Nainital And Ranikhet</h3>
-                <p> Located by the famous Naini Lake in the valley, surrounded by mountains on all sides where one can enjoy majestic vistas of nature here.
-
+    <div className="flex flex-wrap gap-6 box-container">
+    {[
+        { img: assets.nainital, title: "Nainital And Ranikhet", desc: "Located by the famous Naini Lake in the valley, surrounded by mountains on all sides." },
+        { img: assets.Rishikesh, title: "Rishikesh And Haridwar", desc: "Haridwar and Rishikesh is a place where tourists get enchanted by spiritual energy." },
+        { img: assets.Almora, title: "Almora", desc: "Almora is one of the best off beat places to visit in Uttarakhand, especially in summer." },
+        { img: assets.ResortChakrata, title: "Chakrata", desc: "The small and secluded hill town of Chakrata is an ideal place for those looking for silence." },
+        { img: assets.Chopta, title: "Chopta", desc: "Chopta is one of the least explored hamlets and among the best sightseeing places." },
+        { img: assets.ValleyOfFlowers, title: "Hemkund Sahib", desc: "The valley of flowers near Hemkund Sahib is a paradise for nature lovers." },
+        { img: assets.KedarnathTemple, title: "Chardham", desc: "Explore the diverse spiritual essence of Yamunotri, Gangotri, Badrinath and Kedarnath." },
+        { img: assets.Dhanaulti, title: "Dhanaulti", desc: "Nestled amid lofty Himalayan peaks, Dhanaulti is just 60 km from Mussoorie." },
+        { img: assets.MukteshwarTemple, title: "Mukteshwar", desc: "A small hill town famous for awesome views of Himalayan ranges and adventure sports." }
+    ].map((item, index) => (
+        /* Box: 'group' is key here to trigger the hover effect on children */
+        <div key={index} className="group relative overflow-hidden shadow-lg rounded-lg border-[1rem] border-white flex-1 basis-[30rem] h-[25rem]">
+            
+            <img src={item.img} alt={item.title} className="object-cover w-full h-full" />
+            
+            {/* Content: slides from top-[-100%] to top-0 on group-hover */}
+            <div className="absolute top-[-100%] left-0 h-full w-full bg-black/70 flex flex-col items-center justify-center text-center p-8 transition-all duration-200 ease-linear group-hover:top-0">
+                <h3 className="mb-2 text-4xl font-bold text-orange-400">
+                    {item.title}
+                </h3>
+                <p className="mb-4 text-xl leading-relaxed text-gray-200">
+                    {item.desc}
                 </p>
-                <a href="#" className="btn">See More</a>
+                <a href="#" className="inline-block px-6 py-2 text-xl text-white bg-orange-500 rounded btn hover:bg-orange-600">
+                    See More
+                </a>
             </div>
         </div>
-        <div className="box">
-            <img src={assets.Rishikesh} alt=""/>
-            <div className="content">
-                <h3>Rishikesh And Haridwar</h3>
-                <p>Haridwar and Rishikesh is a place where tourists get enchanted by rustic touch and spiritual energy of the place and its surroundings.
-                </p>
-                <a href="#" className="btn">See More</a>
-            </div>
-        </div>
-        <div className="box">
-            <img src={assets.Almora} alt=""/>
-            <div className="content">
-                <h3>Almora</h3>
-                <p>Almora is one of the best off beat places to visit in Uttarakhand, especially in summer to escape the heat
-                    and recommended to the mountain lovers.</p>
-                <a href="#" className="btn">See More</a>
-            </div>
-        </div>
-        <div className="box">
-            <img src={assets.ResortChakrata} alt=""/>
-            <div className="content">
-                <h3>Chakrata</h3>
-                <p>The small and secluded hill town of Chakrata is an ideal place for those who are looking for a place to be silent and enjoy the beauty of the hills</p>
-                <a href="#" className="btn">See More</a>
-            </div>
-        </div>
-        <div className="box">
-            <img src={assets.Chopta} alt=""/>
-            <div className="content">
-                <h3>Chopta </h3>
-                <p>Chopta is one of the least explored hamlets in the Himalayas and among the best Uttarakhand sightseeing places</p>
-                <a href="#" className="btn">See More</a>
-            </div>
-        </div>
-        <div className="box">
-            <img src={assets.ValleyOfFlowers} alt=""/>
-            <div className="content">
-                <h3>Hemkund Sahib </h3>
-                <p>One of the most beautiful places to visit in Uttarakhand is the Valley of Flowers. For those who admire the beauty of nature, the valley of flowers near Hemkund Sahib is a paradise.</p>
-                <a href="#" className="btn">See More</a>
-            </div>
-        </div>
-        <div className="box">
-            <img src={assets.KedarnathTemple} alt=""/>
-            <div className="content">
-                <h3>Chardham</h3>
-                <p>the diverse spiritual essence of India whilst exploring these
-                fascinating tourist places then nothing is better
-                than the visit to the Chardham- Yamunotri, Gangotri, Badrinath and Kedarnath.</p>
-                <a href="#" className="btn">See More</a>
-            </div>
-        </div>
-        <div className="box">
-            <img src={assets.Dhanaulti} alt=""/>
-            <div className="content">
-                <h3>Dhanaulti</h3>
-                <p>Nestled amid the lofty Himalayan peaks, Dhanaulti is just about 60 km from the popular hill station called Mussoorie.</p>
-                <a href="#" className="btn">See More</a>
-            </div>
-        </div>
-        <div className="box">
-            <img src={assets.MukteshwarTemple} alt=""/>
-            <div className="content">
-                <h3>Mukteshwar</h3>
-                <p>Mukteshwar is a small hill town in Uttarakhand and is located around 50km from Nainital.
-                     Uttarakhand is famous for its awesome views of Himalayan ranges and fun adventure sports.</p>
-                <a href="#" className="btn">See More</a>
-            </div>
-        </div>
-    </div>
+    ))}
+</div>
 
 </section>
 
@@ -383,13 +303,13 @@ function Travel() {
 
 
 <section className="review" id="review">
-    <h1 className="heading">
-        <span>r</span>
-        <span>e</span>
-        <span>v</span>
-        <span>i</span>
-        <span>e</span>
-        <span>w</span>
+    <h1 className="space-x-2 font-bold heading">
+        <span>R</span>
+        <span>E</span>
+        <span>V</span>
+        <span>I</span>
+        <span>E</span>
+        <span>W</span>
     </h1>
     <div className="swiper-container review-slider">
 
@@ -474,14 +394,14 @@ function Travel() {
 
 
 <section className="contact">
-    <h1 className="heading">
-        <span>c</span>
-        <span>o</span>
-        <span>n</span>
-        <span>t</span>
-        <span>a</span>
-        <span>c</span>
-        <span>t</span>
+    <h1 className="space-x-2 font-bold heading">
+        <span>C</span>
+        <span>O</span>
+        <span>N</span>
+        <span>T</span>
+        <span>A</span>
+        <span>C</span>
+        <span>T</span>
     </h1>
     <div className="row">
         <div className="image">

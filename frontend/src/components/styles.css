@@ -292,6 +292,7 @@ header .search-bar-container label:hover{
     padding: 1rem 0;
     color: #666;
 }
+
 .packages .box-container{
     display: flex;
     flex-wrap: wrap;
