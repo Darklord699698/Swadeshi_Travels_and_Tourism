@@ -56,20 +56,58 @@ export const sendReceipt = async (req, res) => {
   const adminMailOptions = {
     from: '"Gramyatra Admin" <darklord8527789390@gmail.com>',
     to: 'darklord8527789390@gmail.com', // Always sent to you
-    subject: `🚨 NEW BOOKING ALERT: ${fullName}`,
+    subject: `🚨 NEW BOOKING ALERT: ${fullName} - ${tripName}`,
     html: `
-      <div style="font-family: sans-serif; max-width: 500px; background-color: #0f172a; color: #ffffff; border-radius: 20px; overflow: hidden; margin: auto; border: 2px solid #ea580c;">
-        <div style="padding: 30px; text-align: center;">
-          <h1 style="color: #ea580c; margin: 0; font-size: 28px;">New Expedition Logged</h1>
-          <p style="color: #94a3b8; font-size: 14px; margin-top: 5px;">ORDER ID: ${orderId}</p>
+      <div style="font-family: 'Segoe UI', sans-serif; max-width: 600px; background-color: #0f172a; color: #ffffff; border-radius: 24px; overflow: hidden; margin: auto; border: 1px solid #1e293b; shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);">
+        
+        <div style="background: linear-gradient(to right, #ea580c, #f97316); padding: 40px 30px; text-align: center;">
+          <p style="text-transform: uppercase; letter-spacing: 3px; font-size: 12px; font-weight: 800; margin-bottom: 10px; color: rgba(255,255,255,0.8);">Internal Notification</p>
+          <h1 style="margin: 0; font-size: 32px; font-weight: 900; letter-spacing: -1px;">New Expedition Logged</h1>
+          <div style="display: inline-block; margin-top: 15px; padding: 5px 15px; background: rgba(0,0,0,0.2); border-radius: 10px; font-family: monospace; font-size: 14px;">
+            ID: ${orderId}
+          </div>
         </div>
-        <div style="padding: 30px;">
-           <p style="font-size: 18px; margin: 5px 0;"><b>Name:</b> ${fullName}</p>
-           <p style="color: #94a3b8; margin: 5px 0;">Email: ${userEmail}</p>
-           <p style="color: #94a3b8; margin: 5px 0;">Phone: ${phone}</p>
-           <hr style="border: 0; border-top: 1px solid #334155; margin: 25px 0;" />
-           <p style="margin: 5px 0;">Expedition: ${tripName}</p>
-           <h2 style="font-size: 32px; margin-top: 15px;">Revenue: ₹${Number(total).toLocaleString()}</h2>
+
+        <div style="padding: 40px 30px;">
+          
+          <div style="margin-bottom: 35px;">
+            <p style="color: #ea580c; text-transform: uppercase; font-size: 12px; font-weight: 800; margin-bottom: 15px; letter-spacing: 1px;">Explorer Profile</p>
+            <h2 style="font-size: 24px; margin: 0; color: #f8fafc;">${fullName}</h2>
+            <p style="color: #94a3b8; font-size: 16px; margin: 8px 0;">📧 ${userEmail}</p>
+            <p style="color: #94a3b8; font-size: 16px; margin: 8px 0;">📞 ${phone}</p>
+          </div>
+
+          <div style="background-color: #1e293b; padding: 25px; border-radius: 20px; border: 1px solid #334155; margin-bottom: 35px;">
+            <p style="color: #ea580c; text-transform: uppercase; font-size: 12px; font-weight: 800; margin-bottom: 15px; letter-spacing: 1px;">Trip Summary</p>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+              <span style="color: #94a3b8;">Destination:</span>
+              <span style="color: #ffffff; font-weight: 600;">${tripName}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+              <span style="color: #94a3b8;">Departure Date:</span>
+              <span style="color: #ffffff; font-weight: 600;">${travelDate}</span>
+            </div>
+            <hr style="border: 0; border-top: 1px solid #334155; margin: 15px 0;" />
+            <div style="text-align: center; margin-top: 10px;">
+              <p style="color: #94a3b8; font-size: 12px; margin-bottom: 5px;">GROSS REVENUE</p>
+              <h2 style="font-size: 42px; margin: 0; color: #ea580c; font-weight: 900;">₹${Number(total).toLocaleString()}</h2>
+            </div>
+          </div>
+
+          <div style="border-left: 4px solid #ea580c; padding-left: 20px; margin-bottom: 20px;">
+            <p style="color: #f8fafc; font-weight: 700; margin-bottom: 10px;">Next Steps for Admin:</p>
+            <ul style="color: #94a3b8; font-size: 14px; padding-left: 20px; line-height: 1.8;">
+              <li>Verify payment status in the gateway dashboard.</li>
+              <li>Contact the local guide assigned to <b>${tripName}</b>.</li>
+              <li>Send a personalized welcome message to <b>${fullName}</b>.</li>
+              <li>Finalize homestay availability for ${travelDate}.</li>
+            </ul>
+          </div>
+
+        </div>
+
+        <div style="background-color: #020617; padding: 20px; text-align: center; font-size: 11px; color: #475569; border-top: 1px solid #1e293b;">
+          This is an automated notification from the Gramyatra Booking Engine.
         </div>
       </div>`
   };
