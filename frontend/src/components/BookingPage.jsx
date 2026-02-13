@@ -1,0 +1,328 @@
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Lottie from "lottie-react";
+import animationData1 from "../assets/Onboarding_Animation.json";
+import { FaPlane, FaCar, FaCheckCircle, FaCalendarAlt, FaChevronLeft, FaUserFriends, FaPassport, FaMapMarkerAlt, FaGlobeAmericas } from 'react-icons/fa';
+import { FaClock } from "react-icons/fa";
+
+const BookingPage = ({ packageData }) => {
+  const navigate = useNavigate();
+  const [step, setStep] = useState(1);
+  const isInternational = packageData?.category === "International";
+
+  const [formData, setFormData] = useState({
+    fullName: '', email: '', city: '', phone: '', travelDate: '',
+    specialRequests: '', needsFlight: false, needsCar: false,
+    arrivalTime: '12:00', travelers: 1, nights: 1,
+    additionalTravelers: [],
+    passportNumber: '', visaStatus: 'Not Applied'
+  });
+
+  useEffect(() => {
+    if (!packageData) navigate('/book');
+  }, [packageData, navigate]);
+
+  useEffect(() => {
+    const currentCount = formData.travelers - 1;
+    if (currentCount > 0) {
+      const newTravelers = Array.from({ length: currentCount }, (_, i) => 
+        formData.additionalTravelers[i] || { name: '', age: '', email: '', phone: '' }
+      );
+      setFormData(prev => ({ ...prev, additionalTravelers: newTravelers }));
+    } else {
+      setFormData(prev => ({ ...prev, additionalTravelers: [] }));
+    }
+  }, [formData.travelers]);
+
+  const getMinDate = () => {
+    const date = new Date();
+    date.setDate(date.getDate() + 7); 
+    return date.toISOString().split('T')[0];
+  };
+
+  const calculateTotal = () => {
+    if (!packageData) return 0;
+    const base = packageData.price * formData.travelers;
+    const stayAddon = (packageData.price * 0.2) * (formData.nights - 1);
+    const addons = (formData.needsFlight ? 12000 * formData.travelers : 0) + (formData.needsCar ? 3500 * formData.nights : 0);
+    const intlTax = isInternational ? (base * 0.15) : 0;
+    return base + stayAddon + addons + intlTax;
+  };
+
+  // LOGIC: Ensure only one addon can be selected
+  const handleAddonToggle = (type) => {
+    if (type === 'flight') {
+      setFormData({ ...formData, needsFlight: !formData.needsFlight, needsCar: false });
+    } else {
+      setFormData({ ...formData, needsCar: !formData.needsCar, needsFlight: false });
+    }
+  };
+
+  const handleAdditionalChange = (index, field, value) => {
+    const updated = [...formData.additionalTravelers];
+    updated[index][field] = value;
+    setFormData({ ...formData, additionalTravelers: updated });
+  };
+
+  if (step === 2) {
+    return (
+      <div className="min-h-screen bg-slate-50 pt-32 pb-20 px-[5%]">
+        <div className="max-w-6xl mx-auto bg-white rounded-[4rem] shadow-2xl p-20 border border-slate-100 animate-in zoom-in duration-500">
+          <div className="flex items-center justify-between mb-12">
+            <h2 className="text-6xl font-black tracking-tighter uppercase text-slate-800">Final Manifest</h2>
+            <div className="text-right">
+                <p className="text-xs font-black tracking-widest text-orange-600 uppercase">Order ID</p>
+                <p className="font-mono text-xl font-bold text-slate-400">#SYT-{Math.floor(Math.random()*10000)}</p>
+            </div>
+          </div>
+          
+          <div className="grid gap-20 mb-16 lg:grid-cols-2">
+            <div className="space-y-10">
+              <div>
+                <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-4">Lead Explorer</p>
+                <p className="text-3xl font-black leading-none capitalize text-slate-800">{formData.fullName}</p>
+                <p className="mt-2 text-lg text-slate-500">{formData.email} • {formData.phone}</p>
+              </div>
+              <div className="grid grid-cols-2 gap-8 p-10 bg-slate-50 rounded-[3rem]">
+                <div>
+                  <p className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] mb-2">Departure</p>
+                  <p className="text-xl font-bold text-slate-800">{formData.travelDate}</p>
+                </div>
+                <div>
+                  <p className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] mb-2">Arrival Time</p>
+                  <p className="text-xl font-bold text-slate-800">{formData.arrivalTime} {formData.timeMode}</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-6">
+               <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Cost Breakdown</p>
+               <div className="flex justify-between text-lg font-medium"><span>Package ({formData.travelers} Persons)</span><span>₹{(packageData.price * formData.travelers).toLocaleString()}</span></div>
+               {formData.needsFlight && <div className="flex justify-between italic text-blue-600"><span>Flight Services</span><span>+ ₹{(12000 * formData.travelers).toLocaleString()}</span></div>}
+               {formData.needsCar && <div className="flex justify-between italic text-green-600"><span>Premium Car Rental</span><span>+ ₹{(3500 * formData.nights).toLocaleString()}</span></div>}
+               {isInternational && <div className="flex justify-between text-sm italic text-slate-400"><span>Global Handling Tax (15%)</span><span>+ ₹{(packageData.price * formData.travelers * 0.15).toLocaleString()}</span></div>}
+               <div className="flex items-center justify-between pt-8 mt-4 border-t-2 border-dashed">
+                  <span className="text-3xl font-black tracking-tighter uppercase text-slate-800">Grand Total</span>
+                  <span className="font-mono text-6xl font-black tracking-tighter text-orange-600">₹{calculateTotal().toLocaleString('en-IN')}</span>
+               </div>
+            </div>
+          </div>
+
+          <div className="flex gap-8">
+            <button onClick={() => setStep(1)} className="flex items-center justify-center flex-1 gap-3 py-8 font-black tracking-widest uppercase transition-all bg-slate-100 text-slate-800 rounded-3xl hover:bg-slate-200"><FaChevronLeft/> Edit Manifest</button>
+            <button onClick={() => alert("Transaction Successfully Executed!")} className="flex-[2] py-8 bg-orange-600 text-white font-black text-3xl rounded-3xl shadow-2xl hover:bg-slate-900 transition-all uppercase tracking-widest flex items-center justify-center gap-4"><FaCheckCircle/> Execute Payment</button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex justify-center min-h-screen pt-32 pb-20 bg-slate-50">
+      <div className="w-[98vw] max-w-[1700px] grid lg:grid-cols-[500px_1fr] bg-white shadow-2xl rounded-[4.5rem] overflow-hidden border border-slate-100 min-h-[85vh]">
+        
+        {/* LEFT ORANGE AREA */}
+<div className="relative flex flex-col justify-between p-16 overflow-hidden text-white bg-orange-600">
+  <div className="space-y-12">
+    <div className="p-4 bg-white/20 w-fit rounded-2xl backdrop-blur-md">
+        {isInternational ? <FaGlobeAmericas size={32}/> : <FaMapMarkerAlt size={32}/>}
+    </div>
+    <h2 className="text-6xl italic font-black leading-none tracking-tighter uppercase">Booking<br/>Manifest</h2>
+    
+    {/* Small Animation Container with expanded vertical space */}
+    <div className="flex items-center justify-center h-[350px]">
+      <div className="h-130 w-100"> {/* Small fixed dimensions */}
+        <Lottie 
+          animationData={animationData1} 
+          loop={true} 
+          className="w-full h-full"
+        />
+      </div>
+    </div>
+
+    <div className="pt-10 border-t border-white/20">
+      <p className="text-[10px] font-black uppercase tracking-[0.3em] text-orange-200 opacity-60">Destination Hub</p>
+      <p className="text-4xl font-black leading-none tracking-tight capitalize">{packageData?.name}</p>
+      {/* DYNAMIC DESCRIPTION: Fills the space until Live Valuation */}
+      <div className="max-h-[400px] overflow-y-auto pr-2 custom-scrollbar pt-10">
+        <p className="text-2xl italic font-medium leading-relaxed text-orange-50/80">
+          {packageData?.description || `Explore the majestic beauty and cultural heritage of ${packageData?.name}. A perfect blend of tradition and modern exploration awaits your arrival.`}
+        </p>
+      </div>
+    </div>
+  </div>
+  
+  
+  
+  <div className="p-10 bg-black/10 rounded-[3rem] border border-white/5 shadow-2xl backdrop-blur-xl">
+    <p className="text-xs font-black uppercase text-orange-200 tracking-[0.2em] mb-2 opacity-80">Live Valuation</p>
+    <p className="font-mono text-6xl font-black tracking-tighter">₹{calculateTotal().toLocaleString()}</p>
+  </div>
+  
+</div>
+
+        {/* RIGHT FORM AREA */}
+        <div className="p-20 overflow-y-auto scroll-smooth">
+          <form onSubmit={(e) => { e.preventDefault(); setStep(2); }} className="max-w-6xl mx-auto space-y-20">
+            
+            <div className="space-y-10">
+              <h3 className="flex items-center gap-4 text-3xl font-black tracking-tight uppercase text-slate-800">
+                <div className="w-12 h-1.5 bg-orange-600 rounded-full"></div> Lead Explorer Information
+              </h3>
+              <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-2">
+                {/* Fixed small text: Added text-xl and font-bold to inputs */}
+                <div className="space-y-3">
+                  <label className="text-[11px] font-black uppercase text-slate-400 tracking-widest ml-1">Full Identity Name</label>
+                  <input required type="text" className="w-full p-6 text-3xl font-bold transition-all border-none outline-none bg-slate-50 rounded-3xl focus:ring-4 focus:ring-orange-100 text-slate-700" placeholder="ujjwal tomar" onChange={(e) => setFormData({...formData, fullName: e.target.value})} />
+                </div>
+                <div className="space-y-3">
+                  <label className="text-[11px] font-black uppercase text-slate-400 tracking-widest ml-1">Electronic Mail</label>
+                  <input required type="email" className="w-full p-6 text-3xl font-bold transition-all border-none outline-none bg-slate-50 rounded-3xl focus:ring-4 focus:ring-orange-100 text-slate-700" placeholder="user@example.com" onChange={(e) => setFormData({...formData, email: e.target.value})} />
+                </div>
+                <div className="space-y-3">
+                  <label className="text-[11px] font-black uppercase text-slate-400 tracking-widest ml-1">Current City</label>
+                  <input required type="text" className="w-full p-6 text-3xl font-bold transition-all border-none outline-none bg-slate-50 rounded-3xl focus:ring-4 focus:ring-orange-100 text-slate-700" placeholder="New Delhi" onChange={(e) => setFormData({...formData, city: e.target.value})} />
+                </div>
+                <div className="space-y-3">
+                  <label className="text-[11px] font-black uppercase text-slate-400 tracking-widest ml-1">Contact Phone</label>
+                  <input required type="tel" className="w-full p-6 text-3xl font-bold transition-all border-none outline-none bg-slate-50 rounded-3xl focus:ring-4 focus:ring-orange-100 text-slate-700" placeholder="+91 00000 00000" onChange={(e) => setFormData({...formData, phone: e.target.value})} />
+                </div>
+              </div>
+            </div>
+
+            <div className="grid gap-10 md:grid-cols-3">
+              <div className="space-y-3">
+                <label className="text-[11px] font-black uppercase text-orange-600 tracking-widest ml-1">Departure Schedule</label>
+                <div className="flex items-center gap-3 p-6 transition-all bg-slate-50 rounded-3xl focus-within:ring-4 focus-within:ring-orange-100">
+                  <FaCalendarAlt className="text-orange-600" />
+                  <input required type="date" min={getMinDate()} className="w-full text-3xl font-bold bg-transparent border-none outline-none" onChange={(e) => setFormData({...formData, travelDate: e.target.value})} />
+                </div>
+              </div>
+              <div className="space-y-3">
+  <label className="text-[11px] font-black uppercase text-slate-400 tracking-widest ml-1">
+    Arrival Time
+  </label>
+
+  <div className="flex items-center gap-4 px-5 py-4 transition shadow-sm bg-slate-50 rounded-3xl focus-within:ring-2 focus-within:ring-orange-400">
+    
+    {/* Orange Clock Icon */}
+    <FaClock className="text-2xl text-orange-500" />
+
+    {/* Single Time Input */}
+    <input
+      type="text"
+      placeholder="e.g. 10:30 AM"
+      className="w-full text-3xl font-bold bg-transparent outline-none"
+      value={formData.arrivalTime}
+      onChange={(e) =>
+        setFormData({ ...formData, arrivalTime: e.target.value })
+      }
+    />
+  </div>
+</div>
+              <div className="space-y-3">
+                <label className="text-[11px] font-black uppercase text-slate-400 tracking-widest ml-1">Traveler Count</label>
+                <input type="number" min="1" max="10" value={formData.travelers} className="w-full p-6 text-3xl font-black text-orange-600 border-none outline-none bg-slate-50 rounded-3xl" onChange={(e) => setFormData({...formData, travelers: parseInt(e.target.value)})} />
+              </div>
+            </div>
+
+            {formData.additionalTravelers.length > 0 && (
+              <div className="space-y-10 duration-700 animate-in slide-in-from-left">
+                <h3 className="text-2xl font-black tracking-tight uppercase text-slate-800">Additional Explorer Data</h3>
+                <div className="grid gap-10">
+                  {formData.additionalTravelers.map((traveler, idx) => (
+                    <div key={idx} className="grid grid-cols-1 md:grid-cols-4 gap-6 p-8 bg-slate-50 rounded-[2.5rem] border border-slate-100">
+                       <input required type="text" placeholder={`Explorer ${idx + 2} Name`} className="p-5 text-3xl font-bold bg-white border-none outline-none rounded-2xl" onChange={(e) => handleAdditionalChange(idx, 'name', e.target.value)} />
+                       <input required type="number" placeholder="Age" className="p-5 text-3xl font-bold bg-white border-none outline-none rounded-2xl" onChange={(e) => handleAdditionalChange(idx, 'age', e.target.value)} />
+                       <input required type="email" placeholder="Email" className="p-5 text-3xl font-bold bg-white border-none outline-none rounded-2xl" onChange={(e) => handleAdditionalChange(idx, 'email', e.target.value)} />
+                       <input required type="tel" placeholder="Phone" className="p-5 text-3xl font-bold bg-white border-none outline-none rounded-2xl" onChange={(e) => handleAdditionalChange(idx, 'phone', e.target.value)} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {isInternational && (
+                <div className="p-16 space-y-10 bg-blue-50/20 border-4 border-blue-50 rounded-[4rem] animate-in zoom-in duration-1000">
+                    <h3 className="flex items-center gap-4 text-3xl font-black text-blue-900 uppercase">
+                        <FaPassport className="text-blue-600" /> Global Clearance Documentation
+                    </h3>
+                    <div className="grid gap-10 md:grid-cols-2">
+                        <div className="space-y-3">
+                            <label className="text-[11px] font-black text-blue-400 uppercase tracking-widest ml-1">Passport Number</label>
+                            <input required type="text" className="w-full p-6 text-3xl font-bold transition-all bg-white border-none outline-none rounded-3xl focus:ring-4 focus:ring-blue-100" placeholder="Z0000000" onChange={(e) => setFormData({...formData, passportNumber: e.target.value})} />
+                        </div>
+                        <div className="space-y-3">
+                            <label className="text-[11px] font-black text-blue-400 uppercase tracking-widest ml-1">Visa Authorization Status</label>
+                            <select className="w-full p-6 text-3xl font-bold transition-all bg-white border-none outline-none cursor-pointer rounded-3xl focus:ring-4 focus:ring-blue-100" onChange={(e) => setFormData({...formData, visaStatus: e.target.value})}>
+                                <option>Not Applied</option>
+                                <option>In Process</option>
+                                <option>Already Issued</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            <div className="space-y-8">
+                <label className="text-[11px] font-black uppercase text-slate-400 tracking-widest ml-1">Special Manifest Requests</label>
+                <textarea className="w-full p-10 bg-slate-50 border-none rounded-[3rem] h-48 outline-none focus:ring-4 focus:ring-orange-100 resize-none font-bold text-3xl" placeholder="Enter dietary protocols, accessibility requirements, or specific requests here..." onChange={(e) => setFormData({...formData, specialRequests: e.target.value})}></textarea>
+            </div>
+
+            {/* LOGIC: Circular Checkboxes & Conditional Visibility */}
+<div className="p-12 border-2 border-slate-100 bg-slate-50/50 rounded-[4rem] space-y-10 shadow-sm">
+  <p className="text-[11px] font-black uppercase text-slate-400 tracking-[0.3em] mb-4">Add-On Manifest Services</p>
+  <div className="flex flex-col gap-16 md:flex-row">
+    
+    {/* Aerial Transit - Always visible */}
+    <label className="flex items-center gap-6 cursor-pointer group">
+      <div className="relative flex items-center justify-center">
+        <input 
+          type="checkbox" 
+          checked={formData.needsFlight} 
+          className="w-10 h-10 transition-all duration-300 border-2 border-orange-600 rounded-full appearance-none cursor-pointer peer checked:bg-orange-600 active:scale-90" 
+          onChange={() => handleAddonToggle('flight')} 
+        />
+        {/* Animated Checkmark for Circle */}
+        <FaCheckCircle className="absolute text-xl text-white transition-opacity opacity-0 pointer-events-none peer-checked:opacity-100" />
+      </div>
+      <div className="flex flex-col">
+        <span className="flex items-center gap-3 text-2xl font-black tracking-tighter uppercase transition-colors text-slate-700 group-hover:text-orange-600">
+          <FaPlane className="text-blue-500" /> Aerial Transit
+        </span>
+        <span className="text-[11px] text-slate-400 font-bold uppercase tracking-widest">Premium round-trip flight services</span>
+      </div>
+    </label>
+
+    {/* Private Fleet - Hidden for International, Exclusive selection for Swadeshi */}
+    {!isInternational && (
+      <label className="flex items-center gap-6 cursor-pointer group">
+        <div className="relative flex items-center justify-center">
+          <input 
+            type="checkbox" 
+            checked={formData.needsCar} 
+            className="w-10 h-10 transition-all duration-300 border-2 border-orange-600 rounded-full appearance-none cursor-pointer peer checked:bg-orange-600 active:scale-90" 
+            onChange={() => handleAddonToggle('car')} 
+          />
+          <FaCheckCircle className="absolute text-xl text-white transition-opacity opacity-0 pointer-events-none peer-checked:opacity-100" />
+        </div>
+        <div className="flex flex-col">
+          <span className="flex items-center gap-3 text-2xl font-black tracking-tighter uppercase transition-colors text-slate-700 group-hover:text-orange-600">
+            <FaCar className="text-green-500" /> Private Fleet
+          </span>
+          <span className="text-[11px] text-slate-400 font-bold uppercase tracking-widest">Interested in private car rental</span>
+        </div>
+      </label>
+    )}
+  </div>
+</div>
+
+            <button type="submit" className="w-full py-10 bg-orange-600 text-white text-4xl font-black rounded-[4rem] shadow-[0_25px_50px_rgba(234,88,12,0.3)] hover:bg-slate-900 transition-all uppercase tracking-[0.1em] active:scale-95">Next: Finalize Manifest</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default BookingPage;
