@@ -65,6 +65,7 @@ const BookingPage = ({ packageData }) => {
   };
 
   if (step === 2) {
+    const total = calculateTotal();
     return (
       <div className="min-h-screen bg-slate-50 pt-32 pb-20 px-[5%]">
         <div className="max-w-6xl mx-auto bg-white rounded-[4rem] shadow-2xl p-20 border border-slate-100 animate-in zoom-in duration-500">
@@ -96,14 +97,31 @@ const BookingPage = ({ packageData }) => {
             </div>
 
             <div className="space-y-6">
-               <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Cost Breakdown</p>
-               <div className="flex justify-between text-lg font-medium"><span>Package ({formData.travelers} Persons)</span><span>₹{(packageData.price * formData.travelers).toLocaleString()}</span></div>
-               {formData.needsFlight && <div className="flex justify-between italic text-blue-600"><span>Flight Services</span><span>+ ₹{(12000 * formData.travelers).toLocaleString()}</span></div>}
-               {formData.needsCar && <div className="flex justify-between italic text-green-600"><span>Premium Car Rental</span><span>+ ₹{(3500 * formData.nights).toLocaleString()}</span></div>}
-               {isInternational && <div className="flex justify-between text-sm italic text-slate-400"><span>Global Handling Tax (15%)</span><span>+ ₹{(packageData.price * formData.travelers * 0.15).toLocaleString()}</span></div>}
-               <div className="flex items-center justify-between pt-8 mt-4 border-t-2 border-dashed">
+               <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Economic Impact Breakdown</p>
+               
+               {/* NEW: Percentage-based Social Impact Table */}
+               <div className="bg-slate-50 p-8 rounded-[2.5rem] border border-slate-100 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-bold tracking-tighter uppercase text-slate-500">Homestay Support (40%)</span>
+                    <span className="font-mono font-black text-slate-800">₹{(total * 0.40).toLocaleString()}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-bold tracking-tighter uppercase text-slate-500">Local Guide Fee (25%)</span>
+                    <span className="font-mono font-black text-slate-800">₹{(total * 0.25).toLocaleString()}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-bold tracking-tighter uppercase text-slate-500">Farmers & Food (20%)</span>
+                    <span className="font-mono font-black text-slate-800">₹{(total * 0.20).toLocaleString()}</span>
+                  </div>
+                  <div className="flex items-center justify-between pt-4 border-t border-slate-200">
+                    <span className="text-sm font-black tracking-tighter text-orange-600 uppercase">Platform & Service (15%)</span>
+                    <span className="font-mono font-black text-orange-600">₹{(total * 0.15).toLocaleString()}</span>
+                  </div>
+               </div>
+
+               <div className="flex items-center justify-between pt-6 mt-4 border-t-2 border-dashed">
                   <span className="text-3xl font-black tracking-tighter uppercase text-slate-800">Grand Total</span>
-                  <span className="font-mono text-6xl font-black tracking-tighter text-orange-600">₹{calculateTotal().toLocaleString('en-IN')}</span>
+                  <span className="font-mono text-6xl font-black tracking-tighter text-orange-600">₹{total.toLocaleString('en-IN')}</span>
                </div>
             </div>
           </div>
@@ -115,8 +133,7 @@ const BookingPage = ({ packageData }) => {
         </div>
       </div>
     );
-  }
-
+}
   return (
     <div className="flex justify-center min-h-screen pt-32 pb-20 bg-slate-50">
       <div className="w-[98vw] max-w-[1700px] grid lg:grid-cols-[500px_1fr] bg-white shadow-2xl rounded-[4.5rem] overflow-hidden border border-slate-100 min-h-[85vh]">
@@ -173,7 +190,7 @@ const BookingPage = ({ packageData }) => {
                 {/* Fixed small text: Added text-xl and font-bold to inputs */}
                 <div className="space-y-3">
                   <label className="text-[11px] font-black uppercase text-slate-400 tracking-widest ml-1">Full Identity Name</label>
-                  <input required type="text" className="w-full p-6 text-3xl font-bold transition-all border-none outline-none bg-slate-50 rounded-3xl focus:ring-4 focus:ring-orange-100 text-slate-700" placeholder="ujjwal tomar" onChange={(e) => setFormData({...formData, fullName: e.target.value})} />
+                  <input required type="text" className="w-full p-6 text-3xl font-bold transition-all border-none outline-none bg-slate-50 rounded-3xl focus:ring-4 focus:ring-orange-100 text-slate-700" placeholder="Full Name" onChange={(e) => setFormData({...formData, fullName: e.target.value})} />
                 </div>
                 <div className="space-y-3">
                   <label className="text-[11px] font-black uppercase text-slate-400 tracking-widest ml-1">Electronic Mail</label>
@@ -184,9 +201,62 @@ const BookingPage = ({ packageData }) => {
                   <input required type="text" className="w-full p-6 text-3xl font-bold transition-all border-none outline-none bg-slate-50 rounded-3xl focus:ring-4 focus:ring-orange-100 text-slate-700" placeholder="New Delhi" onChange={(e) => setFormData({...formData, city: e.target.value})} />
                 </div>
                 <div className="space-y-3">
-                  <label className="text-[11px] font-black uppercase text-slate-400 tracking-widest ml-1">Contact Phone</label>
-                  <input required type="tel" className="w-full p-6 text-3xl font-bold transition-all border-none outline-none bg-slate-50 rounded-3xl focus:ring-4 focus:ring-orange-100 text-slate-700" placeholder="+91 00000 00000" onChange={(e) => setFormData({...formData, phone: e.target.value})} />
-                </div>
+  <label className="text-[11px] font-black uppercase text-slate-400 tracking-widest ml-1">Contact Phone</label>
+  <div className="flex gap-4 p-4 bg-slate-50 rounded-[2.5rem] focus-within:ring-4 focus-within:ring-orange-100 transition-all items-center">
+    
+    {/* Country Code Selector */}
+    <div className="relative group">
+    
+    
+    <select 
+      className="w-[130%] pl-2 p-2 text-3xl font-black text-slate-800 bg-slate-50 border-2 border-transparent rounded-[2.5rem] outline-none appearance-none cursor-pointer focus:bg-white focus:border-orange-600 transition-all shadow-sm"
+      value={formData.countryCode || '+91'}
+      onChange={(e) => setFormData({...formData, countryCode: e.target.value})}
+    >
+      <option value="+91">+91 (India)</option>
+      <option value="+1">+1 (USA)</option>
+      <option value="+44">+44 (UK)</option>
+      <option value="+7">+7 (Russia)</option>
+      <option value="+41">+41 (Switzerland)</option>
+      <option value="+971">+971 (UAE)</option>
+      <option value="+33">+33 (France)</option>
+      <option value="+49">+49 (Germany)</option>
+      <option value="+39">+39 (Italy)</option>
+      <option value="+34">+34 (Spain)</option>
+      <option value="+81">+81 (Japan)</option>
+      <option value="+86">+86 (China)</option>
+      <option value="+61">+61 (Australia)</option>
+      <option value="+1">+1 (Canada)</option>
+      <option value="+65">+65 (Singapore)</option>
+      <option value="+60">+60 (Malaysia)</option>
+      <option value="+66">+66 (Thailand)</option>
+      <option value="+62">+62 (Indonesia)</option>
+      <option value="+82">+82 (South Korea)</option>
+      <option value="+31">+31 (Netherlands)</option>
+      <option value="+46">+46 (Sweden)</option>
+      <option value="+47">+47 (Norway)</option>
+      <option value="+45">+45 (Denmark)</option>
+      <option value="+351">+351 (Portugal)</option>
+      <option value="+30">+30 (Greece)</option>
+      <option value="+90">+90 (Turkey)</option>
+      <option value="+27">+27 (South Africa)</option>
+      <option value="+55">+55 (Brazil)</option>
+      <option value="+52">+52 (Mexico)</option>
+      <option value="+7">+7 (Kazakhstan)</option>
+    </select>
+
+  </div>
+    {/* Phone Number Input */}
+    <input 
+      required 
+      type="number" 
+      className="w-[130%] pl-10 py-2 text-3xl font-black bg-transparent border-none outline-none text-slate-700 placeholder-slate-200" 
+      placeholder="00000 00000" 
+      value={formData.phone}
+      onChange={(e) => setFormData({...formData, phone: e.target.value})} 
+    />
+  </div>
+</div>
               </div>
             </div>
 
