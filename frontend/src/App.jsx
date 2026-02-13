@@ -7,6 +7,7 @@ import Contact from "./components/Contact";
 import Review from "./components/Review";
 import Booking from "./components/Booking";
 import BookingPage from "./components/BookingPage"; // Import your new full-page component
+import YourTrip from "./components/YourTrip";
 
 const App = () => {
   const [selectedPackage, setSelectedPackage] = useState(null);
@@ -25,6 +26,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/review" element={<Review />} />
+        <Route path="/yourtrip" element={<YourTrip />} />
         
         {/* Pass the redirection function to the Booking list component */}
         <Route 

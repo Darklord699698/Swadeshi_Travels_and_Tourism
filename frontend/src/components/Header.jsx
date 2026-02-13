@@ -37,17 +37,17 @@ const Header = () => {
   lg:static lg:bg-transparent lg:border-none lg:flex-row lg:space-y-0 lg:p-0 lg:space-x-8 lg:scale-y-100
   ${menuActive ? "scale-y-100" : "scale-y-0 lg:scale-y-100"}
 `}>
-  {['home', 'book', 'packages', 'services', 'gallery', 'review', 'contact'].map((item) => (
-    <Link 
-      key={item}
-      // If the item is home, go to '/', otherwise go to '/item' (e.g., /contact)
-      to={item === 'home' ? '/' : `/${item}`} 
-      onClick={() => setMenuActive(false)}
-      className="text-2xl font-medium text-white capitalize transition-all hover:text-orange-500 hover:scale-105"
-    >
-      {item}
-    </Link>
-  ))}
+  {/* Change inside the map function in Header.jsx */}
+{['home', 'book', 'yourtrip', 'services', 'gallery', 'review', 'contact'].map((item) => (
+  <Link 
+    key={item}
+    to={item === 'home' ? '/' : `/${item}`} 
+    onClick={() => setMenuActive(false)}
+    className="text-2xl font-medium text-white capitalize transition-all hover:text-orange-500 hover:scale-105"
+  >
+    {item === 'yourtrip' ? 'Your Trips' : item} {/* Makes the menu look cleaner */}
+  </Link>
+))}
 </nav>
         {/* Login / User Icon */}
         <div className="flex items-center">

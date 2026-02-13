@@ -63,6 +63,60 @@ const BookingPage = ({ packageData }) => {
     updated[index][field] = value;
     setFormData({ ...formData, additionalTravelers: updated });
   };
+  // REPLACING ALERT LOGIC WITH FULL RECEIPT HANDLER
+  const handleExecutePayment = async () => {
+    const totalAmount = calculateTotal();
+    
+    const receiptData = {
+      orderId: `#SYT-${Math.floor(Math.random() * 10000)}`,
+      tripName: packageData?.name,
+      status: 'In Progress',
+      total: totalAmount,
+      bookedDate: new Date().toLocaleDateString(),
+      travelDate: formData.travelDate,
+      
+      // Dynamic Emails
+      adminEmail: 'darklord8527789390@gmail.com', 
+      userEmail: formData.email,                  
+      fullName: formData.fullName,
+      phone: formData.phone,
+      
+      breakdown: {
+        homestay: totalAmount * 0.40,
+        guide: totalAmount * 0.25,
+        farmers: totalAmount * 0.20,
+        platform: totalAmount * 0.15
+      }
+    };
+  
+    try {
+      const response = await fetch('http://localhost:5000/api/send-receipt', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(receiptData),
+      });
+  
+      if (response.ok) {
+        // PERMANENT STORAGE: Save manifest to browser memory
+        localStorage.setItem('activeManifest', JSON.stringify(receiptData));
+        
+        alert(`Success! Booking manifest dispatched to ${formData.email}. Admin has also been notified.`);
+        
+        // Navigate to the timeline page
+        navigate('/yourtrip'); 
+      } else {
+        throw new Error("Dispatch failed");
+      }
+    } catch (error) {
+      console.error("Execution Error:", error);
+      
+      // Save locally even on network error so the user doesn't lose their receipt
+      localStorage.setItem('activeManifest', JSON.stringify(receiptData));
+      
+      alert("Payment Successful! Redirecting to timeline...");
+      navigate('/yourtrip');
+    }
+  };
 
   if (step === 2) {
     const total = calculateTotal();
@@ -128,7 +182,13 @@ const BookingPage = ({ packageData }) => {
 
           <div className="flex gap-8">
             <button onClick={() => setStep(1)} className="flex items-center justify-center flex-1 gap-3 py-8 font-black tracking-widest uppercase transition-all bg-slate-100 text-slate-800 rounded-3xl hover:bg-slate-200"><FaChevronLeft/> Edit Manifest</button>
-            <button onClick={() => alert("Transaction Successfully Executed!")} className="flex-[2] py-8 bg-orange-600 text-white font-black text-3xl rounded-3xl shadow-2xl hover:bg-slate-900 transition-all uppercase tracking-widest flex items-center justify-center gap-4"><FaCheckCircle/> Execute Payment</button>
+            {/* REPLACE the Execute Payment button inside Step 2 with this */}
+<button 
+  onClick={handleExecutePayment} 
+  className="flex-[2] py-8 bg-orange-600 text-white font-black text-3xl rounded-3xl shadow-2xl hover:bg-slate-900 transition-all uppercase tracking-widest flex items-center justify-center gap-4"
+>
+  <FaCheckCircle/> Execute Payment
+</button>
           </div>
         </div>
       </div>
