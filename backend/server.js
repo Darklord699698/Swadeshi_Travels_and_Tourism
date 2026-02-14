@@ -26,15 +26,23 @@ export const bot = new Telegraf(process.env.TELEGRAM_TOKEN);
 
 // Initialize AI Model
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const aiModel = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+// FIX: Changed model to "gemini-1.5-flash" to resolve the 404/Unsupported Model error
+const aiModel = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
 // --- USE REFACTORED ROUTES ---
-// This handles /api/send-receipt and /api/enquiry via your controller
 app.use('/api', bookingRoutes);
 
 // --- TELEGRAM BOT AI LOGIC ---
-// Keeping the conversational AI logic here as the primary interaction point
 const SYSTEM_PROMPT = `You are Bharat Trails AI. Greet with Namaste. Focus on Uttarakhand village tourism.`;
+
+// HELPER: Function to handle long messages by splitting them into chunks
+const sendLongMessage = async (ctx, text) => {
+  const maxLength = 4000; 
+  for (let i = 0; i < text.length; i += maxLength) {
+    const chunk = text.substring(i, i + maxLength);
+    await ctx.reply(chunk);
+  }
+};
 
 bot.on('text', async (ctx) => {
   try {
@@ -46,7 +54,9 @@ bot.on('text', async (ctx) => {
     const result = await aiModel.generateContent([SYSTEM_PROMPT, ctx.message.text]);
     const response = await result.response;
     
-    ctx.reply(response.text());
+    // FIX: Replaced ctx.reply with sendLongMessage to prevent character limit errors
+    await sendLongMessage(ctx, response.text());
+
   } catch (error) {
     console.error("Bot AI Error:", error);
     ctx.reply("Namaste! Mist on the mountains. Try again later.");
