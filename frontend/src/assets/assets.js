@@ -36,6 +36,16 @@ import video3 from "./video3.mp4";
 import video4 from "./video4.mp4";
 import video5 from "./video5.mp4";
 import video6 from "./video6.mp4";
+import Srinagar from "./Srinagar.jpeg";
+import Tawang from "./Tawang.jpg";
+import RannOfKutch from "./RannOfKutch.jpeg";
+import Udaipur from "./Udaipur.jpeg";
+import Havelock from "./Havelock.jpg";
+import kaziranga from "./kaziranga.jpeg";
+import Goa from "./Goa.jpg";
+import Hampi from "./Hampi.jpg";
+import jodhpur from "./jodhpur.jpeg";
+import Somnath from "./Somnath.jpg";
 
 export const assets = {
   Almora,
@@ -67,6 +77,16 @@ export const assets = {
   Uttarkashi,
   ValleyOfFlowers,
   Yamunotri,
+  Srinagar,
+  Tawang,
+  RannOfKutch,
+  Udaipur,
+  Havelock,
+  kaziranga,
+  Hampi,
+  Goa,
+  jodhpur,
+  Somnath,
   video1,
   video2,
   video3,

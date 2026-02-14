@@ -384,22 +384,69 @@ const sliderSettings = {
     </h1>
     <div className="flex flex-wrap gap-6 box-container">
     {[
-        { img: assets.nainital, title: "Nainital And Ranikhet", desc: "Located by the famous Naini Lake in the valley, surrounded by mountains on all sides." },
-        { img: assets.Rishikesh, title: "Rishikesh And Haridwar", desc: "Haridwar and Rishikesh is a place where tourists get enchanted by spiritual energy." },
-        { img: assets.Almora, title: "Almora", desc: "Almora is one of the best off beat places to visit in Uttarakhand, especially in summer." },
-        { img: assets.ResortChakrata, title: "Chakrata", desc: "The small and secluded hill town of Chakrata is an ideal place for those looking for silence." },
-        { img: assets.Chopta, title: "Chopta", desc: "Chopta is one of the least explored hamlets and among the best sightseeing places." },
-        { img: assets.ValleyOfFlowers, title: "Hemkund Sahib", desc: "The valley of flowers near Hemkund Sahib is a paradise for nature lovers." },
-        { img: assets.KedarnathTemple, title: "Chardham", desc: "Explore the diverse spiritual essence of Yamunotri, Gangotri, Badrinath and Kedarnath." },
-        { img: assets.Dhanaulti, title: "Dhanaulti", desc: "Nestled amid lofty Himalayan peaks, Dhanaulti is just 60 km from Mussoorie." },
-        { img: assets.MukteshwarTemple, title: "Mukteshwar", desc: "A small hill town famous for awesome views of Himalayan ranges and adventure sports." }
+        { 
+            img: assets.Srinagar, 
+            title: "Srinagar, Kashmir", 
+            desc: "Experience the magic of Dal Lake with a serene Shikara ride and explore the vibrant Mughal Gardens." 
+        },
+        { 
+            img: assets.Tawang, 
+            title: "Tawang, Northeast", 
+            desc: "Home to the second-largest monastery in Asia, set amidst the high-altitude peaks of Arunachal Pradesh." 
+        },
+        { 
+            img: assets.RannOfKutch, 
+            title: "Rann of Kutch, Gujarat", 
+            desc: "Witness the surreal beauty of the white salt desert, especially during the vibrant Rann Utsav." 
+        },
+        { 
+            img: assets.Udaipur, 
+            title: "Udaipur, Rajasthan", 
+            desc: "Known as the 'Venice of the East,' famous for its stunning lake palaces and royal architectural splendor." 
+        },
+        { 
+            img: assets.Havelock, 
+            title: "Havelock Island, Andaman", 
+            desc: "A tropical paradise featuring Radhanagar Beach, consistently ranked among the best beaches in Asia." 
+        },
+        { 
+            img: assets.kaziranga, 
+            title: "Kaziranga, Assam", 
+            desc: "A UNESCO World Heritage site famous for being the primary home of the Great One-horned Rhinoceros." 
+        },
+        { 
+            img: assets.KedarnathTemple, 
+            title: "Chardham", 
+            desc: "Explore the diverse spiritual essence of Yamunotri, Gangotri, Badrinath and Kedarnath." 
+        },
+        { 
+            img: assets.Dhanaulti, 
+            title: "Dhanaulti", 
+            desc: "Nestled amid lofty Himalayan peaks, Dhanaulti is just 60 km from Mussoorie." 
+        },
+        { 
+            img: assets.Goa, 
+            title: "North Goa", 
+            desc: "Famed for its lively beaches like Baga and Calangute, offering a mix of water sports and vibrant nightlife." 
+        },
+        { 
+            img: assets.Hampi, 
+            title: "Hampi, Karnataka", 
+            desc: "An open-air museum of ancient ruins from the Vijayanagara Empire, featuring the iconic Stone Chariot." 
+        },
+        { 
+            img: assets.jodhpur, 
+            title: "Jodhpur, Rajasthan", 
+            desc: "The 'Blue City' of Rajasthan, dominated by the massive Mehrangarh Fort and traditional bazaars." 
+        },
+        { 
+            img: assets.Somnath, 
+            title: "Somnath, Gujarat", 
+            desc: "Visit the legendary Somnath Temple, an ancient spiritual gem located on the coast of the Arabian Sea." 
+        }
     ].map((item, index) => (
-        /* Box: 'group' is key here to trigger the hover effect on children */
         <div key={index} className="group relative overflow-hidden shadow-lg rounded-lg border-[1rem] border-white flex-1 basis-[30rem] h-[25rem]">
-            
             <img src={item.img} alt={item.title} className="object-cover w-full h-full" />
-            
-            {/* Content: slides from top-[-100%] to top-0 on group-hover */}
             <div className="absolute top-[-100%] left-0 h-full w-full bg-black/70 flex flex-col items-center justify-center text-center p-8 transition-all duration-200 ease-linear group-hover:top-0">
                 <h3 className="mb-2 text-4xl font-bold text-orange-400">
                     {item.title}
@@ -414,7 +461,6 @@ const sliderSettings = {
         </div>
     ))}
 </div>
-
 </section>
 
 
