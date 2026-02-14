@@ -116,7 +116,7 @@ const sliderSettings = {
                 <i className="fas fa-star"></i>
                 <i className="far fa-star"></i>
             </div>
-            <div className="py-2 text-2xl font-bold text-gray-800 price">Rs 999.00 <span className="ml-2 text-lg font-normal text-gray-400 line-through">Rs 1299.00</span></div>
+            <div className="py-2 text-2xl font-bold text-gray-800 price">Rs 9999.00 <span className="ml-2 text-lg font-normal text-gray-400 line-through">Rs 12999.00</span></div>
             <a href="#" className="inline-block mt-4 text-center btn"> book now </a>
         </div>
     </div>
@@ -136,7 +136,7 @@ const sliderSettings = {
                 <i className="fas fa-star"></i>
                 <i className="far fa-star"></i>
             </div>
-            <div className="py-2 text-2xl font-bold text-gray-800 price">Rs 2999.00 <span className="ml-2 text-lg font-normal text-gray-400 line-through">Rs 4999.00</span></div>
+            <div className="py-2 text-2xl font-bold text-gray-800 price">Rs 15999.00 <span className="ml-2 text-lg font-normal text-gray-400 line-through">Rs 19999.00</span></div>
             <a href="#" className="inline-block mt-4 text-center btn"> book now </a>
         </div>
     </div>
@@ -155,7 +155,7 @@ const sliderSettings = {
                 <i className="fas fa-star"></i>
                 <i className="far fa-star"></i>
             </div>
-            <div className="py-2 text-2xl font-bold text-gray-800 price">Rs 4999.00 <span className="ml-2 text-lg font-normal text-gray-400 line-through">Rs 7999.00</span></div>
+            <div className="py-2 text-2xl font-bold text-gray-800 price">Rs 24999.00 <span className="ml-2 text-lg font-normal text-gray-400 line-through">Rs 27999.00</span></div>
             <a href="#" className="inline-block mt-4 text-center btn"> book now </a>
         </div>
     </div>
@@ -174,7 +174,7 @@ const sliderSettings = {
                 <i className="fas fa-star"></i>
                 <i className="far fa-star"></i>
             </div>
-            <div className="py-2 text-2xl font-bold text-gray-800 price">Rs 1999.00 <span className="ml-2 text-lg font-normal text-gray-400 line-through">Rs 3999.00</span></div>
+            <div className="py-2 text-2xl font-bold text-gray-800 price">Rs 19999.00 <span className="ml-2 text-lg font-normal text-gray-400 line-through">Rs 23999.00</span></div>
             <a href="#" className="inline-block mt-4 text-center btn"> book now </a>
         </div>
     </div>
@@ -193,7 +193,7 @@ const sliderSettings = {
                 <i className="fas fa-star"></i>
                 <i className="far fa-star"></i>
             </div>
-            <div className="py-2 text-2xl font-bold text-gray-800 price">Rs 1499.00 <span className="ml-2 text-lg font-normal text-gray-400 line-through">Rs 2599.00</span></div>
+            <div className="py-2 text-2xl font-bold text-gray-800 price">Rs 36499.00 <span className="ml-2 text-lg font-normal text-gray-400 line-through">Rs 42599.00</span></div>
             <a href="#" className="inline-block mt-4 text-center btn"> book now </a>
         </div>
     </div>
@@ -212,10 +212,105 @@ const sliderSettings = {
                 <i className="fas fa-star"></i>
                 <i className="far fa-star"></i>
             </div>
-            <div className="py-2 text-2xl font-bold text-gray-800 price">Rs 7999.00 <span className="ml-2 text-lg font-normal text-gray-400 line-through">Rs 9999.00</span></div>
+            <div className="py-2 text-2xl font-bold text-gray-800 price">Rs 47999.00 <span className="ml-2 text-lg font-normal text-gray-400 line-through">Rs 59999.00</span></div>
             <a href="#" className="inline-block mt-4 text-center btn"> book now </a>
         </div>
     </div>
+    {/* 1. Nainital & Ranikhet */}
+<div className="box flex flex-col flex-1 basis-[30rem] rounded-lg overflow-hidden shadow-md bg-white">
+    <img src={assets.nainital} alt="Nainital" className="object-cover w-full h-64" />
+    <div className="flex flex-col flex-grow p-6 content">
+        <h3 className="text-3xl font-bold text-gray-800"><i className="mr-2 text-orange-500 fas fa-map-marker-alt"></i>Nainital & Ranikhet</h3>
+        <p className="flex-grow py-4 text-xl leading-relaxed text-gray-600">
+            Explore the 'Lake District' of India and the serene military cantonment town of Ranikhet, offering panoramic views of the majestic Himalayan peaks.
+        </p>
+        <div className="py-2 text-xl text-orange-500 stars">
+            <i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i>
+        </div>
+        <div className="py-2 text-2xl font-bold text-gray-800 price">Rs 12,999.00 <span className="ml-2 text-lg font-normal text-gray-400 line-through">Rs 15,999.00</span></div>
+        <a href="#" className="inline-block mt-4 text-center btn"> book now </a>
+    </div>
+</div>
+
+{/* 2. Rishikesh & Haridwar */}
+<div className="box flex flex-col flex-1 basis-[30rem] rounded-lg overflow-hidden shadow-md bg-white">
+    <img src={assets.Rishikesh} alt="Rishikesh" className="object-cover w-full h-64" />
+    <div className="flex flex-col flex-grow p-6 content">
+        <h3 className="text-3xl font-bold text-gray-800"><i className="mr-2 text-orange-500 fas fa-map-marker-alt"></i>Rishikesh & Haridwar</h3>
+        <p className="flex-grow py-4 text-xl leading-relaxed text-gray-600">
+            Experience spiritual awakening at Har Ki Pauri and adventure in the Yoga Capital of the World. A perfect blend of divinity and Ganga river rafting.
+        </p>
+        <div className="py-2 text-xl text-orange-500 stars">
+            <i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="far fa-star"></i>
+        </div>
+        <div className="py-2 text-2xl font-bold text-gray-800 price">Rs 8,499.00 <span className="ml-2 text-lg font-normal text-gray-400 line-through">Rs 10,999.00</span></div>
+        <a href="#" className="inline-block mt-4 text-center btn"> book now </a>
+    </div>
+</div>
+
+{/* 3. Almora */}
+<div className="box flex flex-col flex-1 basis-[30rem] rounded-lg overflow-hidden shadow-md bg-white">
+    <img src={assets.Almora} alt="Almora" className="object-cover w-full h-64" />
+    <div className="flex flex-col flex-grow p-6 content">
+        <h3 className="text-3xl font-bold text-gray-800"><i className="mr-2 text-orange-500 fas fa-map-marker-alt"></i>Almora</h3>
+        <p className="flex-grow py-4 text-xl leading-relaxed text-gray-600">
+            A cultural heart of Kumaon, known for its unique wildlife, rich handicraft heritage, and the famous Kasar Devi temple's magnetic fields.
+        </p>
+        <div className="py-2 text-xl text-orange-500 stars">
+            <i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star-half-alt"></i>
+        </div>
+        <div className="py-2 text-2xl font-bold text-gray-800 price">Rs 9,999.00 <span className="ml-2 text-lg font-normal text-gray-400 line-through">Rs 12,500.00</span></div>
+        <a href="#" className="inline-block mt-4 text-center btn"> book now </a>
+    </div>
+</div>
+
+{/* 4. Chopta */}
+<div className="box flex flex-col flex-1 basis-[30rem] rounded-lg overflow-hidden shadow-md bg-white">
+    <img src={assets.Chopta} alt="Chopta" className="object-cover w-full h-64" />
+    <div className="flex flex-col flex-grow p-6 content">
+        <h3 className="text-3xl font-bold text-gray-800"><i className="mr-2 text-orange-500 fas fa-map-marker-alt"></i>Chopta</h3>
+        <p className="flex-grow py-4 text-xl leading-relaxed text-gray-600">
+            Often called the 'Mini Switzerland' of Uttarakhand, Chopta is the base for trekking to Tungnath, the highest Shiva temple in the world.
+        </p>
+        <div className="py-2 text-xl text-orange-500 stars">
+            <i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i>
+        </div>
+        <div className="py-2 text-2xl font-bold text-gray-800 price">Rs 7,999.00 <span className="ml-2 text-lg font-normal text-gray-400 line-through">Rs 9,500.00</span></div>
+        <a href="#" className="inline-block mt-4 text-center btn"> book now </a>
+    </div>
+</div>
+
+{/* 5. Chakrata */}
+<div className="box flex flex-col flex-1 basis-[30rem] rounded-lg overflow-hidden shadow-md bg-white">
+    <img src={assets.ResortChakrata} alt="Chakrata" className="object-cover w-full h-64" />
+    <div className="flex flex-col flex-grow p-6 content">
+        <h3 className="text-3xl font-bold text-gray-800"><i className="mr-2 text-orange-500 fas fa-map-marker-alt"></i>Chakrata</h3>
+        <p className="flex-grow py-4 text-xl leading-relaxed text-gray-600">
+            An offbeat paradise known for Tiger Falls and Budher caves. Perfect for those seeking solitude amidst ancient coniferous forests.
+        </p>
+        <div className="py-2 text-xl text-orange-500 stars">
+            <i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="far fa-star"></i>
+        </div>
+        <div className="py-2 text-2xl font-bold text-gray-800 price">Rs 6,499.00 <span className="ml-2 text-lg font-normal text-gray-400 line-through">Rs 8,000.00</span></div>
+        <a href="#" className="inline-block mt-4 text-center btn"> book now </a>
+    </div>
+</div>
+
+{/* 6. Hemkund Sahib */}
+<div className="box flex flex-col flex-1 basis-[30rem] rounded-lg overflow-hidden shadow-md bg-white">
+    <img src={assets.ValleyOfFlowers} alt="Hemkund Sahib" className="object-cover w-full h-64" />
+    <div className="flex flex-col flex-grow p-6 content">
+        <h3 className="text-3xl font-bold text-gray-800"><i className="mr-2 text-orange-500 fas fa-map-marker-alt"></i>Hemkund Sahib</h3>
+        <p className="flex-grow py-4 text-xl leading-relaxed text-gray-600">
+            A high-altitude Sikh pilgrimage site situated at 4,632m. It is surrounded by seven snow-capped peaks and a crystal-clear glacial lake.
+        </p>
+        <div className="py-2 text-xl text-orange-500 stars">
+            <i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i>
+        </div>
+        <div className="py-2 text-2xl font-bold text-gray-800 price">Rs 18,999.00 <span className="ml-2 text-lg font-normal text-gray-400 line-through">Rs 22,000.00</span></div>
+        <a href="#" className="inline-block mt-4 text-center btn"> book now </a>
+    </div>
+</div>
 </div>
     </section>
 
