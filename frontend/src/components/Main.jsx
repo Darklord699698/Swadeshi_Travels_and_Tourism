@@ -374,93 +374,54 @@ const sliderSettings = {
 
 <section className="gallery" id="gallery">
     <h1 className="space-x-2 font-bold heading">
-        <span>G</span>
-        <span>A</span>
-        <span>L</span>
-        <span>L</span>
-        <span>E</span>
-        <span>R</span>
-        <span>Y</span>
+        <span>G</span><span>A</span><span>L</span><span>L</span><span>E</span><span>R</span><span>Y</span>
     </h1>
+    
     <div className="flex flex-wrap gap-6 box-container">
     {[
-        { 
-            img: assets.Srinagar, 
-            title: "Srinagar, Kashmir", 
-            desc: "Experience the magic of Dal Lake with a serene Shikara ride and explore the vibrant Mughal Gardens." 
-        },
-        { 
-            img: assets.Tawang, 
-            title: "Tawang, Northeast", 
-            desc: "Home to the second-largest monastery in Asia, set amidst the high-altitude peaks of Arunachal Pradesh." 
-        },
-        { 
-            img: assets.RannOfKutch, 
-            title: "Rann of Kutch, Gujarat", 
-            desc: "Witness the surreal beauty of the white salt desert, especially during the vibrant Rann Utsav." 
-        },
-        { 
-            img: assets.Udaipur, 
-            title: "Udaipur, Rajasthan", 
-            desc: "Known as the 'Venice of the East,' famous for its stunning lake palaces and royal architectural splendor." 
-        },
-        { 
-            img: assets.Havelock, 
-            title: "Havelock Island, Andaman", 
-            desc: "A tropical paradise featuring Radhanagar Beach, consistently ranked among the best beaches in Asia." 
-        },
-        { 
-            img: assets.kaziranga, 
-            title: "Kaziranga, Assam", 
-            desc: "A UNESCO World Heritage site famous for being the primary home of the Great One-horned Rhinoceros." 
-        },
-        { 
-            img: assets.KedarnathTemple, 
-            title: "Chardham", 
-            desc: "Explore the diverse spiritual essence of Yamunotri, Gangotri, Badrinath and Kedarnath." 
-        },
-        { 
-            img: assets.Dhanaulti, 
-            title: "Dhanaulti", 
-            desc: "Nestled amid lofty Himalayan peaks, Dhanaulti is just 60 km from Mussoorie." 
-        },
-        { 
-            img: assets.Goa, 
-            title: "North Goa", 
-            desc: "Famed for its lively beaches like Baga and Calangute, offering a mix of water sports and vibrant nightlife." 
-        },
-        { 
-            img: assets.Hampi, 
-            title: "Hampi, Karnataka", 
-            desc: "An open-air museum of ancient ruins from the Vijayanagara Empire, featuring the iconic Stone Chariot." 
-        },
-        { 
-            img: assets.jodhpur, 
-            title: "Jodhpur, Rajasthan", 
-            desc: "The 'Blue City' of Rajasthan, dominated by the massive Mehrangarh Fort and traditional bazaars." 
-        },
-        { 
-            img: assets.Somnath, 
-            title: "Somnath, Gujarat", 
-            desc: "Visit the legendary Somnath Temple, an ancient spiritual gem located on the coast of the Arabian Sea." 
-        }
+        { img: assets.Srinagar, title: "Srinagar, Kashmir", desc: "Experience the magic of Dal Lake with a serene Shikara ride and explore the vibrant Mughal Gardens." },
+        { img: assets.Tawang, title: "Tawang, Northeast", desc: "Home to the second-largest monastery in Asia, set amidst the high-altitude peaks of Arunachal Pradesh." },
+        { img: assets.RannOfKutch, title: "Rann of Kutch, Gujarat", desc: "Witness the surreal beauty of the white salt desert, especially during the vibrant Rann Utsav." },
+        { img: assets.Udaipur, title: "Udaipur, Rajasthan", desc: "Known as the 'Venice of the East,' famous for its stunning lake palaces and royal architectural splendor." },
+        { img: assets.Havelock, title: "Havelock Island, Andaman", desc: "A tropical paradise featuring Radhanagar Beach, consistently ranked among the best beaches in Asia." },
+        { img: assets.kaziranga, title: "Kaziranga, Assam", desc: "A UNESCO World Heritage site famous for being the primary home of the Great One-horned Rhinoceros." },
+        { img: assets.KedarnathTemple, title: "Chardham", desc: "Explore the diverse spiritual essence of Yamunotri, Gangotri, Badrinath and Kedarnath." },
+        { img: assets.Dhanaulti, title: "Dhanaulti", desc: "Nestled amid lofty Himalayan peaks, Dhanaulti is just 60 km from Mussoorie." },
+        { img: assets.Goa, title: "North Goa", desc: "Famed for its lively beaches like Baga and Calangute, offering a mix of water sports and vibrant nightlife." },
+        { img: assets.Hampi, title: "Hampi, Karnataka", desc: "An open-air museum of ancient ruins from the Vijayanagara Empire, featuring the iconic Stone Chariot." },
+        { img: assets.jodhpur, title: "Jodhpur, Rajasthan", desc: "The 'Blue City' of Rajasthan, dominated by the massive Mehrangarh Fort and traditional bazaars." },
+        { img: assets.Somnath, title: "Somnath, Gujarat", desc: "Visit the legendary Somnath Temple, an ancient spiritual gem located on the coast of the Arabian Sea." }
     ].map((item, index) => (
-        <div key={index} className="group relative overflow-hidden shadow-lg rounded-lg border-[1rem] border-white flex-1 basis-[30rem] h-[25rem]">
-            <img src={item.img} alt={item.title} className="object-cover w-full h-full" />
-            <div className="absolute top-[-100%] left-0 h-full w-full bg-black/70 flex flex-col items-center justify-center text-center p-8 transition-all duration-200 ease-linear group-hover:top-0">
-                <h3 className="mb-2 text-4xl font-bold text-orange-400">
+        <div key={index} className="group relative overflow-hidden shadow-2xl rounded-2xl border-[0.8rem] border-white flex-1 basis-[30rem] h-[28rem] cursor-pointer">
+            
+            {/* Image Zoom Effect */}
+            <img 
+                src={item.img} 
+                alt={item.title} 
+                className="object-cover w-full h-full transition-transform duration-700 ease-out group-hover:scale-110" 
+            />
+            
+            {/* Sophisticated Overlay */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center transition-all duration-500 opacity-0 bg-black/40 backdrop-blur-[2px] group-hover:opacity-100">
+                
+                {/* Text Sliding Up */}
+                <h3 className="mb-3 text-4xl font-black text-white transition-transform duration-500 translate-y-8 group-hover:translate-y-0 drop-shadow-lg">
                     {item.title}
                 </h3>
-                <p className="mb-4 text-xl leading-relaxed text-gray-200">
+                
+                <div className="w-16 h-1 mb-4 transition-all duration-700 delay-100 scale-x-0 bg-orange-500 group-hover:scale-x-100"></div>
+                
+                <p className="mb-6 text-xl leading-relaxed text-gray-100 transition-transform duration-500 delay-100 translate-y-8 group-hover:translate-y-0">
                     {item.desc}
                 </p>
-                <a href="#" className="inline-block px-6 py-2 text-xl text-white bg-orange-500 rounded btn hover:bg-orange-600">
-                    See More
+                
+                <a href="#" className="inline-block px-8 py-3 text-lg font-bold text-white uppercase transition-all duration-300 delay-200 translate-y-8 bg-orange-600 rounded-full group-hover:translate-y-0 hover:bg-orange-500 hover:shadow-orange-500/40 hover:shadow-2xl">
+                    Discover More
                 </a>
             </div>
         </div>
     ))}
-</div>
+    </div>
 </section>
 
 
@@ -549,6 +510,15 @@ const sliderSettings = {
                 </div>
             </div>
         </div>
+    </div>
+    {/* SEE MORE REVIEWS BUTTON */}
+    <div className="flex justify-center mt-12">
+        <Link 
+            to="/review" 
+            className="px-12 py-4 text-2xl font-black text-white uppercase transition-all duration-300 bg-orange-600 rounded-xl hover:bg-orange-500 hover:tracking-widest hover:shadow-2xl hover:shadow-orange-500/40 active:scale-95"
+        >
+            See More Reviews <i className="ml-2 fas fa-arrow-right"></i>
+        </Link>
     </div>
 
 
