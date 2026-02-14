@@ -66,7 +66,12 @@ const BookingPage = ({ packageData }) => {
   // REPLACING ALERT LOGIC WITH FULL RECEIPT HANDLER
   const handleExecutePayment = async () => {
     const totalAmount = calculateTotal();
-    
+    const existingTrip = localStorage.getItem('activeManifest');
+if (existingTrip) {
+  const history = JSON.parse(localStorage.getItem('expeditionHistory') || '[]');
+  history.unshift(JSON.parse(existingTrip)); // Add old trip to the top
+  localStorage.setItem('expeditionHistory', JSON.stringify(history));
+}
     const receiptData = {
       orderId: `#SYT-${Math.floor(Math.random() * 10000)}`,
       tripName: packageData?.name,
@@ -75,12 +80,17 @@ const BookingPage = ({ packageData }) => {
       bookedDate: new Date().toLocaleDateString(),
       travelDate: formData.travelDate,
       
+      
       // Dynamic Emails
       adminEmail: 'darklord8527789390@gmail.com', 
       userEmail: formData.email,                  
       fullName: formData.fullName,
       phone: formData.phone,
-      
+      age: formData.age,
+      state: formData.state,
+      city: formData.city,
+      pincode: formData.pincode,
+      additionalTravelers: formData.additionalTravelers,
       breakdown: {
         homestay: totalAmount * 0.40,
         guide: totalAmount * 0.25,
@@ -253,12 +263,24 @@ const BookingPage = ({ packageData }) => {
                   <input required type="text" className="w-full p-6 text-3xl font-bold transition-all border-none outline-none bg-slate-50 rounded-3xl focus:ring-4 focus:ring-orange-100 text-slate-700" placeholder="Full Name" onChange={(e) => setFormData({...formData, fullName: e.target.value})} />
                 </div>
                 <div className="space-y-3">
+                  <label className="text-[11px] font-black uppercase text-slate-400 tracking-widest ml-1">Age</label>
+                  <input required type="number" className="w-full p-6 text-3xl font-bold transition-all border-none outline-none bg-slate-50 rounded-3xl focus:ring-4 focus:ring-orange-100 text-slate-700" placeholder="Age" onChange={(e) => setFormData({...formData, age: e.target.value})} />
+                </div>
+                <div className="space-y-3">
                   <label className="text-[11px] font-black uppercase text-slate-400 tracking-widest ml-1">Electronic Mail</label>
-                  <input required type="email" className="w-full p-6 text-3xl font-bold transition-all border-none outline-none bg-slate-50 rounded-3xl focus:ring-4 focus:ring-orange-100 text-slate-700" placeholder="user@example.com" onChange={(e) => setFormData({...formData, email: e.target.value})} />
+                  <input required type="email" className="w-full p-6 text-3xl font-bold transition-all border-none outline-none bg-slate-50 rounded-3xl focus:ring-4 focus:ring-orange-100 text-slate-700" placeholder="user12345@gmail.com" onChange={(e) => setFormData({...formData, email: e.target.value})} />
+                </div>
+                <div className="space-y-3">
+                  <label className="text-[11px] font-black uppercase text-slate-400 tracking-widest ml-1">Current State</label>
+                  <input required type="text" className="w-full p-6 text-3xl font-bold transition-all border-none outline-none bg-slate-50 rounded-3xl focus:ring-4 focus:ring-orange-100 text-slate-700" placeholder="Ex. Uttar Pradesh" onChange={(e) => setFormData({...formData, state: e.target.value})} />
                 </div>
                 <div className="space-y-3">
                   <label className="text-[11px] font-black uppercase text-slate-400 tracking-widest ml-1">Current City</label>
-                  <input required type="text" className="w-full p-6 text-3xl font-bold transition-all border-none outline-none bg-slate-50 rounded-3xl focus:ring-4 focus:ring-orange-100 text-slate-700" placeholder="New Delhi" onChange={(e) => setFormData({...formData, city: e.target.value})} />
+                  <input required type="text" className="w-full p-6 text-3xl font-bold transition-all border-none outline-none bg-slate-50 rounded-3xl focus:ring-4 focus:ring-orange-100 text-slate-700" placeholder="Ex. Lucknow" onChange={(e) => setFormData({...formData, city: e.target.value})} />
+                </div>
+                <div className="space-y-3">
+                  <label className="text-[11px] font-black uppercase text-slate-400 tracking-widest ml-1">Pincode</label>
+                  <input required type="number" className="w-full p-6 text-3xl font-bold transition-all border-none outline-none bg-slate-50 rounded-3xl focus:ring-4 focus:ring-orange-100 text-slate-700" placeholder="Ex. 560064 , 560035" onChange={(e) => setFormData({...formData, pincode: e.target.value})} />
                 </div>
                 <div className="space-y-3">
   <label className="text-[11px] font-black uppercase text-slate-400 tracking-widest ml-1">Contact Phone</label>
