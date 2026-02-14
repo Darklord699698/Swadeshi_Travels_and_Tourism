@@ -204,7 +204,7 @@ const Contact = () => {
                 <h3 className="text-4xl font-bold tracking-tight">Direct Support</h3>
                 <p className="max-w-xs mx-auto text-xl leading-relaxed text-gray-400">Click below to chat with us directly on your preferred platform.</p>
                 <div className="flex justify-center gap-8 pt-6">
-                  <a href="https://www.instagram.com/targaryen_starks" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-16 h-16 transition-all border shadow-2xl rounded-2xl bg-white/5 border-white/10 hover:bg-[#E1306C] group">
+                  <a href="https://www.instagram.com/targaryen_starks/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-16 h-16 transition-all border shadow-2xl rounded-2xl bg-white/5 border-white/10 hover:bg-[#E1306C] group">
                     <i className="text-3xl transition-transform fab fa-instagram group-hover:scale-110"></i>
                   </a>
                   <a href="https://t.me/SwadeshiTravelbot" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-16 h-16 transition-all border shadow-2xl rounded-2xl bg-white/5 border-white/10 hover:bg-[#0088cc] group">

@@ -38,7 +38,7 @@ const Header = () => {
   ${menuActive ? "scale-y-100" : "scale-y-0 lg:scale-y-100"}
 `}>
   {/* Change inside the map function in Header.jsx */}
-{['home', 'book', 'yourtrip', 'services', 'gallery', 'review', 'contact'].map((item) => (
+{['home', 'Bookings', 'yourtrip', 'review','gallery','contact', 'About Us'].map((item) => (
   <Link 
     key={item}
     to={item === 'home' ? '/' : `/${item}`} 
