@@ -436,93 +436,89 @@ const sliderSettings = {
         <span>I</span>
         <span>E</span>
         <span>W</span>
+        <span>S</span>
     </h1>
-    <div className="swiper-container review-slider">
 
-        <div className="swiper-wrapper">
+    {/* Using a single array to map reviews while keeping your Swiper layout structure */}
+    {[
+        { name: "Rohit Sharma", text: "Nice Offers and Good to see such cheap prices with so much stuff and activities to do" },
+        { name: "John Lawrence", text: "Good services and the best thing is guide is very well prepared and knows literally the best spots" },
+        { name: "Carey Anderson", text: "Food quality is better and the amount of food served is also quite good" },
+        { name: "Emily Clarke", text: "Love the customer care support because they have contacts with the locals of the area and have a good connection" }
+    ].map((rev, index) => (
+        <div key={index} className="mb-10 swiper-container review-slider">
+            <div className="swiper-wrapper">
+                <div className="swiper-slide">
+                    {/* Added: group, transition, hover lift, and shadow glow */}
+                    <div className="box group transition-all duration-500 hover:-translate-y-3 hover:shadow-[0_10px_30px_rgba(234,88,12,0.2)] hover:border-orange-500/30 border border-transparent">
+                        <img 
+                            src={assets.luffy1} 
+                            alt="" 
+                            className="transition-transform duration-500 group-hover:scale-110 group-hover:border-orange-500"
+                        />
+                        <h3 className="transition-colors duration-500 group-hover:text-orange-500">
+                            {rev.name}
+                        </h3>
+                        <p className="transition-colors duration-500 group-hover:text-gray-200">
+                            {rev.text}
+                        </p>
+                        <div className="stars">
+                            <i className="fas fa-star"></i>
+                            <i className="fas fa-star"></i>
+                            <i className="fas fa-star"></i>
+                            <i className="fas fa-star"></i>
+                            <i className="far fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    ))}
 
-            <div className="swiper-slide">
-                <div className="box">
-                    <img src={assets.luffy1} alt=""/>
-                    <h3>Rohit Sharma</h3>
-                    <p>Nice Offers and Good to see such cheap prices with so much stuff and activities to do</p>
-                    <div className="stars">
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="far fa-star"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div className="swiper-container review-slider">
-        <div className="swiper-wrapper">
-            <div className="swiper-slide">
-                <div className="box">
-                    <img src={assets.luffy1} alt=""/>
-                    <h3>John Lawrence</h3>
-                    <p>Good services and the best thing is guide is very well prepared and knows literally the best spots </p>
-                    <div className="stars">
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="far fa-star"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div className="swiper-container review-slider">
-        <div className="swiper-wrapper">
-            <div className="swiper-slide">
-                <div className="box">
-                    <img src={assets.luffy1} alt=""/>
-                    <h3>Carey Anderson</h3>
-                    <p>Food quality is better and the amount of food served is also quite good </p>
-                    <div className="stars">
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="far fa-star"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div className="swiper-container review-slider">
-        <div className="swiper-wrapper">
-            <div className="swiper-slide">
-                <div className="box">
-                    <img src={assets.luffy1} alt=""/>
-                    <h3>Emily Clarke</h3>
-                    <p>Love the customer care support beacause they have contacts with the locals of the area and have a good connection</p>
-                    <div className="stars">
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="far fa-star"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     {/* SEE MORE REVIEWS BUTTON */}
-    <div className="flex justify-center mt-12">
-        <Link 
-            to="/review" 
-            className="px-12 py-4 text-2xl font-black text-white uppercase transition-all duration-300 bg-orange-600 rounded-xl hover:bg-orange-500 hover:tracking-widest hover:shadow-2xl hover:shadow-orange-500/40 active:scale-95"
+    <div className="flex justify-center pb-10 mt-12">
+  <Link
+    to="/review"
+    className="group flex items-center justify-center gap-2 px-10 py-5 
+               bg-orange-600 text-white rounded-full cursor-pointer transition-all duration-300
+               border-[8px] border-orange-200 hover:border-orange-300 hover:bg-orange-500
+               active:border-[5px] active:scale-95"
+  >
+    {/* Text Layer */}
+    <span className="text-[1.7em] font-bold tracking-[1px] uppercase">
+      See More Reviews
+    </span>
+
+    {/* Icon Container with Jello Animation */}
+    <div className="flex items-center pt-1 group-hover:animate-[jello_0.9s_both] origin-left">
+        <svg 
+          viewBox="0 0 24 24" 
+          fill="none" 
+          stroke="currentColor" 
+          strokeWidth="3" 
+          strokeLinecap="round" 
+          strokeLinejoin="round" 
+          className="w-[50px] h-[30px]"
         >
-            See More Reviews <i className="ml-2 fas fa-arrow-right"></i>
-        </Link>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
     </div>
+  </Link>
+</div>
 
-
-
+{/* Adding the Jello Keyframes to your Tailwind config or global CSS */}
+<style jsx global>{`
+  @keyframes jello {
+    0% { transform: scale3d(1, 1, 1); }
+    30% { transform: scale3d(0.75, 1.25, 1); }
+    40% { transform: scale3d(1.25, 0.75, 1); }
+    50% { transform: scale3d(0.85, 1.15, 1); }
+    65% { transform: scale3d(1.05, 0.95, 1); }
+    75% { transform: scale3d(0.95, 1.05, 1); }
+    100% { transform: scale3d(1, 1, 1); }
+  }
+`}</style>
 </section>
 
 
