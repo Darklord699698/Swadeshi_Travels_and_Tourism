@@ -39,7 +39,7 @@ const Contact = () => {
     setLoading(true);
   
     try {
-      const response = await fetch(`${VITE_API_URL}/api/enquiry`, { // Combined path
+      const response = await fetch(`${API_URL}/api/enquiry`, { // Combined path
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -53,7 +53,7 @@ const Contact = () => {
     } catch (err) {
       console.error("Connection Error:", err);
       // Use the SAME variable name here as you did at the top
-      alert(`Failed to connect to backend at ${VITE_API_URL}`); 
+      alert(`Failed to connect to backend at ${API_URL}`); 
     } finally {
       setLoading(false);
     }
