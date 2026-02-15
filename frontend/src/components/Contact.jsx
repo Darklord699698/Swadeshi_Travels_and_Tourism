@@ -32,6 +32,7 @@ const Contact = () => {
   // Use environment variable if it exists, otherwise fallback to localhost
   // Use environment variable if it exists, otherwise fallback to localhost
   // Ensure this is outside or at the top of your function
+  // 1. You defined it as API_URL here
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
   const handleSubmit = async (e) => {
@@ -39,7 +40,8 @@ const Contact = () => {
     setLoading(true);
   
     try {
-      const response = await fetch(`${API_URL}/api/enquiry`, { // Combined path
+      // FIX: Changed VITE_API_URL to API_URL to match your definition above
+      const response = await fetch(`${API_URL}/api/enquiry`, { 
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -52,7 +54,7 @@ const Contact = () => {
       }
     } catch (err) {
       console.error("Connection Error:", err);
-      // Use the SAME variable name here as you did at the top
+      // FIX: Changed VITE_API_URL to API_URL here as well
       alert(`Failed to connect to backend at ${API_URL}`); 
     } finally {
       setLoading(false);
