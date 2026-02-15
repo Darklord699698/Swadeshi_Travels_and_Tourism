@@ -36,7 +36,7 @@ const Contact = () => {
 
     try {
       // Connect to your Express backend on port 5000
-      const response = await fetch('http://localhost:5000/api/enquiry', {
+      const response = await fetch('https://swadeshi-travels-backend.onrender.com/api/enquiry', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),

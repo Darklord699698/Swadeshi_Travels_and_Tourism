@@ -18,7 +18,11 @@ if (!process.env.TELEGRAM_TOKEN || !process.env.GEMINI_API_KEY || !process.env.E
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: 'https://swadeshi-travels-frontend.onrender.com', 
+  methods: ['GET', 'POST'],
+  credentials: true
+}));
 app.use(express.json());
 
 // Initialize Telegram Bot & Export it for use in Controllers
