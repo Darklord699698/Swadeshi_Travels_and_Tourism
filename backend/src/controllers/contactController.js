@@ -3,17 +3,16 @@ import nodemailer from 'nodemailer';
 export const handleContactForm = async (req, res) => {
   const { name, email, message, type } = req.body;
 
-  // MODIFIED TRANSPORTER FOR RENDER COMPATIBILITY
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
-    port: 587,
+    port: 587, // Use 587 instead of 465 to avoid the timeout error
     secure: false, // Must be false for port 587
     auth: {
       user: 'darklord8527789390@gmail.com',
-      pass: process.env.EMAIL_PASS 
+      pass: process.env.EMAIL_PASS
     },
     tls: {
-      // This helps bypass Render's network restrictions
+      // This allows the connection to succeed on Render's network
       rejectUnauthorized: false
     }
   });

@@ -33,7 +33,9 @@ const Contact = () => {
   // Use environment variable if it exists, otherwise fallback to localhost
   // Ensure this is outside or at the top of your function
   // 1. You defined it as API_URL here
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+  const API_URL = import.meta.env.DEV 
+  ? 'http://localhost:5000' 
+  : (import.meta.env.VITE_API_URL || 'http://localhost:5000');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
