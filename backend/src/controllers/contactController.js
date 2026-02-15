@@ -4,10 +4,16 @@ export const handleContactForm = async (req, res) => {
   const { name, email, message, type } = req.body;
 
   const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false, // Use TLS
     auth: {
       user: 'darklord8527789390@gmail.com',
-      pass: process.env.EMAIL_PASS
+      pass: process.env.EMAIL_PASS 
+    },
+    tls: {
+      // This helps bypass some network restrictions on Render
+      rejectUnauthorized: false
     }
   });
 
