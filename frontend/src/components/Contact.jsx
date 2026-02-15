@@ -29,14 +29,16 @@ const Contact = () => {
       [name]: processedValue
     }));
   };
-
+  // Use environment variable if it exists, otherwise fallback to localhost
+  // Use environment variable if it exists, otherwise fallback to localhost
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      // Connect to your Express backend on port 5000
-      const response = await fetch('https://swadeshi-travels-backend.onrender.com/api/enquiry', {
+      const response = await fetch(`${API_URL}/api/enquiry`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -45,15 +47,16 @@ const Contact = () => {
       if (response.ok) {
         setSubmitted(true);
       } else {
-        alert("Server error. Please check if your backend is running.");
+        alert("Server error. Please check your Render backend logs.");
       }
     } catch (err) {
       console.error("Connection Error:", err);
-      alert("Failed to connect to backend. Make sure your server is running on port 5000!");
+      // BUG FIX: Change backendUrl to API_URL here
+      alert(`Failed to connect to backend at ${API_URL}`);
     } finally {
       setLoading(false);
     }
-  };
+};
 
   const defaultOptions = {
     loop: true,
