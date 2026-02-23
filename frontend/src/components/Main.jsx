@@ -33,7 +33,7 @@ const sliderSettings = {
 };
 
   const [videoSrc, setVideoSrc] = useState(assets.video1);
-
+  
   // Handle scroll reset (window.onscroll)
   useEffect(() => {
     const handleScroll = () => {

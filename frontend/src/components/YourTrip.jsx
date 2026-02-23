@@ -97,39 +97,47 @@ const YourTrip = () => {
 
                    
 {/* Additional Explorers */}
+{/* Additional Explorers */}
+{/* Additional Explorers - Lead Style Replication (Active Manifest) */}
 {trip.additionalTravelers?.length > 0 && (
-  <div className="space-y-4">
-    <p className="text-[10px] font-black text-orange-500 uppercase tracking-[0.3em] flex items-center gap-2">
+  <div className="pt-10 mt-10 space-y-12 border-t border-white/5">
+    <p className="text-[9px] font-black text-orange-500 uppercase tracking-[0.3em] flex items-center gap-2">
       <FaUserFriends /> Expedition Team
     </p>
-    <div className="overflow-hidden border divide-y bg-white/5 rounded-3xl border-white/10 divide-white/5">
+    
+    <div className="space-y-12">
       {trip.additionalTravelers.map((member, idx) => (
-        <div key={idx} className="p-5 hover:bg-white/[0.02] transition-colors">
-          {/* Main Row: Name, Age, and Number in one line */}
-          <div className="flex flex-row items-center justify-between w-full gap-4">
+        <div key={idx} className="duration-700 animate-in fade-in slide-in-from-bottom">
+          
+          {/* 1. Name Heading - Large & Italicized to match Lead */}
+          <h4 className="text-3xl italic font-black text-white break-words">
+            {idx + 2}. {member.fullName || member.name || "Explorer"}
+          </h4>
+
+          {/* 2. Identity Chips - No width restrictions, they will wrap automatically */}
+          <div className="flex flex-wrap gap-2 mt-4">
             
-            {/* 1. Name Section */}
-            <div className="flex-1 min-w-[120px]">
-              <span className="block text-sm font-bold truncate text-slate-200">
-                {idx + 2}. {member.name}
-              </span>
-            </div>
+            {/* Age Chip */}
+            <span className="px-4 py-1.5 text-[10px] font-black uppercase tracking-widest bg-white/5 rounded-full border border-white/10 text-slate-400">
+              AGE: {member.age || "N/A"}
+            </span>
+            
+            {/* Phone Chip */}
+            <span className="px-4 py-1.5 text-[10px] font-black uppercase tracking-widest bg-white/5 rounded-full border border-white/10 text-slate-400">
+              📞 {member.phone || "No Number"}
+            </span>
 
-            {/* 2. Age Section */}
-            <div className="flex-shrink-0">
-              <span className="text-[10px] font-black text-slate-500 bg-white/10 px-3 py-1 rounded-full whitespace-nowrap">
-                {member.age} YRS
+            {/* Email Chip - break-all ensures long emails don't push the chip off-screen */}
+            {(member.userEmail || member.email) && (
+              <span className="px-4 py-1.5 text-[10px] font-black lowercase tracking-wider bg-white/5 rounded-full border border-white/10 text-slate-400 break-all">
+                ✉️ {member.userEmail || member.email}
               </span>
-            </div>
-
-            {/* 3. Phone Number Section */}
-            <div className="flex-1 text-right">
-              <span className="text-[11px] text-slate-500 font-mono tracking-tighter">
-                📞 {member.phone}
-              </span>
-            </div>
-
+            )}
           </div>
+
+          <p className="mt-4 text-[11px] font-medium text-slate-500 italic opacity-60">
+            Co-explorer registered for this expedition.
+          </p>
         </div>
       ))}
     </div>
@@ -210,35 +218,42 @@ const YourTrip = () => {
             </div>
 
             {/* Team Members List (History Expansion) */}
-{h.additionalTravelers?.length > 0 && (
+            {h.additionalTravelers?.length > 0 && (
   <div className="space-y-4">
     <p className="text-[9px] font-black text-orange-500 uppercase tracking-[0.3em] flex items-center gap-2">
       <FaUserFriends /> Expedition Team
     </p>
-    <div className="overflow-hidden border divide-y bg-white/5 rounded-2xl border-white/10 divide-white/5">
+    <div className="overflow-visible border divide-y bg-white/5 rounded-2xl border-white/10 divide-white/5">
       {h.additionalTravelers.map((member, mIdx) => (
-        <div key={mIdx} className="p-4 hover:bg-white/[0.02] transition-colors">
-          <div className="flex flex-row items-center justify-between w-full gap-3">
-            
-            {/* 1. Name */}
-            <div className="flex-1">
-              <span className="block text-xs font-bold truncate text-slate-200">
-                {mIdx + 2}. {member.name}
+        <div key={mIdx} className="p-5 transition-colors hover:bg-white/[0.02]">
+          <div className="flex flex-col space-y-3">
+
+            {/* Full Name */}
+            <div className="w-full">
+              <span className="block text-sm font-bold leading-snug break-words text-slate-100">
+                {mIdx + 2}. {member.name || "N/A"}
               </span>
             </div>
 
-            {/* 2. Age Badge */}
-            <div className="flex-shrink-0">
-              <span className="text-[9px] font-black text-slate-500 bg-white/10 px-2.5 py-1 rounded-full whitespace-nowrap">
-                {member.age} YRS
-              </span>
-            </div>
+            {/* Metadata Row */}
+            <div className="flex flex-wrap gap-4">
+              {/* Age */}
+              <div className="flex flex-col min-w-[60px]">
+                <span className="text-[8px] font-black text-slate-500 uppercase tracking-widest">Age</span>
+                <span className="text-[11px] font-bold text-slate-300">{member.age || "N/A"} YRS</span>
+              </div>
 
-            {/* 3. Phone Number */}
-            <div className="flex-1 text-right">
-              <span className="text-[10px] text-slate-500 font-mono tracking-tighter">
-                📞 {member.phone}
-              </span>
+              {/* Phone */}
+              <div className="flex flex-col min-w-[120px] border-l border-white/10 pl-2 break-all">
+                <span className="text-[8px] font-black text-slate-500 uppercase tracking-widest">Phone</span>
+                <span className="text-[11px] font-mono text-slate-300">{member.phone || "N/A"}</span>
+              </div>
+
+              {/* Email */}
+              <div className="flex-1 flex flex-col min-w-[150px] border-l border-white/10 pl-2 break-words">
+                <span className="text-[8px] font-black text-slate-500 uppercase tracking-widest">Email</span>
+                <span className="text-[11px] text-slate-400 italic break-words">{member.email || "N/A"}</span>
+              </div>
             </div>
 
           </div>

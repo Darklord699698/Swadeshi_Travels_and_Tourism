@@ -70,21 +70,22 @@ bot.on('text', async (ctx) => {
 });
 
 // Start Server
+// Start Server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`🚀 API Server running on port ${PORT}`);
-});
 
-// Launch Telegram bot
-bot.launch()
-  .then(() => console.log("✅ Telegram Bot Live!"))
-  .catch((err) => {
-    if (err.response?.error_code === 409) {
-      console.warn("⚠️ Telegram Bot Conflict (409)");
-    } else {
-      console.error("❌ Bot Launch Error:", err);
-    }
-  });
+app.listen(PORT, async () => {
+  console.log(`🚀 API Server running on port ${PORT}`);
+
+  try {
+    // Clear webhook to avoid 409 conflict
+    await bot.telegram.deleteWebhook({ drop_pending_updates: true });
+
+    await bot.launch();
+    console.log("✅ Telegram Bot Live!");
+  } catch (err) {
+    console.error("❌ Telegram Bot Launch Failed:", err);
+  }
+});
 
 // Graceful shutdown
 process.once('SIGINT', () => bot.stop('SIGINT'));

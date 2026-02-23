@@ -11,11 +11,23 @@ const BookingPage = ({ packageData }) => {
   const isInternational = packageData?.category === "International";
 
   const [formData, setFormData] = useState({
-    fullName: '', email: '', city: '', phone: '', travelDate: '',
-    specialRequests: '', needsFlight: false, needsCar: false,
-    arrivalTime: '12:00', travelers: 1, nights: 1,
+    fullName: '', 
+    email: '', 
+    city: '', 
+    phone: '', 
+    travelDate: '',
+    age: '',     // Added
+    state: '',   // Added
+    pincode: '', // Added
+    specialRequests: '', 
+    needsFlight: false, 
+    needsCar: false,
+    arrivalTime: '12:00', 
+    travelers: 1, 
+    nights: 1,
     additionalTravelers: [],
-    passportNumber: '', visaStatus: 'Not Applied'
+    passportNumber: '', 
+    visaStatus: 'Not Applied'
   });
 
   useEffect(() => {
@@ -40,93 +52,94 @@ const BookingPage = ({ packageData }) => {
     return date.toISOString().split('T')[0];
   };
 
-  const calculateTotal = () => {
-    if (!packageData) return 0;
-    const base = packageData.price * formData.travelers;
-    const stayAddon = (packageData.price * 0.2) * (formData.nights - 1);
-    const addons = (formData.needsFlight ? 12000 * formData.travelers : 0) + (formData.needsCar ? 3500 * formData.nights : 0);
-    const intlTax = isInternational ? (base * 0.15) : 0;
-    return base + stayAddon + addons + intlTax;
-  };
+  // 1. Improved Calculation with Number Safety
+const calculateTotal = () => {
+  if (!packageData) return 0;
+  
+  // Force travelers and nights to be treated as numbers
+  const travelers = Number(formData.travelers) || 1;
+  const nights = Number(formData.nights) || 1;
+  const basePrice = Number(packageData.price) || 0;
 
-  // LOGIC: Ensure only one addon can be selected
-  const handleAddonToggle = (type) => {
+  const base = basePrice * travelers;
+  const stayAddon = (basePrice * 0.2) * (nights - 1);
+  const addons = (formData.needsFlight ? 12000 * travelers : 0) + (formData.needsCar ? 3500 * nights : 0);
+  const intlTax = isInternational ? (base * 0.15) : 0;
+  
+  return base + stayAddon + addons + intlTax;
+};
+const handleAddonToggle = (type) => {
+  setFormData((prev) => {
     if (type === 'flight') {
-      setFormData({ ...formData, needsFlight: !formData.needsFlight, needsCar: false });
+      return {
+        ...prev,
+        needsFlight: !prev.needsFlight, // Correctly toggles the boolean
+        needsCar: false,               // Mutually exclusive: turns off car if flight is on
+      };
     } else {
-      setFormData({ ...formData, needsCar: !formData.needsCar, needsFlight: false });
+      return {
+        ...prev,
+        needsCar: !prev.needsCar,      // Correctly toggles the boolean
+        needsFlight: false,            // Mutually exclusive: turns off flight if car is on
+      };
+    }
+  });
+};
+
+// 2. Robust Payment Handler
+const handleExecutePayment = async () => {
+  const calculated = calculateTotal();
+  // Ensure we send a real number, never NaN
+  const totalAmount = isNaN(calculated) ? 0 : Number(calculated); 
+
+  const receiptData = {
+    orderId: `#SYT-${Math.floor(1000 + Math.random() * 9000)}`,
+    tripName: packageData?.name || "Unknown Trip",
+    status: 'In Progress',
+    total: totalAmount,
+    bookedDate: new Date().toLocaleDateString(),
+    travelDate: formData.travelDate,
+    userEmail: formData.email,                  
+    fullName: formData.fullName,
+    phone: formData.phone,
+    age: formData.age || "N/A",      
+    state: formData.state || "N/A",  
+    city: formData.city || "N/A",    
+    pincode: formData.pincode || "N/A", 
+    additionalTravelers: formData.additionalTravelers,
+    breakdown: {
+      homestay: (totalAmount * 0.40).toFixed(2),
+      guide: (totalAmount * 0.25).toFixed(2),
+      farmers: (totalAmount * 0.20).toFixed(2),
+      platform: (totalAmount * 0.15).toFixed(2)
     }
   };
 
-  const handleAdditionalChange = (index, field, value) => {
-    const updated = [...formData.additionalTravelers];
-    updated[index][field] = value;
-    setFormData({ ...formData, additionalTravelers: updated });
-  };
-  // REPLACING ALERT LOGIC WITH FULL RECEIPT HANDLER
-  const handleExecutePayment = async () => {
-    const totalAmount = calculateTotal();
-    const existingTrip = localStorage.getItem('activeManifest');
-if (existingTrip) {
-  const history = JSON.parse(localStorage.getItem('expeditionHistory') || '[]');
-  history.unshift(JSON.parse(existingTrip)); // Add old trip to the top
-  localStorage.setItem('expeditionHistory', JSON.stringify(history));
-}
-    const receiptData = {
-      orderId: `#SYT-${Math.floor(Math.random() * 10000)}`,
-      tripName: packageData?.name,
-      status: 'In Progress',
-      total: totalAmount,
-      bookedDate: new Date().toLocaleDateString(),
-      travelDate: formData.travelDate,
-      
-      
-      // Dynamic Emails
-      adminEmail: 'darklord8527789390@gmail.com', 
-      userEmail: formData.email,                  
-      fullName: formData.fullName,
-      phone: formData.phone,
-      age: formData.age,
-      state: formData.state,
-      city: formData.city,
-      pincode: formData.pincode,
-      additionalTravelers: formData.additionalTravelers,
-      breakdown: {
-        homestay: totalAmount * 0.40,
-        guide: totalAmount * 0.25,
-        farmers: totalAmount * 0.20,
-        platform: totalAmount * 0.15
-      }
-    };
-  
-    try {
-      const response = await fetch('https://swadeshi-travels-backend.onrender.com', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(receiptData),
-      });
-  
-      if (response.ok) {
-        // PERMANENT STORAGE: Save manifest to browser memory
-        localStorage.setItem('activeManifest', JSON.stringify(receiptData));
-        
-        alert(`Success! Booking manifest dispatched to ${formData.email}. Admin has also been notified.`);
-        
-        // Navigate to the timeline page
-        navigate('/yourtrip'); 
-      } else {
-        throw new Error("Dispatch failed");
-      }
-    } catch (error) {
-      console.error("Execution Error:", error);
-      
-      // Save locally even on network error so the user doesn't lose their receipt
+  console.log("🚀 Dispatching Manifest Data:", receiptData);
+
+  try {
+    const response = await fetch('https://swadeshi-travels-backend.onrender.com/api/send-receipt', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(receiptData),
+    });
+
+    if (response.ok) {
       localStorage.setItem('activeManifest', JSON.stringify(receiptData));
-      
-      alert("Payment Successful! Redirecting to timeline...");
-      navigate('/yourtrip');
+      alert(`Success! Booking manifest dispatched to ${formData.email}.`);
+      navigate('/yourtrip'); 
+    } else {
+      const errorText = await response.text();
+      console.error("Backend Error:", errorText);
+      throw new Error("Dispatch failed");
     }
-  };
+  } catch (error) {
+    console.error("Execution Error:", error);
+    localStorage.setItem('activeManifest', JSON.stringify(receiptData));
+    alert("Payment Processed Locally. Redirecting to timeline...");
+    navigate('/yourtrip');
+  }
+};
 
   if (step === 2) {
     const total = calculateTotal();
@@ -155,7 +168,7 @@ if (existingTrip) {
                 </div>
                 <div>
                   <p className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] mb-2">Arrival Time</p>
-                  <p className="text-xl font-bold text-slate-800">{formData.arrivalTime} {formData.timeMode}</p>
+                  <p className="text-xl font-bold text-slate-800">{formData.arrivalTime}</p>
                 </div>
               </div>
             </div>
