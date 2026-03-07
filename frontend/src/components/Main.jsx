@@ -796,7 +796,7 @@ const sliderSettings = {
       </div>
       
       <div className="text-2xl tracking-wide text-right text-gray-500">
-        <p>Created by <span className="font-bold text-orange-500">Ujjwal Tomar</span></p>
+        <p>Created by <span className="font-bold text-orange-500">Team-85</span></p>
         <p className="mt-1 text-lg">&copy; {new Date().getFullYear()} Bharat Trails Tourism. All Rights Reserved.</p>
       </div>
     </div>
