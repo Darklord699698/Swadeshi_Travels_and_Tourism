@@ -383,30 +383,16 @@ const handleExecutePayment = async () => {
               </div>
               <div className="space-y-3">
   <label className="text-[11px] font-black uppercase text-slate-400 tracking-widest ml-1">
-    Arrival Time
+  Traveler Count
   </label>
 
-  <div className="flex items-center gap-4 px-5 py-4 transition shadow-sm bg-slate-50 rounded-3xl focus-within:ring-2 focus-within:ring-orange-400">
-    
-    {/* Orange Clock Icon */}
-    <FaClock className="text-2xl text-orange-500" />
-
-    {/* Single Time Input */}
-    <input
-      type="text"
-      placeholder="e.g. 10:30 AM"
-      className="w-full text-3xl font-bold bg-transparent outline-none"
-      value={formData.arrivalTime}
-      onChange={(e) =>
-        setFormData({ ...formData, arrivalTime: e.target.value })
-      }
-    />
-  </div>
-</div>
-              <div className="space-y-3">
-                <label className="text-[11px] font-black uppercase text-slate-400 tracking-widest ml-1">Traveler Count</label>
+  <div className="flex items-center gap-4 px-5 transition shadow-sm py-0 bg-slate-50 rounded-3xl focus-within:ring-2 focus-within:ring-orange-400">
+  <div className="space-y-3">
                 <input type="number" min="1" max="10" value={formData.travelers} className="w-full p-6 text-3xl font-black text-orange-600 border-none outline-none bg-slate-50 rounded-3xl" onChange={(e) => setFormData({...formData, travelers: parseInt(e.target.value)})} />
               </div>
+  </div>
+</div>
+              
             </div>
 
             {formData.additionalTravelers.length > 0 && (
