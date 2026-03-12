@@ -11,7 +11,7 @@ const Header = () => {
   const [menuActive, setMenuActive] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 right-0 bg-[#020617]/90 backdrop-blur-md z-[1000] flex items-center justify-between px-[7%] py-8 border-b border-white/10">
+    <header className="fixed top-0 left-0 right-0 bg-[#020617] z-[10] flex items-center justify-between px-[7%] py-8 border-b border-white/10">
       
       {/* Left Section: Menu & Logo */}
       <div className="flex items-center">
@@ -56,13 +56,13 @@ const Header = () => {
 </nav>
         {/* Login / User Icon */}
         <div className="flex items-center">
-          <SignedOut>
-            <SignInButton mode="modal">
-              <div className="flex items-center justify-center transition-all border shadow-lg cursor-pointer w-14 h-14 rounded-xl bg-white/5 border-white/10 hover:bg-orange-600 hover:border-orange-600 group">
-                <i className="text-3xl text-white transition-transform fas fa-user group-hover:scale-110"></i>
-              </div>
-            </SignInButton>
-          </SignedOut>
+        <SignedOut>
+        <SignInButton mode="modal">
+    <div className="flex items-center justify-center transition-all border shadow-lg cursor-pointer w-14 h-14 rounded-xl bg-white/5 border-white/10 hover:bg-orange-600 hover:border-orange-600 group">
+      <i className="text-3xl text-white transition-transform fas fa-user group-hover:scale-110"></i>
+    </div>
+  </SignInButton>
+</SignedOut>
 
           <SignedIn>
             {/* Removed the wrapping div and orange border classes */}

@@ -585,3 +585,30 @@ header .search-bar-container label:hover{
         width: 100%;
     }
 }
+/* Fix Clerk modal size when html font-size is 62.5% */
+
+.cl-rootBox {
+    font-size: 16px !important;
+    z-index: 99999 !important;
+}
+
+.cl-modalBackdrop {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 99999 !important;
+}
+
+.cl-modalContent {
+    width: 480px !important;
+    max-width: 95vw !important;
+    transform: scale(1.35);
+    transform-origin: center center;
+    margin-left: 30rem;
+}
+
+.cl-card {
+    font-size: 16px !important;
+    min-height: 100px;
+    min-width: 200px
+}
