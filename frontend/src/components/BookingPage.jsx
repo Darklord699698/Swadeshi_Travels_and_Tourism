@@ -126,6 +126,15 @@ const handleExecutePayment = async () => {
 
     if (response.ok) {
       localStorage.setItem('activeManifest', JSON.stringify(receiptData));
+
+      const existing = JSON.parse(localStorage.getItem('expeditionHistory') || '[]');
+      existing.unshift(receiptData);
+      localStorage.setItem('expeditionHistory', JSON.stringify(existing));
+
+      const tripHist = JSON.parse(localStorage.getItem('tripHistory') || '[]');
+      tripHist.unshift(receiptData);
+      localStorage.setItem('tripHistory', JSON.stringify(tripHist));
+
       alert(`Success! Booking manifest dispatched to ${formData.email}.`);
       navigate('/yourtrip'); 
     } else {
@@ -136,6 +145,15 @@ const handleExecutePayment = async () => {
   } catch (error) {
     console.error("Execution Error:", error);
     localStorage.setItem('activeManifest', JSON.stringify(receiptData));
+
+    const existing = JSON.parse(localStorage.getItem('expeditionHistory') || '[]');
+    existing.unshift(receiptData);
+    localStorage.setItem('expeditionHistory', JSON.stringify(existing));
+
+    const tripHist = JSON.parse(localStorage.getItem('tripHistory') || '[]');
+    tripHist.unshift(receiptData);
+    localStorage.setItem('tripHistory', JSON.stringify(tripHist));
+
     alert("Payment Processed Locally. Redirecting to timeline...");
     navigate('/yourtrip');
   }

@@ -15,8 +15,14 @@ const YourTrip = () => {
 
     // 2. Load expedition history
     const savedHistory = localStorage.getItem('expeditionHistory');
+    const activeTripData = savedTrip ? JSON.parse(savedTrip) : null;
+
     if (savedHistory) {
-      setHistory(JSON.parse(savedHistory));
+      const allHistory = JSON.parse(savedHistory);
+      const filtered = activeTripData
+        ? allHistory.filter(h => h.orderId !== activeTripData.orderId)
+        : allHistory;
+      setHistory(filtered);
     }
   }, []);
 

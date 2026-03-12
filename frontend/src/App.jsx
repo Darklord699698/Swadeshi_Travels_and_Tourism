@@ -6,17 +6,17 @@ import Header from "./components/Header";
 import Contact from "./components/Contact";
 import Review from "./components/Review";
 import Booking from "./components/Booking";
-import BookingPage from "./components/BookingPage"; // Import your new full-page component
+import BookingPage from "./components/BookingPage";
 import YourTrip from "./components/YourTrip";
+import About from "./components/About"; // 1. Import the new About component
 
 const App = () => {
   const [selectedPackage, setSelectedPackage] = useState(null);
   const navigate = useNavigate();
 
-  // Function to handle redirection to the full booking page
   const handleBookNowClick = (pkg) => {
     setSelectedPackage(pkg);
-    navigate("/booking-details"); // Navigate to the new whole-page route
+    navigate("/booking-details");
   };
 
   return (
@@ -28,13 +28,14 @@ const App = () => {
         <Route path="/review" element={<Review />} />
         <Route path="/yourtrip" element={<YourTrip />} />
         
-        {/* Pass the redirection function to the Booking list component */}
+        {/* 2. Add the About/Impact Route here */}
+        <Route path="/about" element={<About />} />
+        
         <Route 
           path="/book" 
           element={<Booking onOpenBookForm={handleBookNowClick} />} 
         />
         
-        {/* New Route for the dedicated Booking Page */}
         <Route 
           path="/booking-details" 
           element={<BookingPage packageData={selectedPackage} />} 
