@@ -4,11 +4,14 @@ import Lottie from "lottie-react";
 import animationData1 from "../assets/Onboarding_Animation.json";
 import { FaPlane, FaCar, FaCheckCircle, FaCalendarAlt, FaChevronLeft, FaUserFriends, FaPassport, FaMapMarkerAlt, FaGlobeAmericas } from 'react-icons/fa';
 import { FaClock } from "react-icons/fa";
+import { useUser } from '@clerk/clerk-react';
 
 const BookingPage = ({ packageData }) => {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const isInternational = packageData?.category === "International";
+  const { user } = useUser();
+  const userId = user?.id || 'guest';
 
   const [formData, setFormData] = useState({
     fullName: '', 
@@ -129,15 +132,15 @@ const handleExecutePayment = async () => {
     });
 
     if (response.ok) {
-      localStorage.setItem('activeManifest', JSON.stringify(receiptData));
+      localStorage.setItem(`activeManifest_${userId}`, JSON.stringify(receiptData));
 
-      const existing = JSON.parse(localStorage.getItem('expeditionHistory') || '[]');
-      existing.unshift(receiptData);
-      localStorage.setItem('expeditionHistory', JSON.stringify(existing));
+const existing = JSON.parse(localStorage.getItem(`expeditionHistory_${userId}`) || '[]');
+existing.unshift(receiptData);
+localStorage.setItem(`expeditionHistory_${userId}`, JSON.stringify(existing));
 
-      const tripHist = JSON.parse(localStorage.getItem('tripHistory') || '[]');
-      tripHist.unshift(receiptData);
-      localStorage.setItem('tripHistory', JSON.stringify(tripHist));
+const tripHist = JSON.parse(localStorage.getItem(`tripHistory_${userId}`) || '[]');
+tripHist.unshift(receiptData);
+localStorage.setItem(`tripHistory_${userId}`, JSON.stringify(tripHist));
 
       alert(`Success! Booking manifest dispatched to ${formData.email}.`);
       navigate('/yourtrip'); 
@@ -188,10 +191,7 @@ const handleExecutePayment = async () => {
                   <p className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] mb-2">Departure</p>
                   <p className="text-xl font-bold text-slate-800">{formData.travelDate}</p>
                 </div>
-                <div>
-                  <p className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] mb-2">Arrival Time</p>
-                  <p className="text-xl font-bold text-slate-800">{formData.arrivalTime}</p>
-                </div>
+                
               </div>
             </div>
 

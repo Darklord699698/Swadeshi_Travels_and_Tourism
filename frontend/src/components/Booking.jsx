@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FaFilter, FaSearch, FaMapMarkerAlt, FaStar, FaGlobeAmericas, FaPlane } from "react-icons/fa";
-
 const UNSPLASH_KEY = "3YqgeNBUUUQ2wMEY4zQUcwN-zyjxwxiv7HyOWcPXV48";
-
+import { useUser } from '@clerk/clerk-react';
+import { SignInButton } from '@clerk/clerk-react';
 const Booking = ({ onOpenBookForm }) => {
   const [locations, setLocations] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -11,6 +11,8 @@ const Booking = ({ onOpenBookForm }) => {
   const [selectedRating, setSelectedRating] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [loading, setLoading] = useState(false);
+  const { isSignedIn } = useUser();
+  
 
   // 1. COMPREHENSIVE DATASET: All Indian States + 20 Global Countries
   const defaultDestinations = [
@@ -256,9 +258,17 @@ const Booking = ({ onOpenBookForm }) => {
                     {loc.description}
                   </p>
 
-                  <button onClick={() => onOpenBookForm(loc)} className="w-full py-5 text-xl font-bold text-white transition-all bg-orange-600 shadow-lg rounded-2xl shadow-orange-600/20 hover:bg-orange-700 active:scale-95">
-                     Book Now
-                  </button>
+                  {isSignedIn ? (
+  <button onClick={() => onOpenBookForm(loc)} className="w-full py-5 text-xl font-bold text-white transition-all bg-orange-600 shadow-lg rounded-2xl shadow-orange-600/20 hover:bg-orange-700 active:scale-95">
+    Book Now
+  </button>
+) : (
+  <SignInButton mode="modal">
+    <button className="w-full py-5 text-xl font-bold text-white transition-all shadow-lg bg-slate-800 rounded-2xl hover:bg-orange-600 active:scale-95">
+      Login to Book
+    </button>
+  </SignInButton>
+)}
                 </div>
               </div>
             ))}

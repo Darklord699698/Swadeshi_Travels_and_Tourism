@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useUser } from '@clerk/clerk-react';
 import { 
   FaUniversity, FaMapMarkerAlt, FaShieldAlt, FaLeaf, FaCompass, FaArrowRight 
 } from 'react-icons/fa';
@@ -7,6 +8,8 @@ import {
 const About = () => {
 
   const navigate = useNavigate();
+  const { user } = useUser();
+  const userId = user?.id || 'guest';
   const [activeTrip, setActiveTrip] = useState(null);
   const [district, setDistrict] = useState("District");
   const [nearbyDistricts, setNearbyDistricts] = useState([]);
@@ -39,8 +42,8 @@ const About = () => {
 
   useEffect(() => {
 
-    const savedTrip = localStorage.getItem('activeManifest');
-    const allTrips = JSON.parse(localStorage.getItem('tripHistory') || '[]');
+    const savedTrip = localStorage.getItem(`activeManifest_${userId}`);
+    const allTrips = JSON.parse(localStorage.getItem(`tripHistory_${userId}`) || '[]');
   
     if (savedTrip) {
       const tripData = JSON.parse(savedTrip);
@@ -82,7 +85,7 @@ const About = () => {
   
     setTransactions(allTransactions);
   
-  }, []);
+  }, [userId]);
 
   const breakdown =
     activeTrip?.breakdown || { homestay: 0, guide: 0, farmers: 0, platform: 0 };

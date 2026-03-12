@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from 'react';
+import { useUser } from '@clerk/clerk-react';
 import { FaDownload, FaUserFriends, FaMapMarkerAlt, FaCheckCircle, FaTicketAlt, FaChevronDown } from 'react-icons/fa';
 
 const YourTrip = () => {
   const [trip, setTrip] = useState(null);
   const [history, setHistory] = useState([]);
   const [expandedId, setExpandedId] = useState(null);
+  const { user } = useUser();
+  const userId = user?.id || 'guest';
 
   useEffect(() => {
     // 1. Get current active trip
-    const savedTrip = localStorage.getItem('activeManifest');
+    const savedTrip = localStorage.getItem(`activeManifest_${userId}`);
     if (savedTrip) {
       setTrip(JSON.parse(savedTrip));
     }
 
     // 2. Load expedition history
-    const savedHistory = localStorage.getItem('expeditionHistory');
+    const savedHistory = localStorage.getItem(`expeditionHistory_${userId}`);
     const activeTripData = savedTrip ? JSON.parse(savedTrip) : null;
 
     if (savedHistory) {
@@ -24,7 +27,7 @@ const YourTrip = () => {
         : allHistory;
       setHistory(filtered);
     }
-  }, []);
+  }, [userId]);
 
   const toggleHistory = (orderId) => {
     setExpandedId(expandedId === orderId ? null : orderId);
