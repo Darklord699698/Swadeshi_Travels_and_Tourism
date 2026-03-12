@@ -85,7 +85,11 @@ const handleAddonToggle = (type) => {
     }
   });
 };
-
+const handleAdditionalChange = (idx, field, value) => {
+  const updated = [...formData.additionalTravelers];
+  updated[idx] = { ...updated[idx], [field]: value };
+  setFormData(prev => ({ ...prev, additionalTravelers: updated }));
+};
 // 2. Robust Payment Handler
 const handleExecutePayment = async () => {
   const calculated = calculateTotal();
@@ -287,6 +291,15 @@ const handleExecutePayment = async () => {
     alert('Please enter a valid 10-digit phone number');
     return;
   }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+    alert('Please enter a valid email address');
+    return;
+  }
+  const invalidMember = formData.additionalTravelers.find(t => t.phone?.length !== 10);
+  if (invalidMember) {
+    alert('Please enter a valid 10-digit phone number for all travelers');
+    return;
+  }
   setStep(2); 
 }} className="max-w-6xl mx-auto space-y-20">
             
@@ -309,13 +322,25 @@ const handleExecutePayment = async () => {
                   <input required type="email" className="w-full p-6 text-3xl font-bold transition-all border-none outline-none bg-slate-50 rounded-3xl focus:ring-4 focus:ring-orange-100 text-slate-700" placeholder="user12345@gmail.com" onChange={(e) => setFormData({...formData, email: e.target.value})} />
                 </div>
                 <div className="space-y-3">
-                  <label className="text-[11px] font-black uppercase text-slate-400 tracking-widest ml-1">Current State</label>
-                  <input required type="text" className="w-full p-6 text-3xl font-bold transition-all border-none outline-none bg-slate-50 rounded-3xl focus:ring-4 focus:ring-orange-100 text-slate-700" placeholder="Ex. Uttar Pradesh" onChange={(e) => setFormData({...formData, state: e.target.value})} />
-                </div>
-                <div className="space-y-3">
-                  <label className="text-[11px] font-black uppercase text-slate-400 tracking-widest ml-1">Current City</label>
-                  <input required type="text" className="w-full p-6 text-3xl font-bold transition-all border-none outline-none bg-slate-50 rounded-3xl focus:ring-4 focus:ring-orange-100 text-slate-700" placeholder="Ex. Lucknow" onChange={(e) => setFormData({...formData, city: e.target.value})} />
-                </div>
+  <label className="text-[11px] font-black uppercase text-slate-400 tracking-widest ml-1">Current State</label>
+  <input required type="text" className="w-full p-6 text-3xl font-bold transition-all border-none outline-none bg-slate-50 rounded-3xl focus:ring-4 focus:ring-orange-100 text-slate-700" placeholder="Ex. Uttar Pradesh"
+    value={formData.state}
+    onChange={(e) => {
+      const val = e.target.value;
+      if (/^[a-zA-Z\s]*$/.test(val)) setFormData({...formData, state: val});
+    }}
+  />
+</div>
+<div className="space-y-3">
+  <label className="text-[11px] font-black uppercase text-slate-400 tracking-widest ml-1">Current City</label>
+  <input required type="text" className="w-full p-6 text-3xl font-bold transition-all border-none outline-none bg-slate-50 rounded-3xl focus:ring-4 focus:ring-orange-100 text-slate-700" placeholder="Ex. Lucknow"
+    value={formData.city}
+    onChange={(e) => {
+      const val = e.target.value;
+      if (/^[a-zA-Z\s]*$/.test(val)) setFormData({...formData, city: val});
+    }}
+  />
+</div>
                 <div className="space-y-3">
                   <label className="text-[11px] font-black uppercase text-slate-400 tracking-widest ml-1">Pincode</label>
                   <input required type="number" className="w-full p-6 text-3xl font-bold transition-all border-none outline-none bg-slate-50 rounded-3xl focus:ring-4 focus:ring-orange-100 text-slate-700" placeholder="Ex. 560064 , 560035" onChange={(e) => setFormData({...formData, pincode: e.target.value})} />
@@ -407,21 +432,41 @@ const handleExecutePayment = async () => {
               
             </div>
 
-            {formData.additionalTravelers.length > 0 && (
-              <div className="space-y-10 duration-700 animate-in slide-in-from-left">
-                <h3 className="text-2xl font-black tracking-tight uppercase text-slate-800">Additional Explorer Data</h3>
-                <div className="grid gap-10">
-                  {formData.additionalTravelers.map((traveler, idx) => (
-                    <div key={idx} className="grid grid-cols-1 md:grid-cols-4 gap-6 p-8 bg-slate-50 rounded-[2.5rem] border border-slate-100">
-                       <input required type="text" placeholder={`Explorer ${idx + 2} Name`} className="p-5 text-3xl font-bold bg-white border-none outline-none rounded-2xl" onChange={(e) => handleAdditionalChange(idx, 'name', e.target.value)} />
-                       <input required type="number" placeholder="Age" className="p-5 text-3xl font-bold bg-white border-none outline-none rounded-2xl" onChange={(e) => handleAdditionalChange(idx, 'age', e.target.value)} />
-                       <input required type="email" placeholder="Email" className="p-5 text-3xl font-bold bg-white border-none outline-none rounded-2xl" onChange={(e) => handleAdditionalChange(idx, 'email', e.target.value)} />
-                       <input required type="tel" placeholder="Phone" className="p-5 text-3xl font-bold bg-white border-none outline-none rounded-2xl" onChange={(e) => handleAdditionalChange(idx, 'phone', e.target.value)} />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+            {formData.additionalTravelers.map((traveler, idx) => (
+  <div key={idx} className="grid grid-cols-1 md:grid-cols-4 gap-6 p-8 bg-slate-50 rounded-[2.5rem] border border-slate-100">
+    
+    {/* Name - letters only */}
+    <input required type="text" placeholder={`Explorer ${idx + 2} Name`} className="p-5 text-3xl font-bold bg-white border-none outline-none rounded-2xl"
+      value={traveler.name || ''}
+      onChange={(e) => {
+        const val = e.target.value.replace(/[^a-zA-Z\s]/g, '');
+        handleAdditionalChange(idx, 'name', val);
+      }}
+    />
+
+    {/* Age */}
+    <input required type="number" placeholder="Age" className="p-5 text-3xl font-bold bg-white border-none outline-none rounded-2xl"
+      value={traveler.age || ''}
+      onChange={(e) => handleAdditionalChange(idx, 'age', e.target.value)}
+    />
+
+    {/* Email */}
+    <input required type="email" placeholder="Email" className="p-5 text-3xl font-bold bg-white border-none outline-none rounded-2xl"
+      value={traveler.email || ''}
+      onChange={(e) => handleAdditionalChange(idx, 'email', e.target.value)}
+    />
+
+    {/* Phone - max 10 digits only */}
+    <input required type="text" inputMode="numeric" placeholder="Phone" className="p-5 text-3xl font-bold bg-white border-none outline-none rounded-2xl"
+      value={traveler.phone || ''}
+      onChange={(e) => {
+        const val = e.target.value.replace(/\D/g, '').slice(0, 10);
+        handleAdditionalChange(idx, 'phone', val);
+      }}
+    />
+
+  </div>
+))}
 
             {isInternational && (
                 <div className="p-16 space-y-10 bg-blue-50/20 border-4 border-blue-50 rounded-[4rem] animate-in zoom-in duration-1000">
