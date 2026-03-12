@@ -281,7 +281,14 @@ const handleExecutePayment = async () => {
 
         {/* RIGHT FORM AREA */}
         <div className="p-20 overflow-y-auto scroll-smooth">
-          <form onSubmit={(e) => { e.preventDefault(); setStep(2); }} className="max-w-6xl mx-auto space-y-20">
+        <form onSubmit={(e) => { 
+  e.preventDefault();
+  if (formData.phone.length !== 10) {
+    alert('Please enter a valid 10-digit phone number');
+    return;
+  }
+  setStep(2); 
+}} className="max-w-6xl mx-auto space-y-20">
             
             <div className="space-y-10">
               <h3 className="flex items-center gap-4 text-3xl font-black tracking-tight uppercase text-slate-800">
@@ -361,13 +368,18 @@ const handleExecutePayment = async () => {
   </div>
     {/* Phone Number Input */}
     <input 
-      required 
-      type="number" 
-      className="w-[130%] pl-10 py-2 text-3xl font-black bg-transparent border-none outline-none text-slate-700 placeholder-slate-200" 
-      placeholder="00000 00000" 
-      value={formData.phone}
-      onChange={(e) => setFormData({...formData, phone: e.target.value})} 
-    />
+  required 
+  type="number" 
+  className="w-[130%] pl-10 py-2 text-3xl font-black bg-transparent border-none outline-none text-slate-700 placeholder-slate-200" 
+  placeholder="00000 00000" 
+  value={formData.phone}
+  onChange={(e) => {
+    const val = e.target.value;
+    if (val.length <= 10) {
+      setFormData({...formData, phone: val});
+    }
+  }}
+/>
   </div>
 </div>
               </div>
@@ -386,7 +398,7 @@ const handleExecutePayment = async () => {
   Traveler Count
   </label>
 
-  <div className="flex items-center gap-4 px-5 transition shadow-sm py-0 bg-slate-50 rounded-3xl focus-within:ring-2 focus-within:ring-orange-400">
+  <div className="flex items-center gap-4 px-5 py-0 transition shadow-sm bg-slate-50 rounded-3xl focus-within:ring-2 focus-within:ring-orange-400">
   <div className="space-y-3">
                 <input type="number" min="1" max="10" value={formData.travelers} className="w-full p-6 text-3xl font-black text-orange-600 border-none outline-none bg-slate-50 rounded-3xl" onChange={(e) => setFormData({...formData, travelers: parseInt(e.target.value)})} />
               </div>
