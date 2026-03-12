@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Lottie from "lottie-react";
 import animationData1 from "../assets/Onboarding_Animation.json";
 import { FaPlane, FaCar, FaCheckCircle, FaCalendarAlt, FaChevronLeft, FaUserFriends, FaPassport, FaMapMarkerAlt, FaGlobeAmericas } from 'react-icons/fa';
 import { FaClock } from "react-icons/fa";
 import { useUser } from '@clerk/clerk-react';
 
-const BookingPage = ({ packageData }) => {
+const BookingPage = ({ packageData: propPackage }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const packageData = propPackage || location.state?.package;
   const [step, setStep] = useState(1);
   const isInternational = packageData?.category === "International";
   const { user } = useUser();
@@ -134,13 +136,13 @@ const handleExecutePayment = async () => {
     if (response.ok) {
       localStorage.setItem(`activeManifest_${userId}`, JSON.stringify(receiptData));
 
-const existing = JSON.parse(localStorage.getItem(`expeditionHistory_${userId}`) || '[]');
-existing.unshift(receiptData);
-localStorage.setItem(`expeditionHistory_${userId}`, JSON.stringify(existing));
+    const existing = JSON.parse(localStorage.getItem(`expeditionHistory_${userId}`) || '[]');
+    existing.unshift(receiptData);
+    localStorage.setItem(`expeditionHistory_${userId}`, JSON.stringify(existing));
 
-const tripHist = JSON.parse(localStorage.getItem(`tripHistory_${userId}`) || '[]');
-tripHist.unshift(receiptData);
-localStorage.setItem(`tripHistory_${userId}`, JSON.stringify(tripHist));
+    const tripHist = JSON.parse(localStorage.getItem(`tripHistory_${userId}`) || '[]');
+    tripHist.unshift(receiptData);
+    localStorage.setItem(`tripHistory_${userId}`, JSON.stringify(tripHist));
 
       alert(`Success! Booking manifest dispatched to ${formData.email}.`);
       navigate('/yourtrip'); 

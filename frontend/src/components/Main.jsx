@@ -8,7 +8,8 @@ import animationData1 from "../assets/animationData1.json";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
+import { useNavigate } from 'react-router-dom';
+import { useUser, SignInButton } from '@clerk/clerk-react';
 function Travel() {
     const defaultOptions = {
         loop: true,
@@ -20,7 +21,7 @@ function Travel() {
       };
     // 1. Inside your Travel component, before the return statement:
 const videoRefs = useRef([]);
-
+const navigate = useNavigate();
 const sliderSettings = {
   dots: true,
   infinite: true,
@@ -31,7 +32,7 @@ const sliderSettings = {
   autoplaySpeed: 5000,
   pauseOnHover: true
 };
-
+const { isSignedIn } = useUser();
   const [videoSrc, setVideoSrc] = useState(assets.video1);
   
   // Handle scroll reset (window.onscroll)
@@ -117,7 +118,11 @@ const sliderSettings = {
                 <i className="far fa-star"></i>
             </div>
             <div className="py-2 text-2xl font-bold text-gray-800 price">Rs 9999.00 <span className="ml-2 text-lg font-normal text-gray-400 line-through">Rs 12999.00</span></div>
-            <a href="#" className="inline-block mt-4 text-center btn"> book now </a>
+            {isSignedIn ? (
+  <button onClick={() => navigate('/booking-details', { state: { package: { name: 'Dehradun', price: 9999, category: 'Swadeshi', description: 'Also known as the Adobe of Drona, Dehradun has always been an important center for Garhwal rulers. Home to ONGC, Survey of India, Forest Research Institute and Indian Institute of Petroleum.' } } })} className="inline-block w-full mt-4 text-center btn">book now</button>
+) : (
+  <SignInButton mode="modal"><button className="inline-block w-full mt-4 text-center btn">Login to Book</button></SignInButton>
+)}
         </div>
     </div>
 
@@ -137,7 +142,11 @@ const sliderSettings = {
                 <i className="far fa-star"></i>
             </div>
             <div className="py-2 text-2xl font-bold text-gray-800 price">Rs 15999.00 <span className="ml-2 text-lg font-normal text-gray-400 line-through">Rs 19999.00</span></div>
-            <a href="#" className="inline-block mt-4 text-center btn"> book now </a>
+            {isSignedIn ? (
+  <button onClick={() => navigate('/booking-details', { state: { package: { name: 'Rudraprayag', price: 15999, category: 'Swadeshi', description: 'Known for revered temples and pristine natural beauty, gateway to both Badrinath and Kedarnath Dham, attracting tourists and devotees throughout the year.' } } })} className="inline-block w-full mt-4 text-center btn">book now</button>
+) : (
+  <SignInButton mode="modal"><button className="inline-block w-full mt-4 text-center btn">Login to Book</button></SignInButton>
+)}
         </div>
     </div>
 
@@ -156,7 +165,11 @@ const sliderSettings = {
                 <i className="far fa-star"></i>
             </div>
             <div className="py-2 text-2xl font-bold text-gray-800 price">Rs 24999.00 <span className="ml-2 text-lg font-normal text-gray-400 line-through">Rs 27999.00</span></div>
-            <a href="#" className="inline-block mt-4 text-center btn"> book now </a>
+            {isSignedIn ? (
+  <button onClick={() => navigate('/booking-details', { state: { package: { name: 'Badrinath Temple', price: 24999, category: 'Swadeshi', description: 'A Hindu temple dedicated to Vishnu, situated in the town of Badrinath in Uttarakhand. One of the 108 Divya Desams dedicated to Vishnu.' } } })} className="inline-block w-full mt-4 text-center btn">book now</button>
+) : (
+  <SignInButton mode="modal"><button className="inline-block w-full mt-4 text-center btn">Login to Book</button></SignInButton>
+)}
         </div>
     </div>
 
@@ -175,7 +188,11 @@ const sliderSettings = {
                 <i className="far fa-star"></i>
             </div>
             <div className="py-2 text-2xl font-bold text-gray-800 price">Rs 19999.00 <span className="ml-2 text-lg font-normal text-gray-400 line-through">Rs 23999.00</span></div>
-            <a href="#" className="inline-block mt-4 text-center btn"> book now </a>
+            {isSignedIn ? (
+  <button onClick={() => navigate('/booking-details', { state: { package: { name: 'Gangotri', price: 19999, category: 'Swadeshi', description: 'A Hindu pilgrim town on the banks of river Bhagirathi, the origin of the Ganges. Located on the Greater Himalayan Range at a height of 3,100 metres.' } } })} className="inline-block w-full mt-4 text-center btn">book now</button>
+) : (
+  <SignInButton mode="modal"><button className="inline-block w-full mt-4 text-center btn">Login to Book</button></SignInButton>
+)}
         </div>
     </div>
 
@@ -194,7 +211,11 @@ const sliderSettings = {
                 <i className="far fa-star"></i>
             </div>
             <div className="py-2 text-2xl font-bold text-gray-800 price">Rs 36499.00 <span className="ml-2 text-lg font-normal text-gray-400 line-through">Rs 42599.00</span></div>
-            <a href="#" className="inline-block mt-4 text-center btn"> book now </a>
+            {isSignedIn ? (
+  <button onClick={() => navigate('/booking-details', { state: { package: { name: 'Yamunotri', price: 36499, category: 'Swadeshi', description: 'The source of the Yamuna River and seat of Goddess Yamuna in Hinduism, situated at an altitude of 3,293 metres in the Himalayas.' } } })} className="inline-block w-full mt-4 text-center btn">book now</button>
+) : (
+  <SignInButton mode="modal"><button className="inline-block w-full mt-4 text-center btn">Login to Book</button></SignInButton>
+)}
         </div>
     </div>
 
@@ -213,7 +234,11 @@ const sliderSettings = {
                 <i className="far fa-star"></i>
             </div>
             <div className="py-2 text-2xl font-bold text-gray-800 price">Rs 47999.00 <span className="ml-2 text-lg font-normal text-gray-400 line-through">Rs 59999.00</span></div>
-            <a href="#" className="inline-block mt-4 text-center btn"> book now </a>
+            {isSignedIn ? (
+  <button onClick={() => navigate('/booking-details', { state: { package: { name: 'Kedarnath', price: 47999, category: 'Swadeshi', description: 'The most remote of the four Chota Char Dham pilgrimage sites, located in the Himalayas at 3,583m above sea level near the Chorabari Glacier.' } } })} className="inline-block w-full mt-4 text-center btn">book now</button>
+) : (
+  <SignInButton mode="modal"><button className="inline-block w-full mt-4 text-center btn">Login to Book</button></SignInButton>
+)}
         </div>
     </div>
     {/* 1. Nainital & Ranikhet */}
@@ -228,7 +253,11 @@ const sliderSettings = {
             <i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i>
         </div>
         <div className="py-2 text-2xl font-bold text-gray-800 price">Rs 12,999.00 <span className="ml-2 text-lg font-normal text-gray-400 line-through">Rs 15,999.00</span></div>
-        <a href="#" className="inline-block mt-4 text-center btn"> book now </a>
+        {isSignedIn ? (
+  <button onClick={() => navigate('/booking-details', { state: { package: { name: 'Nainital & Ranikhet', price: 12999, category: 'Swadeshi', description: 'Explore the Lake District of India and the serene military cantonment town of Ranikhet, offering panoramic views of the majestic Himalayan peaks.' } } })} className="inline-block w-full mt-4 text-center btn">book now</button>
+) : (
+  <SignInButton mode="modal"><button className="inline-block w-full mt-4 text-center btn">Login to Book</button></SignInButton>
+)}
     </div>
 </div>
 
@@ -244,7 +273,11 @@ const sliderSettings = {
             <i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="far fa-star"></i>
         </div>
         <div className="py-2 text-2xl font-bold text-gray-800 price">Rs 8,499.00 <span className="ml-2 text-lg font-normal text-gray-400 line-through">Rs 10,999.00</span></div>
-        <a href="#" className="inline-block mt-4 text-center btn"> book now </a>
+        {isSignedIn ? (
+  <button onClick={() => navigate('/booking-details', { state: { package: { name: 'Rishikesh & Haridwar', price: 8499, category: 'Swadeshi', description: 'Experience spiritual awakening at Har Ki Pauri and adventure in the Yoga Capital of the World. A perfect blend of divinity and Ganga river rafting.' } } })} className="inline-block w-full mt-4 text-center btn">book now</button>
+) : (
+  <SignInButton mode="modal"><button className="inline-block w-full mt-4 text-center btn">Login to Book</button></SignInButton>
+)}
     </div>
 </div>
 
@@ -260,7 +293,11 @@ const sliderSettings = {
             <i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star-half-alt"></i>
         </div>
         <div className="py-2 text-2xl font-bold text-gray-800 price">Rs 9,999.00 <span className="ml-2 text-lg font-normal text-gray-400 line-through">Rs 12,500.00</span></div>
-        <a href="#" className="inline-block mt-4 text-center btn"> book now </a>
+        {isSignedIn ? (
+  <button onClick={() => navigate('/booking-details', { state: { package: { name: 'Almora', price: 9999, category: 'Swadeshi', description: 'A cultural heart of Kumaon, known for its unique wildlife, rich handicraft heritage, and the famous Kasar Devi temple magnetic fields.' } } })} className="inline-block w-full mt-4 text-center btn">book now</button>
+) : (
+  <SignInButton mode="modal"><button className="inline-block w-full mt-4 text-center btn">Login to Book</button></SignInButton>
+)}
     </div>
 </div>
 
@@ -276,7 +313,11 @@ const sliderSettings = {
             <i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i>
         </div>
         <div className="py-2 text-2xl font-bold text-gray-800 price">Rs 7,999.00 <span className="ml-2 text-lg font-normal text-gray-400 line-through">Rs 9,500.00</span></div>
-        <a href="#" className="inline-block mt-4 text-center btn"> book now </a>
+        {isSignedIn ? (
+  <button onClick={() => navigate('/booking-details', { state: { package: { name: 'Chopta', price: 7999, category: 'Swadeshi', description: 'Often called the Mini Switzerland of Uttarakhand, Chopta is the base for trekking to Tungnath, the highest Shiva temple in the world.' } } })} className="inline-block w-full mt-4 text-center btn">book now</button>
+) : (
+  <SignInButton mode="modal"><button className="inline-block w-full mt-4 text-center btn">Login to Book</button></SignInButton>
+)}
     </div>
 </div>
 
@@ -292,7 +333,11 @@ const sliderSettings = {
             <i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="far fa-star"></i>
         </div>
         <div className="py-2 text-2xl font-bold text-gray-800 price">Rs 6,499.00 <span className="ml-2 text-lg font-normal text-gray-400 line-through">Rs 8,000.00</span></div>
-        <a href="#" className="inline-block mt-4 text-center btn"> book now </a>
+        {isSignedIn ? (
+  <button onClick={() => navigate('/booking-details', { state: { package: { name: 'Chakrata', price: 6499, category: 'Swadeshi', description: 'An offbeat paradise known for Tiger Falls and Budher caves. Perfect for those seeking solitude amidst ancient coniferous forests.' } } })} className="inline-block w-full mt-4 text-center btn">book now</button>
+) : (
+  <SignInButton mode="modal"><button className="inline-block w-full mt-4 text-center btn">Login to Book</button></SignInButton>
+)}
     </div>
 </div>
 
@@ -308,7 +353,11 @@ const sliderSettings = {
             <i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i>
         </div>
         <div className="py-2 text-2xl font-bold text-gray-800 price">Rs 18,999.00 <span className="ml-2 text-lg font-normal text-gray-400 line-through">Rs 22,000.00</span></div>
-        <a href="#" className="inline-block mt-4 text-center btn"> book now </a>
+        {isSignedIn ? (
+  <button onClick={() => navigate('/booking-details', { state: { package: { name: 'Hemkund Sahib', price: 18999, category: 'Swadeshi', description: 'A high-altitude Sikh pilgrimage site at 4,632m, surrounded by seven snow-capped peaks and a crystal-clear glacial lake.' } } })} className="inline-block w-full mt-4 text-center btn">book now</button>
+) : (
+  <SignInButton mode="modal"><button className="inline-block w-full mt-4 text-center btn">Login to Book</button></SignInButton>
+)}
     </div>
 </div>
 </div>

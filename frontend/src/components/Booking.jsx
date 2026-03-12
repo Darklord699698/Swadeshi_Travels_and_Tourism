@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FaFilter, FaSearch, FaMapMarkerAlt, FaStar, FaGlobeAmericas, FaPlane } from "react-icons/fa";
+import { useUser, SignInButton } from '@clerk/clerk-react';
+
 const UNSPLASH_KEY = "3YqgeNBUUUQ2wMEY4zQUcwN-zyjxwxiv7HyOWcPXV48";
-import { useUser } from '@clerk/clerk-react';
-import { SignInButton } from '@clerk/clerk-react';
 const Booking = ({ onOpenBookForm }) => {
   const [locations, setLocations] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -47,6 +47,18 @@ const Booking = ({ onOpenBookForm }) => {
     { name: "Amaravati", price: 5800, rating: 3, category: "Swadeshi" },
     { name: "Port Blair", price: 18000, rating: 5, category: "Swadeshi" },
     { name: "Puducherry", price: 7000, rating: 4, category: "Swadeshi" },
+    { name: "Dehradun", price: 9999, rating: 4, category: "Swadeshi" },
+{ name: "Rudraprayag", price: 15999, rating: 4, category: "Swadeshi" },
+{ name: "Badrinath", price: 24999, rating: 5, category: "Swadeshi" },
+{ name: "Gangotri", price: 19999, rating: 5, category: "Swadeshi" },
+{ name: "Yamunotri", price: 36499, rating: 5, category: "Swadeshi" },
+{ name: "Kedarnath", price: 47999, rating: 5, category: "Swadeshi" },
+{ name: "Nainital", price: 12999, rating: 5, category: "Swadeshi" },
+{ name: "Rishikesh & Haridwar", price: 8499, rating: 4, category: "Swadeshi" },
+{ name: "Almora", price: 9999, rating: 4, category: "Swadeshi" },
+{ name: "Chopta", price: 7999, rating: 5, category: "Swadeshi" },
+{ name: "Chakrata", price: 6499, rating: 4, category: "Swadeshi" },
+{ name: "Hemkund Sahib", price: 18999, rating: 5, category: "Swadeshi" },
 
     // --- INTERNATIONAL (20 Foreign Countries) ---
     { name: "Paris", price: 185000, rating: 5, category: "International" },

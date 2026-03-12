@@ -16,7 +16,7 @@ const App = () => {
 
   const handleBookNowClick = (pkg) => {
     setSelectedPackage(pkg);
-    navigate("/booking-details");
+    navigate("/booking-details", { state: { package: pkg } });
   };
 
   return (
