@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 
 const bookingSchema = new mongoose.Schema({
   orderId: String,
+  clerkUserId: String,
   tripName: String,
   fullName: String,
   email: String,

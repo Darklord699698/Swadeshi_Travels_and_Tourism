@@ -103,6 +103,7 @@ const handleExecutePayment = async () => {
 
   const receiptData = {
     orderId: `#SYT-${Math.floor(1000 + Math.random() * 9000)}`,
+    clerkUserId: userId,  // ADD THIS
     tripName: packageData?.name || "Unknown Trip",
     status: 'In Progress',
     total: totalAmount,
