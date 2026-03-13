@@ -6,9 +6,11 @@ import dotenv from 'dotenv';
 
 import bookingRoutes from './src/routes/bookingRoutes.js';
 import contactRoutes from "./src/routes/contactRoutes.js";
-
+import mongoose from 'mongoose';
 dotenv.config();
-
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => console.log('✅ MongoDB Connected'))
+  .catch(err => console.error('❌ MongoDB Error:', err));
 const app = express(); // ✅ Define FIRST
 
 // Validate required environment variables

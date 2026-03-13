@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import dotenv from "dotenv";
+import BookingModel from '../models/BookingModel.js';
 
 dotenv.config();
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -20,6 +21,13 @@ export const sendReceipt = async (req, res) => {
     breakdown = {},
     additionalTravelers = [],
   } = req.body;
+  try {
+    const booking = new BookingModel(req.body);
+    await booking.save();
+    console.log('✅ Booking saved to MongoDB:', req.body.orderId);
+  } catch (err) {
+    console.error('❌ MongoDB save error:', err);
+  }
 
   const formatCurrency = (num) =>
     `₹${Number(num || 0).toLocaleString("en-IN")}`;
