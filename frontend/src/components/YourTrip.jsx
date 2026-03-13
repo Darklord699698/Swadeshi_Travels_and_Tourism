@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useUser } from '@clerk/clerk-react';
 import { FaDownload, FaUserFriends, FaMapMarkerAlt, FaCheckCircle, FaTicketAlt, FaChevronDown } from 'react-icons/fa';
-
+import { addReview, getReviewsForPackage } from '../utils/reviewsStore';
+import { Star } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 const YourTrip = () => {
   const [trip, setTrip] = useState(null);
   const [history, setHistory] = useState([]);
   const [expandedId, setExpandedId] = useState(null);
   const { user } = useUser();
   const userId = user?.id || 'guest';
+  const navigate = useNavigate();
+const [reviewingTrip, setReviewingTrip] = useState(null);
+const [reviewForm, setReviewForm] = useState({ rating: 0, comment: '' });
+const [hover, setHover] = useState(0);
+const [reviewSubmitted, setReviewSubmitted] = useState({});
 
   useEffect(() => {
     // 1. Get current active trip
@@ -31,6 +38,23 @@ const YourTrip = () => {
 
   const toggleHistory = (orderId) => {
     setExpandedId(expandedId === orderId ? null : orderId);
+  };
+  const handleReviewSubmit = (tripName) => {
+    if (reviewForm.rating === 0) return alert("Please select a rating!");
+    
+    addReview({
+      id: Date.now(),
+      userId: userId,
+      name: user?.fullName || user?.username || "Explorer",
+      rating: reviewForm.rating,
+      comment: reviewForm.comment,
+      packageName: tripName,
+      date: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
+    });
+  
+    setReviewSubmitted(prev => ({ ...prev, [tripName]: true }));
+    setReviewingTrip(null);
+    setReviewForm({ rating: 0, comment: '' });
   };
 
   return (
@@ -173,6 +197,50 @@ const YourTrip = () => {
                       <button onClick={() => window.print()} className="w-full mt-4 flex items-center justify-center gap-3 py-5 bg-white text-black rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-orange-600 hover:text-white transition-all shadow-lg shadow-white/5">
                         <FaDownload /> Download Verified Manifest
                       </button>
+                      {/* ADD THIS BELOW */}
+{reviewSubmitted[trip.tripName] ? (
+  <div className="w-full mt-3 py-4 text-center text-green-400 text-[11px] font-black uppercase tracking-widest border border-green-500/20 rounded-2xl bg-green-500/10">
+    ✓ Review Submitted!
+  </div>
+) : reviewingTrip === trip.tripName ? (
+  <div className="p-6 mt-3 space-y-4 border bg-white/5 rounded-2xl border-white/10">
+    <p className="text-[10px] font-black text-orange-500 uppercase tracking-widest">Rate {trip.tripName}</p>
+    <div className="flex gap-2">
+      {[1,2,3,4,5].map(star => (
+        <button key={star} type="button"
+          onClick={() => setReviewForm({...reviewForm, rating: star})}
+          onMouseEnter={() => setHover(star)}
+          onMouseLeave={() => setHover(0)}>
+          <Star size={28}
+            fill={(hover || reviewForm.rating) >= star ? "#ea580c" : "none"}
+            color={(hover || reviewForm.rating) >= star ? "#ea580c" : "#475569"} />
+        </button>
+      ))}
+    </div>
+    <textarea
+      rows="6"
+      value={reviewForm.comment}
+      onChange={(e) => setReviewForm({...reviewForm, comment: e.target.value.toLowerCase()})}
+      placeholder="share your experience..."
+      className="w-full p-4 text-2xl text-white lowercase border outline-none resize-none bg-white/5 border-white/10 rounded-xl placeholder-slate-500"
+    />
+    <div className="flex gap-3">
+      <button onClick={() => handleReviewSubmit(trip.tripName)}
+        className="flex-1 py-3 bg-orange-600 text-white text-[11px] font-black uppercase tracking-widest rounded-xl hover:bg-orange-700 transition-all">
+        Submit Review
+      </button>
+      <button onClick={() => setReviewingTrip(null)}
+        className="py-3 px-5 bg-white/10 text-white text-[11px] font-black uppercase rounded-xl hover:bg-white/20 transition-all">
+        Cancel
+      </button>
+    </div>
+  </div>
+) : (
+  <button onClick={() => setReviewingTrip(trip.tripName)}
+    className="w-full mt-3 py-4 border border-orange-500/30 text-orange-400 rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-orange-600 hover:text-white transition-all">
+    ★ Review This Trip
+  </button>
+)}
                     </div>
                   </div>
                 ) : (
@@ -316,6 +384,50 @@ const YourTrip = () => {
             >
               Print Historical Copy
             </button>
+            {/* ADD THIS BELOW */}
+{reviewSubmitted[h.tripName] ? (
+  <div className="w-full mt-3 py-3 text-center text-green-400 text-[10px] font-black uppercase tracking-widest border border-green-500/20 rounded-2xl bg-green-500/10">
+    ✓ Review Submitted!
+  </div>
+) : reviewingTrip === h.orderId ? (
+  <div className="p-6 mt-3 space-y-4 border bg-white/5 rounded-2xl border-white/10">
+    <p className="text-[10px] font-black text-orange-500 uppercase tracking-widest">Rate {h.tripName}</p>
+    <div className="flex gap-2">
+      {[1,2,3,4,5].map(star => (
+        <button key={star} type="button"
+          onClick={() => setReviewForm({...reviewForm, rating: star})}
+          onMouseEnter={() => setHover(star)}
+          onMouseLeave={() => setHover(0)}>
+          <Star size={24}
+            fill={(hover || reviewForm.rating) >= star ? "#ea580c" : "none"}
+            color={(hover || reviewForm.rating) >= star ? "#ea580c" : "#475569"} />
+        </button>
+      ))}
+    </div>
+    <textarea
+      rows="6"
+      value={reviewForm.comment}
+      onChange={(e) => setReviewForm({...reviewForm, comment: e.target.value.toLowerCase()})}
+      placeholder="share your experience..."
+      className="w-full p-4 text-2xl text-white lowercase border outline-none resize-none bg-white/5 border-white/10 rounded-xl placeholder-slate-500"
+    />
+    <div className="flex gap-3">
+      <button onClick={() => handleReviewSubmit(h.tripName)}
+        className="flex-1 py-3 bg-orange-600 text-white text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-orange-700 transition-all">
+        Submit Review
+      </button>
+      <button onClick={() => setReviewingTrip(null)}
+        className="py-3 px-5 bg-white/10 text-white text-[10px] font-black uppercase rounded-xl hover:bg-white/20 transition-all">
+        Cancel
+      </button>
+    </div>
+  </div>
+) : (
+  <button onClick={() => setReviewingTrip(h.orderId)}
+    className="w-full mt-3 py-3 border border-orange-500/30 text-orange-400 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-orange-600 hover:text-white transition-all">
+    ★ Review This Trip
+  </button>
+)}
           </div>
         )}
       </div>

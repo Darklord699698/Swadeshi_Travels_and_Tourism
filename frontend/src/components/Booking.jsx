@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FaFilter, FaSearch, FaMapMarkerAlt, FaStar, FaGlobeAmericas, FaPlane } from "react-icons/fa";
 import { useUser, SignInButton } from '@clerk/clerk-react';
+import { getReviewsForPackage } from '../utils/reviewsStore';
 
 const UNSPLASH_KEY = "3YqgeNBUUUQ2wMEY4zQUcwN-zyjxwxiv7HyOWcPXV48";
 const Booking = ({ onOpenBookForm }) => {
@@ -12,6 +13,7 @@ const Booking = ({ onOpenBookForm }) => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [loading, setLoading] = useState(false);
   const { isSignedIn } = useUser();
+  const [expandedReviews, setExpandedReviews] = useState(null);
   
 
   // 1. COMPREHENSIVE DATASET: All Indian States + 20 Global Countries
@@ -280,6 +282,36 @@ const Booking = ({ onOpenBookForm }) => {
       Login to Book
     </button>
   </SignInButton>
+)}
+
+{/* Check Reviews - OUTSIDE SignInButton, always visible */}
+<button 
+  onClick={() => setExpandedReviews(expandedReviews === loc.name ? null : loc.name)}
+  className="w-full py-3 mt-3 text-lg font-bold text-orange-600 transition-all border-2 border-orange-100 rounded-2xl hover:bg-orange-50">
+  {expandedReviews === loc.name ? 'Hide Reviews ▲' : 'Check Reviews ▼'}
+</button>
+
+{expandedReviews === loc.name && (
+  <div className="mt-4 space-y-3 overflow-y-auto max-h-64">
+    {getReviewsForPackage(loc.name).length === 0 ? (
+      <p className="py-4 text-sm italic text-center text-slate-400">No reviews yet for this package.</p>
+    ) : (
+      getReviewsForPackage(loc.name).map((rev, i) => (
+        <div key={i} className="p-4 border bg-slate-50 rounded-2xl border-slate-100">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-sm font-black capitalize text-slate-800">{rev.name}</span>
+            <div className="flex gap-0.5">
+              {[...Array(5)].map((_, s) => (
+                <FaStar key={s} size={12} className={s < rev.rating ? 'text-orange-400' : 'text-slate-200'} />
+              ))}
+            </div>
+          </div>
+          <p className="text-sm italic lowercase text-slate-500">{rev.comment}</p>
+          <p className="mt-1 text-xs text-slate-300">{rev.date}</p>
+        </div>
+      ))
+    )}
+  </div>
 )}
                 </div>
               </div>

@@ -1,25 +1,41 @@
 import React, { useState, useEffect } from 'react';
 import { Star, Trash2, Edit3, X, Check, Quote, MapPin, Send } from 'lucide-react';
 import { useUser, SignInButton } from '@clerk/clerk-react';
+import { getReviews, saveReviews } from '../utils/reviewsStore';
+import { FaMapMarkerAlt, FaStar as FaStarIcon } from 'react-icons/fa';
+import axios from 'axios';
 const Review = () => {
   // Mock logged-in user
   const { user, isSignedIn } = useUser();
   const currentUser = isSignedIn ? { id: user.id, name: user.fullName || user.username } : null;
 
   // Replace useState for reviews with this:
-const [reviews, setReviews] = useState(() => {
-  return JSON.parse(localStorage.getItem('bharatTrailsReviews') || '[]').length > 0
-    ? JSON.parse(localStorage.getItem('bharatTrailsReviews'))
-    : [
-        { id: 1, userId: "user_999", name: "Rohit Sharma", rating: 5, comment: "nice offers and good to see such cheap prices with so much stuff and activities to do", date: "10 Feb 2026" },
-        { id: 2, userId: "user_888", name: "Emily Clarke", rating: 5, comment: "love the customer care support because they have contacts with the locals and have a good connection", date: "05 Feb 2026" }
-      ];
-});
-
-// Add this useEffect to save reviews whenever they change:
-useEffect(() => {
-  localStorage.setItem('bharatTrailsReviews', JSON.stringify(reviews));
-}, [reviews]);
+  const [reviews, setReviews] = useState(() => {
+    const stored = getReviews();
+    return stored.length > 0 ? stored : [
+      { id: 1, userId: "user_999", name: "Rohit Sharma", rating: 5, comment: "nice offers and good to see such cheap prices", packageName: "General", date: "10 Feb 2026" },
+      { id: 2, userId: "user_888", name: "Emily Clarke", rating: 5, comment: "love the customer care support", packageName: "General", date: "05 Feb 2026" }
+    ];
+  });
+  
+  useEffect(() => {
+    saveReviews(reviews);
+  }, [reviews]);
+  const [packageImages, setPackageImages] = useState({});
+  useEffect(() => {
+    const packagesWithReviews = [...new Set(reviews
+      .filter(r => r.packageName && r.packageName !== "General")
+      .map(r => r.packageName))];
+  
+    packagesWithReviews.forEach(async (pkg) => {
+      if (packageImages[pkg]) return;
+      try {
+        const res = await axios.get(`https://api.unsplash.com/search/photos?query=${pkg}+tourism&client_id=3YqgeNBUUUQ2wMEY4zQUcwN-zyjxwxiv7HyOWcPXV48&per_page=1`);
+        const img = res.data.results[0]?.urls?.small;
+        if (img) setPackageImages(prev => ({ ...prev, [pkg]: img }));
+      } catch (err) { console.error(err); }
+    });
+  }, [reviews]);
   
   const [newReview, setNewReview] = useState({ rating: 0, comment: '' });
   const [editingId, setEditingId] = useState(null);
@@ -37,6 +53,7 @@ useEffect(() => {
       name: currentUser.name,
       rating: newReview.rating,
       comment: newReview.comment,
+      packageName: "General",
       date: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
     };
   
@@ -54,7 +71,7 @@ useEffect(() => {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] text-slate-900 pt-32 pb-20 px-[5%] font-sans relative">
+    <div className="h-screen overflow-hidden bg-[#f8fafc] text-slate-900 pt-32 pb-20 px-[5%] font-sans relative">
       {/* Dynamic Background Gradients */}
       <div className="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-orange-50 to-transparent pointer-events-none"></div>
       <div className="absolute top-40 right-10 w-96 h-96 bg-orange-200/20 rounded-full blur-[120px] pointer-events-none"></div>
@@ -75,7 +92,7 @@ useEffect(() => {
           <div className="w-24 h-1.5 bg-orange-600 rounded-full"></div>
         </div>
 
-        <div className="grid lg:grid-cols-[450px_1fr] gap-16 items-start">
+        <div className="grid lg:grid-cols-[450px_1fr] gap-16 items-start relative">
           
           {/* INTERACTIVE SUBMISSION SIDEBAR */}
           {/* INTERACTIVE SUBMISSION SIDEBAR */}
@@ -147,13 +164,28 @@ useEffect(() => {
 </section>
 
           {/* TESTIMONIAL GRID */}
-          <section className="grid gap-8 md:grid-cols-2 lg:grid-cols-2">
+          <section className="grid gap-8 md:grid-cols-2 lg:grid-cols-2 overflow-y-auto max-h-[calc(100vh-16rem)] pr-2">
             {reviews.map((rev) => (
               <div key={rev.id} className="relative flex flex-col p-8 transition-all duration-500 bg-white border border-slate-100 rounded-[2.5rem] hover:shadow-3xl group hover:-translate-y-2 shadow-sm">
                 
                 {/* Visual Accent */}
                 <div className="absolute top-0 w-20 h-1 rounded-b-full right-10 bg-gradient-to-r from-orange-400 to-orange-600"></div>
-
+                {/* Package Banner */}
+                {rev.packageName && rev.packageName !== "General" && (
+  <div className="mb-6 overflow-hidden border border-orange-100 rounded-2xl">
+    {packageImages[rev.packageName] && (
+      <img 
+        src={packageImages[rev.packageName]} 
+        alt={rev.packageName}
+        className="object-cover w-full h-32"
+      />
+    )}
+    <div className="flex items-center gap-2 px-4 py-2 bg-orange-50">
+      <FaMapMarkerAlt className="text-orange-600" size={12} />
+      <span className="text-xs font-black tracking-widest text-orange-600 uppercase">{rev.packageName}</span>
+    </div>
+  </div>
+)}
                 {/* Edit/Delete Tools */}
                 {isSignedIn && currentUser && rev.userId === currentUser.id && editingId !== rev.id && (
                   <div className="absolute flex gap-2 top-8 right-8">
