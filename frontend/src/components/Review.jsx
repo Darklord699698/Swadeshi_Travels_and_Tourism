@@ -1,15 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Star, Trash2, Edit3, X, Check, Quote, MapPin, Send } from 'lucide-react';
-
+import { useUser, SignInButton } from '@clerk/clerk-react';
 const Review = () => {
   // Mock logged-in user
-  const currentUser = { id: "user_123", name: "ujjwal tomar" };
+  const { user, isSignedIn } = useUser();
+  const currentUser = isSignedIn ? { id: user.id, name: user.fullName || user.username } : null;
 
-  const [reviews, setReviews] = useState([
-    { id: 1, userId: "user_999", name: "Rohit Sharma", rating: 5, comment: "nice offers and good to see such cheap prices with so much stuff and activities to do", date: "10 Feb 2026" },
-    { id: 2, userId: "user_123", name: "ujjwal tomar", rating: 4, comment: "good services and the best thing is guide is very well prepared and knows literally the best spots", date: "08 Feb 2026" },
-    { id: 3, userId: "user_888", name: "Emily Clarke", rating: 5, comment: "love the customer care support because they have contacts with the locals and have a good connection", date: "05 Feb 2026" }
-  ]);
+  // Replace useState for reviews with this:
+const [reviews, setReviews] = useState(() => {
+  return JSON.parse(localStorage.getItem('bharatTrailsReviews') || '[]').length > 0
+    ? JSON.parse(localStorage.getItem('bharatTrailsReviews'))
+    : [
+        { id: 1, userId: "user_999", name: "Rohit Sharma", rating: 5, comment: "nice offers and good to see such cheap prices with so much stuff and activities to do", date: "10 Feb 2026" },
+        { id: 2, userId: "user_888", name: "Emily Clarke", rating: 5, comment: "love the customer care support because they have contacts with the locals and have a good connection", date: "05 Feb 2026" }
+      ];
+});
+
+// Add this useEffect to save reviews whenever they change:
+useEffect(() => {
+  localStorage.setItem('bharatTrailsReviews', JSON.stringify(reviews));
+}, [reviews]);
   
   const [newReview, setNewReview] = useState({ rating: 0, comment: '' });
   const [editingId, setEditingId] = useState(null);
@@ -18,8 +28,9 @@ const Review = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!isSignedIn) return;
     if (newReview.rating === 0) return alert("Please select a rating!");
-
+  
     const reviewToAdd = {
       id: Date.now(),
       userId: currentUser.id,
@@ -28,7 +39,7 @@ const Review = () => {
       comment: newReview.comment,
       date: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
     };
-
+  
     setReviews([reviewToAdd, ...reviews]);
     setNewReview({ rating: 0, comment: '' });
   };
@@ -67,64 +78,73 @@ const Review = () => {
         <div className="grid lg:grid-cols-[450px_1fr] gap-16 items-start">
           
           {/* INTERACTIVE SUBMISSION SIDEBAR */}
-          <section className="sticky top-32 group">
-            <div className="relative p-10 overflow-hidden bg-white border shadow-2xl border-white/40 rounded-3xl backdrop-blur-md">
-              <div className="relative z-10">
-                <div className="flex items-center gap-4 mb-8">
-                  <div className="flex items-center justify-center bg-orange-100 w-14 h-14 rounded-2xl">
-                    <Edit3 className="text-orange-600" size={28} />
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-black text-slate-800">Post Review</h3>
-                    <p className="text-xs font-bold tracking-widest text-orange-600 uppercase">Logged in as {currentUser.name}</p>
-                  </div>
-                </div>
+          {/* INTERACTIVE SUBMISSION SIDEBAR */}
+<section className="sticky top-32 group">
+  <div className="relative p-10 overflow-hidden bg-white border shadow-2xl border-white/40 rounded-3xl backdrop-blur-md">
+    <div className="relative z-10">
+      
+      {isSignedIn ? (
+        <>
+          <div className="flex items-center gap-4 mb-8">
+            <div className="flex items-center justify-center bg-orange-100 w-14 h-14 rounded-2xl">
+              <Edit3 className="text-orange-600" size={28} />
+            </div>
+            <div>
+              <h3 className="text-2xl font-black text-slate-800">Post Review</h3>
+              <p className="text-xs font-bold tracking-widest text-orange-600 uppercase">Logged in as {currentUser.name}</p>
+            </div>
+          </div>
 
-                <form onSubmit={handleSubmit} className="space-y-8">
-                  <div className="p-6 border rounded-2xl bg-slate-50 border-slate-100">
-                    <label className="block mb-4 text-xs font-black tracking-widest uppercase text-slate-400">Your Rating</label>
-                    <div className="flex justify-between px-2">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <button
-                          key={star}
-                          type="button"
-                          onClick={() => setNewReview({...newReview, rating: star})}
-                          onMouseEnter={() => setHover(star)}
-                          onMouseLeave={() => setHover(0)}
-                          className="transition-all hover:scale-125"
-                        >
-                          <Star 
-                            size={36} 
-                            fill={(hover || newReview.rating) >= star ? "#ea580c" : "none"} 
-                            color={(hover || newReview.rating) >= star ? "#ea580c" : "#cbd5e1"} 
-                          />
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="relative">
-                    <label className="block mb-3 text-xs font-black tracking-widest uppercase text-slate-400">Describe Experience</label>
-                    <textarea 
-                      required
-                      rows="5"
-                      value={newReview.comment}
-                      onChange={(e) => setNewReview({...newReview, comment: e.target.value.toLowerCase()})}
-                      className="w-full p-6 text-lg lowercase transition-all border outline-none resize-none bg-slate-50 border-slate-100 rounded-3xl focus:bg-white focus:ring-4 focus:ring-orange-100 focus:border-orange-600"
-                      placeholder="write your story here..."
-                    ></textarea>
-                    <div className="absolute bottom-4 right-4 text-slate-300">
-                      <Quote size={32} className="rotate-180 opacity-20" />
-                    </div>
-                  </div>
-
-                  <button className="flex items-center justify-center w-full gap-3 py-6 text-xl font-bold text-white transition-all bg-orange-600 shadow-2xl hover:bg-orange-700 rounded-2xl shadow-orange-200 active:scale-95">
-                    <Send size={20} /> Publish Feedback
+          <form onSubmit={handleSubmit} className="space-y-8">
+            <div className="p-6 border rounded-2xl bg-slate-50 border-slate-100">
+              <label className="block mb-4 text-xs font-black tracking-widest uppercase text-slate-400">Your Rating</label>
+              <div className="flex justify-between px-2">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <button key={star} type="button"
+                    onClick={() => setNewReview({...newReview, rating: star})}
+                    onMouseEnter={() => setHover(star)}
+                    onMouseLeave={() => setHover(0)}
+                    className="transition-all hover:scale-125">
+                    <Star size={36}
+                      fill={(hover || newReview.rating) >= star ? "#ea580c" : "none"}
+                      color={(hover || newReview.rating) >= star ? "#ea580c" : "#cbd5e1"} />
                   </button>
-                </form>
+                ))}
               </div>
             </div>
-          </section>
+
+            <div className="relative">
+              <label className="block mb-3 text-xs font-black tracking-widest uppercase text-slate-400">Describe Experience</label>
+              <textarea required rows="5" value={newReview.comment}
+                onChange={(e) => setNewReview({...newReview, comment: e.target.value.toLowerCase()})}
+                className="w-full p-6 text-lg lowercase transition-all border outline-none resize-none bg-slate-50 border-slate-100 rounded-3xl focus:bg-white focus:ring-4 focus:ring-orange-100 focus:border-orange-600"
+                placeholder="write your story here...">
+              </textarea>
+            </div>
+
+            <button className="flex items-center justify-center w-full gap-3 py-6 text-xl font-bold text-white transition-all bg-orange-600 shadow-2xl hover:bg-orange-700 rounded-2xl shadow-orange-200 active:scale-95">
+              <Send size={20} /> Publish Feedback
+            </button>
+          </form>
+        </>
+      ) : (
+        <div className="flex flex-col items-center justify-center gap-6 py-10 text-center">
+          <div className="flex items-center justify-center w-20 h-20 bg-orange-100 rounded-3xl">
+            <Edit3 className="text-orange-600" size={36} />
+          </div>
+          <h3 className="text-2xl font-black text-slate-800">Share Your Experience</h3>
+          <p className="font-medium text-slate-500">Login to post a review and help other travelers!</p>
+          <SignInButton mode="modal">
+            <button className="flex items-center justify-center w-full gap-3 py-6 text-xl font-bold text-white transition-all bg-orange-600 shadow-2xl hover:bg-orange-700 rounded-2xl shadow-orange-200 active:scale-95">
+              Login to Review
+            </button>
+          </SignInButton>
+        </div>
+      )}
+
+    </div>
+  </div>
+</section>
 
           {/* TESTIMONIAL GRID */}
           <section className="grid gap-8 md:grid-cols-2 lg:grid-cols-2">
@@ -135,7 +155,7 @@ const Review = () => {
                 <div className="absolute top-0 w-20 h-1 rounded-b-full right-10 bg-gradient-to-r from-orange-400 to-orange-600"></div>
 
                 {/* Edit/Delete Tools */}
-                {rev.userId === currentUser.id && editingId !== rev.id && (
+                {isSignedIn && currentUser && rev.userId === currentUser.id && editingId !== rev.id && (
                   <div className="absolute flex gap-2 top-8 right-8">
                     <button onClick={() => { setEditingId(rev.id); setEditForm({rating: rev.rating, comment: rev.comment}); }} 
                       className="p-3 transition-all rounded-xl text-slate-400 hover:bg-orange-50 hover:text-orange-600 bg-slate-50">
