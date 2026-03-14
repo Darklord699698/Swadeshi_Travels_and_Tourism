@@ -369,9 +369,15 @@ if (step === 2) {
               <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-2">
                 {/* Fixed small text: Added text-xl and font-bold to inputs */}
                 <div className="space-y-3">
-                  <label className="text-[11px] font-black uppercase text-slate-400 tracking-widest ml-1">Full Identity Name</label>
-                  <input required type="text" className="w-full p-6 text-3xl font-bold transition-all border-none outline-none bg-slate-50 rounded-3xl focus:ring-4 focus:ring-orange-100 text-slate-700" placeholder="Full Name" onChange={(e) => setFormData({...formData, fullName: e.target.value})} />
-                </div>
+  <label className="text-[11px] font-black uppercase text-slate-400 tracking-widest ml-1">Full Identity Name</label>
+  <input required type="text" className="w-full p-6 text-3xl font-bold transition-all border-none outline-none bg-slate-50 rounded-3xl focus:ring-4 focus:ring-orange-100 text-slate-700" placeholder="Full Name"
+    value={formData.state}
+    onChange={(e) => {
+      const val = e.target.value;
+      if (/^[a-zA-Z\s]*$/.test(val)) setFormData({...formData, state: val});
+    }}
+  />
+</div>
                 <div className="space-y-3">
                   <label className="text-[11px] font-black uppercase text-slate-400 tracking-widest ml-1">Age</label>
                   <input required type="number" className="w-full p-6 text-3xl font-bold transition-all border-none outline-none bg-slate-50 rounded-3xl focus:ring-4 focus:ring-orange-100 text-slate-700" placeholder="Age" onChange={(e) => setFormData({...formData, age: e.target.value})} />
