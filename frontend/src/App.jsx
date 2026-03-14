@@ -9,6 +9,7 @@ import Booking from "./components/Booking";
 import BookingPage from "./components/BookingPage";
 import YourTrip from "./components/YourTrip";
 import About from "./components/About"; // 1. Import the new About component
+import Gallery from "./components/Gallery";
 
 const App = () => {
   const [selectedPackage, setSelectedPackage] = useState(null);
@@ -27,7 +28,7 @@ const App = () => {
         <Route path="/" element={<Main />} />
         <Route path="/review" element={<Review />} />
         <Route path="/yourtrip" element={<YourTrip />} />
-        
+        <Route path="/gallery" element={<Gallery />} />
         {/* 2. Add the About/Impact Route here */}
         <Route path="/about" element={<About />} />
         

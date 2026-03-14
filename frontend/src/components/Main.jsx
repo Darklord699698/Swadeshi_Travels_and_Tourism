@@ -585,10 +585,9 @@ const { isSignedIn } = useUser();
     <span className="px-4 py-2 text-orange-600 bg-orange-100 rounded-lg">T</span>
   </h1>
 
-  {/* Main Container */}
   <div className="container mx-auto px-[9%]">
     <div className="flex flex-wrap items-center justify-center gap-12 row">
-      
+
       {/* Lottie Animation Side */}
       <div className="flex-1 min-w-[350px] max-w-[700px] transform hover:scale-105 transition-transform duration-500">
         <Lottie 
@@ -599,61 +598,37 @@ const { isSignedIn } = useUser();
         />
       </div>
 
-      {/* Modern Redesigned Form */}
-      <form className="flex-1 min-w-[320px] max-w-[650px] p-10 bg-white border border-gray-100 shadow-[0_20px_50px_rgba(0,0,0,0.1)] rounded-3xl space-y-6">
-        
-        <div className="space-y-2">
-          <h2 className="text-4xl font-extrabold text-gray-800">Get in Touch</h2>
-          <p className="text-xl text-gray-500">We'd love to hear from you. Send us a message!</p>
+      {/* CTA Side */}
+      <div className="flex-1 min-w-[320px] max-w-[550px] space-y-8">
+        <div className="space-y-4">
+          <p className="text-5xl font-black tracking-[0.3em] text-orange-600 uppercase">We're Here For You</p>
+          <h2 className="text-6xl font-black leading-none tracking-tighter text-slate-800">Got a <br/><span className="text-orange-600">Question?</span></h2>
+          <p className="text-2xl leading-relaxed text-slate-500">Whether it's about a package, a custom trip, or just need help planning — our team is ready to assist you every step of the way.</p>
         </div>
 
-        <div className="flex flex-wrap gap-6">
-          <div className="flex-1 min-w-[200px]">
-            <input 
-              type="text" 
-              placeholder="Full Name" 
-              className="w-full p-4 text-xl transition-all duration-300 border border-transparent outline-none bg-gray-50 rounded-xl focus:border-orange-400 focus:bg-white focus:ring-4 focus:ring-orange-100"
-            />
+        <div className="space-y-4">
+          <div className="flex items-center gap-4 text-slate-600">
+            <div className="flex items-center justify-center w-10 h-10 bg-orange-100 rounded-xl">📞</div>
+            <span className="text-2xl font-bold">+91 8851114020</span>
           </div>
-          <div className="flex-1 min-w-[200px]">
-            <input 
-              type="email" 
-              placeholder="Email Address" 
-              className="w-full p-4 text-xl transition-all duration-300 border border-transparent outline-none bg-gray-50 rounded-xl focus:border-orange-400 focus:bg-white focus:ring-4 focus:ring-orange-100"
-            />
+          <div className="flex items-center gap-4 text-slate-600">
+            <div className="flex items-center justify-center w-10 h-10 bg-orange-100 rounded-xl">✉️</div>
+            <span className="text-2xl font-bold">support@bharattrails.com</span>
+          </div>
+          <div className="flex items-center gap-4 text-slate-600">
+            <div className="flex items-center justify-center w-10 h-10 bg-orange-100 rounded-xl">📍</div>
+            <span className="text-2xl font-bold">Bangalore, Karnataka</span>
           </div>
         </div>
-
-        <div className="flex flex-wrap gap-6">
-          <div className="flex-1 min-w-[200px]">
-            <input 
-              type="number" 
-              placeholder="Phone Number" 
-              className="w-full p-4 text-xl transition-all duration-300 border border-transparent outline-none bg-gray-50 rounded-xl focus:border-orange-400 focus:bg-white focus:ring-4 focus:ring-orange-100"
-            />
-          </div>
-          <div className="flex-1 min-w-[200px]">
-            <input 
-              type="text" 
-              placeholder="Subject" 
-              className="w-full p-4 text-xl transition-all duration-300 border border-transparent outline-none bg-gray-50 rounded-xl focus:border-orange-400 focus:bg-white focus:ring-4 focus:ring-orange-100"
-            />
-          </div>
-        </div>
-
-        <textarea 
-          placeholder="Your Message" 
-          rows="5"
-          className="w-full p-4 text-xl transition-all duration-300 border border-transparent outline-none resize-none bg-gray-50 rounded-xl focus:border-orange-400 focus:bg-white focus:ring-4 focus:ring-orange-100"
-        ></textarea>
 
         <button 
-          type="submit" 
-          className="w-full py-5 text-2xl font-bold tracking-widest text-white uppercase transition-all duration-300 shadow-lg bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl shadow-orange-200 hover:shadow-orange-300 hover:-translate-y-1 active:scale-95"
-        >
-          Send Message
+          onClick={() => navigate('/contact')}
+          className="flex items-center gap-4 px-12 py-6 text-2xl font-black text-white transition-all duration-300 bg-orange-600 shadow-xl group rounded-2xl hover:bg-slate-900 shadow-orange-200 hover:shadow-slate-200 active:scale-95">
+          Let's Talk 
+          <span className="transition-transform group-hover:translate-x-2">→</span>
         </button>
-      </form>
+      </div>
+
     </div>
   </div>
 </section>
@@ -760,25 +735,33 @@ const { isSignedIn } = useUser();
   <p className="max-w-xl text-2xl leading-relaxed text-gray-300">
     Your premier gateway to the mystical lands of Uttarakhand. We craft journeys that stay in your heart forever. Join thousands of adventurers today.
   </p>
-        <div className="pt-4 space-y-5">
-          <p className="text-xl font-bold tracking-widest text-gray-200 uppercase">Join the Community</p>
-          <div className="flex h-20 max-w-xl overflow-hidden transition-all border-2 rounded-2xl bg-white/5 border-white/10 focus-within:border-orange-500">
-            <input 
-              type="email" 
-              placeholder="Your Email Address" 
-              className="w-full px-8 text-2xl text-white bg-transparent outline-none placeholder:text-gray-500"
-            />
-            <button className="px-10 text-3xl transition-colors bg-orange-500 hover:bg-orange-600">
-              <i className="fas fa-paper-plane"></i>
-            </button>
-          </div>
-        </div>
+  <div className="grid grid-cols-3 gap-4 pt-4">
+  
+  <div className="relative p-6 overflow-hidden text-center transition-all duration-300 border cursor-default group bg-white/5 rounded-2xl border-white/10 hover:border-orange-500/50 hover:bg-orange-500/10 hover:scale-105 hover:shadow-xl hover:shadow-orange-500/20">
+    <div className="absolute inset-0 transition-opacity duration-300 opacity-0 bg-gradient-to-br from-orange-500/10 to-transparent group-hover:opacity-100"></div>
+    <p className="relative text-4xl font-black text-orange-500 transition-transform duration-300 group-hover:scale-110">10k+</p>
+    <p className="relative mt-1 text-sm font-bold tracking-widest text-gray-400 uppercase transition-colors group-hover:text-orange-300">Explorers</p>
+  </div>
+
+  <div className="relative p-6 overflow-hidden text-center transition-all duration-300 border cursor-default group bg-white/5 rounded-2xl border-white/10 hover:border-orange-500/50 hover:bg-orange-500/10 hover:scale-105 hover:shadow-xl hover:shadow-orange-500/20">
+    <div className="absolute inset-0 transition-opacity duration-300 opacity-0 bg-gradient-to-br from-orange-500/10 to-transparent group-hover:opacity-100"></div>
+    <p className="relative text-4xl font-black text-orange-500 transition-transform duration-300 group-hover:scale-110">50+</p>
+    <p className="relative mt-1 text-sm font-bold tracking-widest text-gray-400 uppercase transition-colors group-hover:text-orange-300">Destinations</p>
+  </div>
+
+  <div className="relative p-6 overflow-hidden text-center transition-all duration-300 border cursor-default group bg-white/5 rounded-2xl border-white/10 hover:border-orange-500/50 hover:bg-orange-500/10 hover:scale-105 hover:shadow-xl hover:shadow-orange-500/20">
+    <div className="absolute inset-0 transition-opacity duration-300 opacity-0 bg-gradient-to-br from-orange-500/10 to-transparent group-hover:opacity-100"></div>
+    <p className="relative text-4xl font-black text-orange-500 transition-transform duration-300 group-hover:scale-110">4.9★</p>
+    <p className="relative mt-1 text-sm font-bold tracking-widest text-gray-400 uppercase transition-colors group-hover:text-orange-300">Rating</p>
+  </div>
+
+</div>
       </div>
 
       {/* 2. Trending Destinations */}
       <div className="space-y-6 lg:col-span-1">
         <h3 className="inline-block pb-3 text-2xl font-bold tracking-widest text-white uppercase border-b-2 border-orange-500/50">Trending</h3>
-        <ul className="space-y-5 text-xl text-gray-400">
+        <ul className="space-y-5 text-2xl text-gray-400">
           {['Kedarnath Trek', 'Auli Skiing', 'Rishikesh Rafting', 'Valley of Flowers', 'Mussoorie Hills'].map((item) => (
             <li key={item} className="flex items-center gap-3 transition-all cursor-pointer hover:text-orange-400 hover:translate-x-1">
               <span className="w-2.5 h-2.5 rounded-full bg-orange-500 shadow-[0_0_8px_rgba(249,115,22,0.8)]"></span>{item}
@@ -790,14 +773,14 @@ const { isSignedIn } = useUser();
       {/* 3. Experience Hub */}
       <div className="space-y-6 lg:col-span-1">
         <h3 className="inline-block pb-3 text-2xl font-bold tracking-widest text-white uppercase border-b-2 border-orange-500/50">Experience</h3>
-        <nav className="flex flex-col space-y-5 text-xl font-medium">
-          <a href="#book" className="text-gray-400 transition-all duration-300 hover:text-orange-500 hover:translate-x-2">
+        <nav className="flex flex-col space-y-5 text-2xl font-medium">
+          <a href="#packages" className="text-gray-400 transition-all duration-300 hover:text-orange-500 hover:translate-x-2">
             <i className="mr-3 text-orange-500 fas fa-campground"></i> Camping Sites
           </a>
           <a href="#packages" className="text-gray-400 transition-all duration-300 hover:text-orange-500 hover:translate-x-2">
             <i className="mr-3 text-orange-500 fas fa-mountain"></i> Mountain Treks
           </a>
-          <a href="#services" className="text-gray-400 transition-all duration-300 hover:text-orange-500 hover:translate-x-2">
+          <a href="#packages" className="text-gray-400 transition-all duration-300 hover:text-orange-500 hover:translate-x-2">
             <i className="mr-3 text-orange-500 fas fa-om"></i> Spiritual Tours
           </a>
           <a href="#gallery" className="text-gray-400 transition-all duration-300 hover:text-orange-500 hover:translate-x-2">
@@ -808,19 +791,19 @@ const { isSignedIn } = useUser();
 
       {/* 4. Support */}
       <div className="space-y-6 lg:col-span-1">
-        <h3 className="inline-block pb-3 text-2xl font-bold tracking-widest text-white uppercase border-b-2 border-orange-500/50">Support</h3>
-        <ul className="space-y-5 text-xl font-medium text-gray-400">
-          <li className="transition-colors cursor-pointer hover:text-orange-400">Help Center</li>
-          <li className="transition-colors cursor-pointer hover:text-orange-400">Safety Guides</li>
-          <li className="transition-colors cursor-pointer hover:text-orange-400">Privacy Policy</li>
-          <li className="transition-colors cursor-pointer hover:text-orange-400">Partner with Us</li>
-        </ul>
-      </div>
+  <h3 className="inline-block pb-3 text-2xl font-bold tracking-widest text-white uppercase border-b-2 border-orange-500/50">Support</h3>
+  <ul className="space-y-5 text-2xl font-medium text-gray-400">
+    <li onClick={() => navigate('/contact')} className="transition-colors cursor-pointer hover:text-orange-400">Help Center</li>
+    <li onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })} className="transition-colors cursor-pointer hover:text-orange-400">Safety Guides</li>
+    <li onClick={() => navigate('/gallery')} className="transition-colors cursor-pointer hover:text-orange-400">Privacy Policy</li>
+    <li onClick={() => navigate('/gallery')} className="transition-colors cursor-pointer hover:text-orange-400">Partner with us</li>
+  </ul>
+</div>
 
       {/* 5. Contact Info - Now has its own stable column */}
       <div className="space-y-8 lg:col-span-1">
         <h3 className="inline-block pb-3 text-2xl font-bold tracking-widest text-white uppercase border-b-2 border-orange-500/50">Contact</h3>
-        <div className="space-y-5 text-xl text-gray-300">
+        <div className="space-y-5 text-2xl text-gray-300">
           <p className="flex items-center gap-4"><i className="text-2xl text-orange-500 fas fa-phone-alt"></i> +91 98765 43210</p>
           <p className="flex items-center gap-4"><i className="text-2xl text-orange-500 fas fa-envelope"></i> info@bharattrails.com</p>
           <div className="flex gap-4 pt-4">

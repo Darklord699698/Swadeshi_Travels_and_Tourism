@@ -38,13 +38,13 @@ const Header = () => {
   ${menuActive ? "scale-y-100" : "scale-y-0 lg:scale-y-100"}
 `}>
   {/* Change inside the map function in Header.jsx */}
-  {['home', 'bookings', 'yourtrip', 'review', 'gallery', 'contact', 'About Us'].map((item) => (
+  {['home', 'bookings', 'yourtrip', 'review', 'gallery', 'contact', 'Community Vault'].map((item) => (
   <Link 
     key={item}
     to={
       item === 'home' ? '/' :
       item === 'bookings' ? '/book' :
-      item === 'About Us' ? '/about' : // FIX: Specifically maps "About Us" to "/about"
+      item === 'Community Vault' ? '/about' :
       `/${item}`
     } 
     onClick={() => setMenuActive(false)}

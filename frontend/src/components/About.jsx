@@ -97,7 +97,7 @@ const About = () => {
       <header className="sticky top-0 z-50 flex items-center justify-between px-12 py-10 border-b border-white/5 bg-black/50 backdrop-blur-md">
 
         <div>
-          <p className="text-xs font-black uppercase tracking-[0.5em] text-orange-500">
+          <p className="text-xl font-black uppercase tracking-[0.5em] text-orange-500">
             Automated Community Ledger
           </p>
           <h1 className="text-5xl italic font-black tracking-tighter uppercase">
