@@ -14,6 +14,8 @@ const BookingPage = ({ packageData: propPackage }) => {
   const isInternational = packageData?.category === "International";
   const { user } = useUser();
   const userId = user?.id || 'guest';
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
+const [toast, setToast] = useState(false);
 
   const [formData, setFormData] = useState({
     fullName: '', 
@@ -145,8 +147,10 @@ const handleExecutePayment = async () => {
     tripHist.unshift(receiptData);
     localStorage.setItem(`tripHistory_${userId}`, JSON.stringify(tripHist));
 
-      alert(`Success! Booking manifest dispatched to ${formData.email}.`);
-      navigate('/yourtrip'); 
+    setPaymentSuccess(true);
+    setToast(true);
+    setTimeout(() => setToast(false), 3000);
+    setTimeout(() => { setPaymentSuccess(false); navigate('/yourtrip'); }, 3000);
     } else {
       const errorText = await response.text();
       console.error("Backend Error:", errorText);
@@ -164,15 +168,61 @@ const handleExecutePayment = async () => {
     tripHist.unshift(receiptData);
     localStorage.setItem('tripHistory', JSON.stringify(tripHist));
 
-    alert("Payment Processed Locally. Redirecting to timeline...");
-    navigate('/yourtrip');
+    setPaymentSuccess(true);
+    setToast(true);
+    setTimeout(() => setToast(false), 3000);
+    setTimeout(() => { setPaymentSuccess(false); navigate('/yourtrip'); }, 3000);
   }
 };
 
-  if (step === 2) {
-    const total = calculateTotal();
-    return (
-      <div className="min-h-screen bg-slate-50 pt-32 pb-20 px-[5%]">
+if (step === 2) {
+  const total = calculateTotal();
+  return (
+    <>
+    {/* SUCCESS OVERLAY */}
+    {paymentSuccess && (
+      <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#020617]/95 backdrop-blur-xl">
+        <div className="relative flex items-center justify-center w-48 h-48 mb-10">
+          <div className="absolute w-48 h-48 border-8 border-green-500 rounded-full animate-ping opacity-20"></div>
+          <div className="absolute w-48 h-48 border-8 border-green-500 rounded-full"></div>
+          <svg className="w-24 h-24 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}
+            style={{ animation: 'bounceIn 0.5s 0.3s ease-out forwards', opacity: 0 }}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+        <h2 className="mb-4 text-5xl font-black text-white"
+          style={{ animation: 'fadeInUp 0.5s 0.8s ease-out forwards', opacity: 0 }}>
+          Payment Successful!
+        </h2>
+        <p className="text-2xl text-gray-400"
+          style={{ animation: 'fadeInUp 0.5s 1s ease-out forwards', opacity: 0 }}>
+          Redirecting to your expedition timeline...
+        </p>
+        <div className="flex gap-3 mt-8">
+          {[...Array(5)].map((_, i) => (
+            <div key={i} className="w-3 h-3 rounded-full"
+              style={{
+                backgroundColor: ['#f97316','#22c55e','#3b82f6','#a855f7','#eab308'][i],
+                animation: `confetti 1s ${i * 0.15}s ease-out forwards`
+              }}></div>
+          ))}
+        </div>
+      </div>
+    )}
+
+    {/* TOAST */}
+    {toast && (
+      <div className="fixed z-50 flex items-center gap-4 px-8 py-5 text-white bg-green-600 shadow-2xl top-8 right-8 rounded-2xl shadow-green-500/30"
+        style={{ animation: 'slideInRight 0.3s ease-out' }}>
+        <div className="flex items-center justify-center w-10 h-10 text-xl font-black rounded-full bg-white/20">✓</div>
+        <div>
+          <p className="text-xl font-black">Booking Confirmed!</p>
+          <p className="text-sm opacity-80">Receipt sent to {formData.email}</p>
+        </div>
+      </div>
+    )}
+
+    <div className="min-h-screen bg-slate-50 pt-32 pb-20 px-[5%]">
         <div className="max-w-6xl mx-auto bg-white rounded-[4rem] shadow-2xl p-20 border border-slate-100 animate-in zoom-in duration-500">
           <div className="flex items-center justify-between mb-12">
             <h2 className="text-6xl font-black tracking-tighter uppercase text-slate-800">Final Manifest</h2>
@@ -239,9 +289,10 @@ const handleExecutePayment = async () => {
 </button>
           </div>
         </div>
-      </div>
+        </div>
+      </>
     );
-}
+  }
   return (
     <div className="flex justify-center min-h-screen pt-32 pb-20 bg-slate-50">
       <div className="w-[98vw] max-w-[1700px] grid lg:grid-cols-[500px_1fr] bg-white shadow-2xl rounded-[4.5rem] overflow-hidden border border-slate-100 min-h-[85vh]">
