@@ -4,10 +4,13 @@ import { useUser, SignInButton } from '@clerk/clerk-react';
 import { getReviews, saveReviews } from '../utils/reviewsStore';
 import { FaMapMarkerAlt, FaStar as FaStarIcon } from 'react-icons/fa';
 import axios from 'axios';
+import girlAnimation from '../assets/Girl.json';
+import Lottie from 'lottie-react';
 const Review = () => {
   // Mock logged-in user
   const { user, isSignedIn } = useUser();
   const currentUser = isSignedIn ? { id: user.id, name: user.fullName || user.username } : null;
+  const [showThankYou, setShowThankYou] = useState(false);
 
   // Replace useState for reviews with this:
   const [reviews, setReviews] = useState(() => {
@@ -58,7 +61,9 @@ const Review = () => {
     };
   
     setReviews([reviewToAdd, ...reviews]);
-    setNewReview({ rating: 0, comment: '' });
+setNewReview({ rating: 0, comment: '' });
+setShowThankYou(true);
+setTimeout(() => setShowThankYou(false), 3000);
   };
 
   const deleteReview = (id) => setReviews(reviews.filter(rev => rev.id !== id));
@@ -72,6 +77,47 @@ const Review = () => {
 
   return (
     <div className="h-screen overflow-hidden bg-[#f8fafc] text-slate-900 pt-32 pb-20 px-[5%] font-sans relative">
+      {/* THANK YOU OVERLAY */}
+{showThankYou && (
+  <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#020617]/90 backdrop-blur-xl">
+    
+    {/* Animated Ring */}
+<div className="relative flex items-center justify-center mb-10">
+  <div className="absolute border-8 border-orange-500 rounded-full h-150 w-150 animate-ping opacity-20"></div>
+  <div className="absolute w-64 h-64 border-8 border-orange-500 rounded-full"></div>
+  <Lottie 
+    animationData={girlAnimation} 
+    loop={true} 
+    style={{ width: '250px', height: '250px', animation: 'bounceIn 0.5s 0.4s ease-out forwards', opacity: 0 }}
+  />
+</div>
+
+    <h2 className="mb-4 text-5xl font-black text-white"
+      style={{ animation: 'fadeInUp 0.5s 0.8s ease-out forwards', opacity: 0 }}>
+      Shukriya!
+    </h2>
+    <p className="mb-2 text-2xl text-gray-400"
+      style={{ animation: 'fadeInUp 0.5s 1s ease-out forwards', opacity: 0 }}>
+      Your feedback means the world to us.
+    </p>
+    <p className="text-lg font-bold tracking-widest text-orange-500 uppercase"
+      style={{ animation: 'fadeInUp 0.5s 1.2s ease-out forwards', opacity: 0 }}>
+      Bharat Trails Community ❤️
+    </p>
+
+    {/* Confetti dots */}
+    <div className="flex gap-3 mt-8">
+      {[...Array(7)].map((_, i) => (
+        <div key={i} className="w-3 h-3 rounded-full"
+          style={{
+            backgroundColor: ['#f97316','#ea580c','#fb923c','#fdba74','#fed7aa','#ff6b35','#ffa500'][i],
+            animation: `confetti 1s ${i * 0.1}s ease-out forwards`
+          }}></div>
+      ))}
+    </div>
+
+  </div>
+)}
       {/* Dynamic Background Gradients */}
       <div className="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-orange-50 to-transparent pointer-events-none"></div>
       <div className="absolute top-40 right-10 w-96 h-96 bg-orange-200/20 rounded-full blur-[120px] pointer-events-none"></div>
