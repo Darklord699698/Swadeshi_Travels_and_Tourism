@@ -3,7 +3,8 @@ import axios from "axios";
 import { FaFilter, FaSearch, FaMapMarkerAlt, FaStar, FaGlobeAmericas, FaPlane } from "react-icons/fa";
 import { useUser, SignInButton } from '@clerk/clerk-react';
 import { getReviewsForPackage } from '../utils/reviewsStore';
-
+import Lottie from 'lottie-react';
+import gibliAnimation from '../assets/Gibli.json';
 const UNSPLASH_KEY = "3YqgeNBUUUQ2wMEY4zQUcwN-zyjxwxiv7HyOWcPXV48";
 const Booking = ({ onOpenBookForm }) => {
   const [locations, setLocations] = useState([]);
@@ -14,6 +15,8 @@ const Booking = ({ onOpenBookForm }) => {
   const [loading, setLoading] = useState(false);
   const { isSignedIn } = useUser();
   const [expandedReviews, setExpandedReviews] = useState(null);
+  const [showTransition, setShowTransition] = useState(false);
+const [pendingPackage, setPendingPackage] = useState(null);
   
 
   // 1. COMPREHENSIVE DATASET: All Indian States + 20 Global Countries
@@ -159,7 +162,15 @@ const Booking = ({ onOpenBookForm }) => {
     (selectedRating === 0 || loc.rating >= selectedRating) &&
     (selectedCategory === "All" || loc.category === selectedCategory)
   );
-
+  
+  const handleBookNow = (loc) => {
+    setPendingPackage(loc);
+    setShowTransition(true);
+    setTimeout(() => {
+      setShowTransition(false);
+      onOpenBookForm(loc);
+    }, 2500);
+  };
   return (
     <div className="min-h-screen bg-slate-50 pt-36 px-[5%] pb-20 font-sans">
       <div className="max-w-[1500px] mx-auto">
@@ -273,7 +284,7 @@ const Booking = ({ onOpenBookForm }) => {
                   </p>
 
                   {isSignedIn ? (
-  <button onClick={() => onOpenBookForm(loc)} className="w-full py-5 text-xl font-bold text-white transition-all bg-orange-600 shadow-lg rounded-2xl shadow-orange-600/20 hover:bg-orange-700 active:scale-95">
+  <button onClick={() => handleBookNow(loc)} className="w-full py-5 text-xl font-bold text-white transition-all bg-orange-600 shadow-lg rounded-2xl shadow-orange-600/20 hover:bg-orange-700 active:scale-95">
     Book Now
   </button>
 ) : (
@@ -287,27 +298,27 @@ const Booking = ({ onOpenBookForm }) => {
 {/* Check Reviews - OUTSIDE SignInButton, always visible */}
 <button 
   onClick={() => setExpandedReviews(expandedReviews === loc.name ? null : loc.name)}
-  className="w-full py-3 mt-3 text-lg font-bold text-orange-600 transition-all border-2 border-orange-100 rounded-2xl hover:bg-orange-50">
+  className="w-full py-3 mt-3 text-xl font-bold text-orange-600 transition-all border-2 border-orange-100 rounded-2xl hover:bg-orange-50">
   {expandedReviews === loc.name ? 'Hide Reviews ▲' : 'Check Reviews ▼'}
 </button>
 
 {expandedReviews === loc.name && (
   <div className="mt-4 space-y-3 overflow-y-auto max-h-64">
     {getReviewsForPackage(loc.name).length === 0 ? (
-      <p className="py-4 text-sm italic text-center text-slate-400">No reviews yet for this package.</p>
+      <p className="py-4 text-xl italic text-center text-slate-400">No reviews yet for this package.</p>
     ) : (
       getReviewsForPackage(loc.name).map((rev, i) => (
         <div key={i} className="p-4 border bg-slate-50 rounded-2xl border-slate-100">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-black capitalize text-slate-800">{rev.name}</span>
+            <span className="text-3xl font-black capitalize text-slate-800">{rev.name}</span>
             <div className="flex gap-0.5">
               {[...Array(5)].map((_, s) => (
                 <FaStar key={s} size={12} className={s < rev.rating ? 'text-orange-400' : 'text-slate-200'} />
               ))}
             </div>
           </div>
-          <p className="text-sm italic lowercase text-slate-500">{rev.comment}</p>
-          <p className="mt-1 text-xs text-slate-300">{rev.date}</p>
+          <p className="text-2xl italic lowercase text-slate-500">{rev.comment}</p>
+          <p className="mt-1 text-2xl text-slate-300">{rev.date}</p>
         </div>
       ))
     )}
@@ -319,7 +330,33 @@ const Booking = ({ onOpenBookForm }) => {
           </main>
         </div>
       </div>
+      
+    {/* PLANE TRANSITION OVERLAY */}
+    {showTransition && (
+        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center border bg-white/10 backdrop-blur-2xl border-white/20">
+          <Lottie 
+  animationData={gibliAnimation} 
+  loop={true} 
+  style={{ width: '400px', height: '400px', transform: 'scaleX(-1)' }}
+/>
+          <h2 className="mb-4 text-5xl font-black text-white"
+            style={{ animation: 'fadeInUp 0.5s 0.3s ease-out forwards', opacity: 0 }}>
+            Preparing Your Expedition...
+          </h2>
+          <p className="text-2xl font-bold tracking-widest text-orange-500 uppercase"
+            style={{ animation: 'fadeInUp 0.5s 0.6s ease-out forwards', opacity: 0 }}>
+            {pendingPackage?.name}
+          </p>
+          <div className="h-2 mt-8 overflow-hidden rounded-full w-80 bg-white/10">
+            <div className="h-full bg-orange-500 rounded-full"
+              style={{ animation: 'loadingBar 5.5s ease-out forwards' }}>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
+    
   );
 };
 

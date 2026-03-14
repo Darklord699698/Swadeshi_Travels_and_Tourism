@@ -5,7 +5,7 @@ import animationData1 from "../assets/Onboarding_Animation.json";
 import { FaPlane, FaCar, FaCheckCircle, FaCalendarAlt, FaChevronLeft, FaUserFriends, FaPassport, FaMapMarkerAlt, FaGlobeAmericas } from 'react-icons/fa';
 import { FaClock } from "react-icons/fa";
 import { useUser } from '@clerk/clerk-react';
-
+import lightningAnimation from '../assets/Online.json';
 const BookingPage = ({ packageData: propPackage }) => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -16,6 +16,7 @@ const BookingPage = ({ packageData: propPackage }) => {
   const userId = user?.id || 'guest';
   const [paymentSuccess, setPaymentSuccess] = useState(false);
 const [toast, setToast] = useState(false);
+const [showLightning, setShowLightning] = useState(false);
 
   const [formData, setFormData] = useState({
     fullName: '', 
@@ -354,7 +355,11 @@ if (step === 2) {
     alert('Please enter a valid 10-digit phone number for all travelers');
     return;
   }
-  setStep(2); 
+  setShowLightning(true);
+  setTimeout(() => {
+    setShowLightning(false);
+    setStep(2);
+  }, 2000);
 }} className="max-w-6xl mx-auto space-y-20">
             
             <div className="space-y-10">
@@ -601,6 +606,30 @@ if (step === 2) {
           </form>
         </div>
       </div>
+    {/* LIGHTNING TRANSITION */}
+    {showLightning && (
+        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white/10 backdrop-blur-2xl">
+          <Lottie
+            animationData={lightningAnimation}
+            loop={true}
+            style={{ width: '400px', height: '400px' }}
+          />
+          <h2 className="mb-4 text-5xl font-black text-slate-800"
+            style={{ animation: 'fadeInUp 0.5s 0.3s ease-out forwards', opacity: 0 }}>
+            Generating Your Manifest...
+          </h2>
+          <p className="text-2xl font-bold tracking-widest text-orange-600 uppercase"
+            style={{ animation: 'fadeInUp 0.5s 0.6s ease-out forwards', opacity: 0 }}>
+            {packageData?.name}
+          </p>
+          <div className="h-2 mt-8 overflow-hidden rounded-full w-80 bg-slate-200">
+            <div className="h-full bg-orange-600 rounded-full"
+              style={{ animation: 'loadingBar 2s ease-out forwards' }}>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };
