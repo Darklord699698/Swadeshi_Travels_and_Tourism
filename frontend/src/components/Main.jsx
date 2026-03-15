@@ -905,7 +905,7 @@ const handleBookNow = (pkg) => {
           />
           <h2 className="mb-4 text-5xl font-black text-slate-800"
             style={{ animation: 'fadeInUp 0.5s 0.3s ease-out forwards', opacity: 0 }}>
-            Loading Gallery...
+            Loading AboutUs...
           </h2>
           <div className="h-2 mt-8 overflow-hidden rounded-full w-80 bg-slate-200">
             <div className="h-full bg-orange-600 rounded-full"

@@ -213,7 +213,7 @@ const Gallery = () => {
         </div>
         <div className="relative z-10 text-center px-[5%] space-y-8 pt-32">
           <div className="flex justify-center gap-3 mb-6">
-            {["G","A","L","L","E","R","Y"].map((letter, i) => (
+            {["A","B","O","U","T","U","S"].map((letter, i) => (
               <span key={i} className={`flex items-center justify-center w-14 h-14 text-2xl font-black rounded-2xl shadow-lg transition-all hover:-translate-y-2
                 ${i % 2 === 0 ? 'bg-orange-600 text-white shadow-orange-500/30' : 'bg-white/10 text-white border border-white/20'}`}>
                 {letter}

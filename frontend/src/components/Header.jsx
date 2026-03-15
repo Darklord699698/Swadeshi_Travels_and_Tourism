@@ -38,19 +38,20 @@ const Header = () => {
   ${menuActive ? "scale-y-100" : "scale-y-0 lg:scale-y-100"}
 `}>
   {/* Change inside the map function in Header.jsx */}
-  {['home', 'bookings', 'yourtrip', 'review', 'gallery', 'contact', 'Community Vault'].map((item) => (
+  {['home', 'bookings', 'yourtrip', 'review', 'about-us', 'contact', 'Community Vault'].map((item) => (
   <Link 
     key={item}
     to={
       item === 'home' ? '/' :
       item === 'bookings' ? '/book' :
       item === 'Community Vault' ? '/about' :
+      item === 'about-us' ? '/gallery' :
       `/${item}`
     } 
     onClick={() => setMenuActive(false)}
     className="text-2xl font-medium text-white capitalize transition-all hover:text-orange-500 hover:scale-105"
   >
-    {item === 'yourtrip' ? 'Your Trips' : item}
+    {item === 'yourtrip' ? 'Your Trips' : item === 'about-us' ? 'About Us' : item}
   </Link>
 ))}
 </nav>
