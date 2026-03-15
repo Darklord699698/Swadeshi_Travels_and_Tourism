@@ -42,6 +42,9 @@ const { isSignedIn } = useUser();
 const [pendingPackage, setPendingPackage] = useState(null);
 const [showTrain, setShowTrain] = useState(false);
 const [showReview, setShowReview] = useState(false);
+const [selectedItem, setSelectedItem] = useState(null);
+const [selectedItemWiki, setSelectedItemWiki] = useState('');
+const [wikiLoading, setWikiLoading] = useState(false);
   // Handle scroll reset (window.onscroll)
   useEffect(() => {
     const handleScroll = () => {
@@ -479,11 +482,20 @@ const handleBookNow = (pkg) => {
                     {item.desc}
                 </p>
                 
-                <button onClick={() => {
+                <button onClick={async () => {
   setShowTrain(true);
+  setWikiLoading(true);
+  try {
+    const res = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${item.title.split(',')[0].trim()}`);
+    const data = await res.json();
+    setSelectedItemWiki(data.extract || item.desc);
+  } catch {
+    setSelectedItemWiki(item.desc);
+  }
+  setWikiLoading(false);
   setTimeout(() => {
     setShowTrain(false);
-    navigate('/gallery');
+    setSelectedItem(item);
   }, 2500);
 }} className="inline-block px-8 py-3 text-lg font-bold text-white uppercase transition-all duration-300 delay-200 translate-y-8 bg-orange-600 rounded-full group-hover:translate-y-0 hover:bg-orange-500 hover:shadow-orange-500/40 hover:shadow-2xl">
   Discover More
@@ -896,24 +908,102 @@ const handleBookNow = (pkg) => {
 
     {/* TRAIN TRANSITION OVERLAY */}
     {/* TRAIN TRANSITION OVERLAY */}
-    {showTrain && (
-        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white/10 backdrop-blur-2xl">
-          <LottieReact
-            animationData={trainAnimation}
-            loop={true}
-            style={{ width: '400px', height: '400px' }}
-          />
-          <h2 className="mb-4 text-5xl font-black text-slate-800"
-            style={{ animation: 'fadeInUp 0.5s 0.3s ease-out forwards', opacity: 0 }}>
-            Loading AboutUs...
+    {/* DISCOVER MORE MODAL */}
+{/* DISCOVER MORE MODAL */}
+{selectedItem && (
+  <div 
+    className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/80 backdrop-blur-xl"
+    onClick={() => setSelectedItem(null)}
+    style={{ animation: 'fadeInUp 0.4s ease-out forwards' }}
+  >
+    <div 
+      className="relative w-full max-w-5xl max-h-[90vh] bg-white rounded-[3rem] overflow-hidden shadow-2xl flex flex-col"
+      onClick={(e) => e.stopPropagation()}
+      style={{ animation: 'bounceIn 0.5s ease-out forwards' }}
+    >
+      {/* Large Image Header */}
+      <div className="relative h-[45vh] overflow-hidden flex-shrink-0">
+        <img 
+          src={selectedItem.img} 
+          alt={selectedItem.title}
+          className="object-cover w-full h-full"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+        
+        {/* Title over image */}
+        <div className="absolute bottom-0 left-0 right-0 p-10">
+          <p className="text-orange-400 text-sm font-black tracking-[0.4em] uppercase mb-2">
+            🏔️ Bharat Trails — Destination Spotlight
+          </p>
+          <h2 className="text-6xl font-black leading-tight text-white drop-shadow-2xl">
+            {selectedItem.title}
           </h2>
-          <div className="h-2 mt-8 overflow-hidden rounded-full w-80 bg-slate-200">
-            <div className="h-full bg-orange-600 rounded-full"
-              style={{ animation: 'loadingBar 2.5s ease-out forwards' }}>
-            </div>
-          </div>
         </div>
-      )}
+
+        {/* Close button */}
+        <button 
+          onClick={() => setSelectedItem(null)}
+          className="absolute flex items-center justify-center w-12 h-12 text-2xl font-black text-white transition-all rounded-full shadow-xl top-6 right-6 bg-white/20 backdrop-blur-md hover:bg-white hover:text-slate-800">
+          ✕
+        </button>
+      </div>
+
+      {/* Scrollable Content */}
+      <div className="flex-1 p-10 space-y-8 overflow-y-auto bg-white">
+        
+        {/* Tags */}
+        <div className="flex flex-wrap gap-3">
+          <span className="px-4 py-2 text-sm font-black tracking-widest text-orange-600 uppercase bg-orange-100 rounded-full">India</span>
+          <span className="px-4 py-2 text-sm font-black tracking-widest uppercase rounded-full bg-slate-100 text-slate-600">Tourism</span>
+          <span className="px-4 py-2 text-sm font-black tracking-widest text-green-600 uppercase bg-green-100 rounded-full">Bharat Trails Verified</span>
+        </div>
+
+        {/* Divider */}
+        <div className="w-full h-px bg-slate-100"></div>
+
+        {/* Wikipedia Info */}
+        <div className="space-y-4">
+          <h3 className="flex items-center gap-3 text-2xl font-black text-slate-800">
+            <div className="w-8 h-1 bg-orange-500 rounded-full"></div>
+            About This Destination
+          </h3>
+          {wikiLoading ? (
+            <p className="text-xl text-slate-400 animate-pulse">Loading information...</p>
+          ) : (
+            <p className="text-xl font-medium leading-relaxed text-slate-600">
+              {selectedItemWiki}
+            </p>
+          )}
+        </div>
+
+        {/* Stats Row */}
+        {/* Stats Row */}
+<div className="grid grid-cols-3 gap-6 pt-4">
+  <div className="p-6 text-center border border-orange-100 bg-orange-50 rounded-2xl">
+    <p className="text-3xl font-black text-orange-600">
+      ⭐ {selectedItem.rating || '4.5'}
+    </p>
+    <p className="mt-1 text-sm font-bold tracking-widest uppercase text-slate-500">Rating</p>
+  </div>
+  <div className="p-6 text-center border bg-slate-50 rounded-2xl border-slate-100">
+    <p className="text-3xl font-black text-slate-700">
+      {selectedItem.title.toLowerCase().includes('beach') || selectedItem.title.toLowerCase().includes('andaman') || selectedItem.title.toLowerCase().includes('goa') ? '🏖️ Beach' :
+       selectedItem.title.toLowerCase().includes('temple') || selectedItem.title.toLowerCase().includes('chardham') || selectedItem.title.toLowerCase().includes('sahib') ? '🛕 Pilgrimage' :
+       selectedItem.title.toLowerCase().includes('kutch') || selectedItem.title.toLowerCase().includes('rajasthan') || selectedItem.title.toLowerCase().includes('jodhpur') || selectedItem.title.toLowerCase().includes('udaipur') ? '🏰 Heritage' :
+       selectedItem.title.toLowerCase().includes('kaziranga') || selectedItem.title.toLowerCase().includes('assam') ? '🦏 Wildlife' :
+       '🏕️ Trek'}
+    </p>
+    <p className="mt-1 text-sm font-bold tracking-widest uppercase text-slate-500">Activity</p>
+  </div>
+  <div className="p-6 text-center border border-green-100 bg-green-50 rounded-2xl">
+    <p className="text-3xl font-black text-green-600">✅ Safe</p>
+    <p className="mt-1 text-sm font-bold tracking-widest uppercase text-slate-500">Status</p>
+  </div>
+</div>
+      </div>
+    </div>
+  </div>
+)}
 
     {/* REVIEW TRANSITION OVERLAY */}
     {showReview && (
@@ -926,6 +1016,26 @@ const handleBookNow = (pkg) => {
         <h2 className="mb-4 text-5xl font-black text-slate-800"
           style={{ animation: 'fadeInUp 0.5s 0.3s ease-out forwards', opacity: 0 }}>
           Loading Reviews...
+        </h2>
+        <div className="h-2 mt-8 overflow-hidden rounded-full w-80 bg-slate-200">
+          <div className="h-full bg-orange-600 rounded-full"
+            style={{ animation: 'loadingBar 2.5s ease-out forwards' }}>
+          </div>
+        </div>
+      </div>
+    )}
+
+    {/* TRAIN TRANSITION OVERLAY */}
+    {showTrain && (
+      <div className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-white/10 backdrop-blur-2xl">
+        <LottieReact
+          animationData={trainAnimation}
+          loop={true}
+          style={{ width: '400px', height: '400px' }}
+        />
+        <h2 className="mb-4 text-5xl font-black text-slate-800"
+          style={{ animation: 'fadeInUp 0.3s 0.2s ease-out forwards', opacity: 0 }}>
+          Loading...
         </h2>
         <div className="h-2 mt-8 overflow-hidden rounded-full w-80 bg-slate-200">
           <div className="h-full bg-orange-600 rounded-full"
