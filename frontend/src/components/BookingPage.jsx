@@ -369,12 +369,12 @@ if (step === 2) {
               <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-2">
                 {/* Fixed small text: Added text-xl and font-bold to inputs */}
                 <div className="space-y-3">
-  <label className="text-[11px] font-black uppercase text-slate-400 tracking-widest ml-1">Full Identity Name</label>
-  <input required type="text" className="w-full p-6 text-3xl font-bold transition-all border-none outline-none bg-slate-50 rounded-3xl focus:ring-4 focus:ring-orange-100 text-slate-700" placeholder="Full Name"
-    value={formData.state}
+  <label className="text-[11px] font-black uppercase text-slate-400 tracking-widest ml-1">Full Name</label>
+  <input required type="text" className="w-full p-6 text-3xl font-bold transition-all border-none outline-none bg-slate-50 rounded-3xl focus:ring-4 focus:ring-orange-100 text-slate-700" placeholder="Enter Your Full Name..."
+    value={formData.fullName}
     onChange={(e) => {
       const val = e.target.value;
-      if (/^[a-zA-Z\s]*$/.test(val)) setFormData({...formData, state: val});
+      if (/^[a-zA-Z\s]*$/.test(val)) setFormData({...formData, fullName: val});
     }}
   />
 </div>
@@ -383,7 +383,7 @@ if (step === 2) {
                   <input required type="number" className="w-full p-6 text-3xl font-bold transition-all border-none outline-none bg-slate-50 rounded-3xl focus:ring-4 focus:ring-orange-100 text-slate-700" placeholder="Age" onChange={(e) => setFormData({...formData, age: e.target.value})} />
                 </div>
                 <div className="space-y-3">
-                  <label className="text-[11px] font-black uppercase text-slate-400 tracking-widest ml-1">Electronic Mail</label>
+                  <label className="text-[11px] font-black uppercase text-slate-400 tracking-widest ml-1">Your Mail</label>
                   <input required type="email" className="w-full p-6 text-3xl font-bold transition-all border-none outline-none bg-slate-50 rounded-3xl focus:ring-4 focus:ring-orange-100 text-slate-700" placeholder="user12345@gmail.com" onChange={(e) => setFormData({...formData, email: e.target.value})} />
                 </div>
                 <div className="space-y-3">
