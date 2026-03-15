@@ -661,11 +661,15 @@ const handleBookNow = (pkg) => {
         </div>
 
         <button 
-          onClick={() => navigate('/contact')}
-          className="flex items-center gap-4 px-12 py-6 text-2xl font-black text-white transition-all duration-300 bg-orange-600 shadow-xl group rounded-2xl hover:bg-slate-900 shadow-orange-200 hover:shadow-slate-200 active:scale-95">
-          Let's Talk 
-          <span className="transition-transform group-hover:translate-x-2">→</span>
-        </button>
+  onClick={() => navigate('/contact')}
+  className="relative inline-flex items-center gap-4 px-12 py-6 text-2xl font-black group">
+  <span className="absolute inset-0 w-full h-full transition duration-200 ease-out transform translate-x-2 translate-y-2 bg-orange-800 group-hover:-translate-x-0 group-hover:-translate-y-0"></span>
+  <span className="absolute inset-0 w-full h-full transition duration-200 bg-white border-4 border-orange-600 group-hover:bg-orange-600"></span>
+  <span className="relative text-orange-600 transition duration-200 group-hover:text-white">
+    Let's Talk
+  </span>
+  <span className="relative text-orange-600 transition duration-200 transform group-hover:text-white group-hover:translate-x-2">→</span>
+</button>
       </div>
 
     </div>
