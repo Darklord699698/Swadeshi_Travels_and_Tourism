@@ -675,7 +675,7 @@ const handleBookNow = (pkg) => {
 {/* Section with a refined background: added a faint grid and soft radial glows */}
 {/* Section: Changed bg-white to bg-[#0a0a0a] (Deep Charcoal Black) */}
 {/* Section: Gradient from Deep Navy to Black */}
-<section className="relative flex flex-col items-center justify-center pt-10 pb-20 overflow-hidden bg-gradient-to-b from-[#0f172a] to-[#020617]" id="highlights">
+<section className="relative z-0 flex flex-col items-center justify-center pt-48 pb-20 overflow-hidden bg-gradient-to-b from-[#0f172a] to-[#020617]" id="highlights">
   
   {/* TOPOGRAPHICAL TEXTURE */}
   {/* This adds subtle wavy lines that look like mountain elevations */}
