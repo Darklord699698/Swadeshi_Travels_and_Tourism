@@ -216,9 +216,9 @@ const API_URL = import.meta.env.MODE === 'development'
                   <a href="https://www.instagram.com/targaryen_starks/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-16 h-16 transition-all border shadow-2xl rounded-2xl bg-white/5 border-white/10 hover:bg-[#E1306C] group">
                     <i className="text-3xl transition-transform fab fa-instagram group-hover:scale-110"></i>
                   </a>
-                  <a href="https://t.me/SwadeshiTravelbot" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-16 h-16 transition-all border shadow-2xl rounded-2xl bg-white/5 border-white/10 hover:bg-[#0088cc] group">
-                    <i className="text-3xl transition-transform fab fa-telegram-plane group-hover:scale-110"></i>
-                  </a>
+                  <a href="https://x.com/lord_dark66470" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-16 h-16 transition-all border shadow-2xl rounded-2xl bg-white/5 border-white/10 hover:bg-[#1DA1F2] group">
+  <i className="text-3xl transition-transform fab fa-twitter group-hover:scale-110"></i>
+</a>
                   <a href="https://wa.me/918851114020" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-16 h-16 transition-all border shadow-2xl rounded-2xl bg-white/5 border-white/10 hover:bg-[#25D366] group">
                     <i className="text-3xl transition-transform fab fa-whatsapp group-hover:scale-110"></i>
                   </a>
