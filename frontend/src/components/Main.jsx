@@ -100,7 +100,7 @@ const handleBookNow = (pkg) => {
             id="video-slider"
             loop
             autoPlay
-            
+            muted
           ></video>
         </div>
       </section>
