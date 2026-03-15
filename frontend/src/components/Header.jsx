@@ -11,7 +11,7 @@ const Header = () => {
   const [menuActive, setMenuActive] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 right-0 bg-[#020617] z-[10] flex items-center justify-between px-[7%] py-8 border-b border-white/10">
+    <header className="fixed top-0 left-0 right-0 bg-[#020617] z-[999] flex items-center justify-between px-[7%] py-8 border-b border-white/10">
       
       {/* Left Section: Menu & Logo */}
       <div className="flex items-center">

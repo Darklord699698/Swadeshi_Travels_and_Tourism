@@ -92,9 +92,9 @@ const About = () => {
 
   return (
 
-    <div className="min-h-screen bg-[#0a0a0a] text-white font-sans">
+    <div className="min-h-screen bg-[#0a0a0a] text-white font-sans pt-20">
 
-      <header className="sticky top-0 z-50 flex items-center justify-between px-12 py-10 border-b border-white/5 bg-black/50 backdrop-blur-md">
+      <header className="sticky z-50 flex items-center justify-between px-12 py-10 border-b top-24 border-white/5 bg-black/50 ">
 
         <div>
           <p className="text-xl font-black uppercase tracking-[0.5em] text-orange-500">

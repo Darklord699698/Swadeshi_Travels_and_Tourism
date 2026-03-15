@@ -202,16 +202,16 @@ const Gallery = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#020617] text-white font-sans">
+    <div className="min-h-screen bg-[#020617] text-white font-sans px-[5%] py-8 pt-0">
 
       {/* HERO */}
-      <div className="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
+      <div className="relative min-h-[50vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1600"
             className="object-cover w-full h-full opacity-30" alt="hero" />
           <div className="absolute inset-0 bg-gradient-to-b from-[#020617]/50 via-transparent to-[#020617]"></div>
         </div>
-        <div className="relative z-10 text-center px-[5%] space-y-8 pt-32">
+        <div className="relative z-10 text-center px-[5%] space-y-8 py-20">
           <div className="flex justify-center gap-3 mb-6">
             {["A","B","O","U","T","U","S"].map((letter, i) => (
               <span key={i} className={`flex items-center justify-center w-14 h-14 text-2xl font-black rounded-2xl shadow-lg transition-all hover:-translate-y-2
