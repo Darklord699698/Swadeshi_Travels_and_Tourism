@@ -921,7 +921,7 @@ const handleBookNow = (pkg) => {
     style={{ animation: 'fadeInUp 0.4s ease-out forwards' }}
   >
     <div 
-      className="relative w-full max-w-5xl max-h-[90vh] bg-white rounded-[3rem] overflow-hidden shadow-2xl flex flex-col"
+      className="relative w-full max-w-5xl max-h-[90vh] bg-white rounded-[3rem] overflow-hidden shadow-2xl flex flex-col mt-28"
       onClick={(e) => e.stopPropagation()}
       style={{ animation: 'bounceIn 0.5s ease-out forwards' }}
     >
