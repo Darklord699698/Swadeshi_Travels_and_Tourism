@@ -455,15 +455,18 @@ const Gallery = () => {
         <h2 className="text-6xl font-black tracking-tighter">Ready to <span className="text-orange-500">Explore?</span></h2>
         <p className="max-w-xl mx-auto text-2xl text-gray-400">Join thousands of explorers who have already discovered the magic of Bharat Trails.</p>
         <div className="flex items-center justify-center gap-6">
-          <button onClick={() => navigate('/book')}
-            className="inline-flex items-center gap-4 px-16 py-8 text-2xl font-black text-white transition-all duration-300 bg-orange-600 shadow-2xl group rounded-2xl hover:bg-white hover:text-orange-600 shadow-orange-500/30 active:scale-95">
-            Start Your Expedition
-            <FaArrowRight className="transition-transform group-hover:translate-x-2" />
-          </button>
-          <button onClick={() => navigate('/contact')}
-            className="inline-flex items-center gap-4 px-16 py-8 text-2xl font-black text-white transition-all duration-300 border-2 border-white/20 rounded-2xl hover:border-orange-500 hover:text-orange-500 active:scale-95">
-            Contact Us
-          </button>
+        <button onClick={() => navigate('/book')} className="expedition-btn">
+  <span className="button_lg">
+    <span className="button_sl"></span>
+    <span className="button_text">Start Your Expedition</span>
+  </span>
+</button>
+<button onClick={() => navigate('/contact')} className="contact-btn">
+  <span className="button_lg">
+    <span className="button_sl"></span>
+    <span className="button_text">Contact Us</span>
+  </span>
+</button>
         </div>
       </div>
     </div>
