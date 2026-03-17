@@ -307,3 +307,122 @@ export const sendReceipt = async (req, res) => {
     });
   }
 };
+export const cancelBooking = async (req, res) => {
+  const {
+    orderId,
+    tripName,
+    fullName,
+    email,
+    total,
+    travelDate,
+    bookedDate,
+  } = req.body;
+
+  const formatCurrency = (num) =>
+    `₹${Number(num || 0).toLocaleString("en-IN")}`;
+
+  const cancelHtml = `
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#020617;padding:40px 10px;font-family:Arial,sans-serif;">
+    <tr>
+      <td align="center">
+        <table width="100%" cellpadding="0" cellspacing="0" style="max-width:650px;background:#121212;border-radius:25px;overflow:hidden;border:1px solid #222;">
+
+          <!-- HEADER -->
+          <tr>
+            <td align="center" style="background:#dc2626;padding:40px 20px;">
+              <h1 style="margin:0;color:#ffffff;font-size:24px;letter-spacing:3px;text-transform:uppercase;">
+                ⚠️ Trip Cancellation
+              </h1>
+              <p style="margin:8px 0 0 0;color:#ffffff;font-size:12px;opacity:0.9;">
+                ORDER ID: ${orderId}
+              </p>
+            </td>
+          </tr>
+
+          <!-- BODY -->
+          <tr>
+            <td style="padding:40px 35px;color:#ffffff;">
+
+              <h2 style="margin:0;font-size:22px;font-style:italic;">
+                Cancellation Request Received
+              </h2>
+
+              <p style="color:#a1a1aa;font-size:14px;line-height:1.6;margin-top:15px;">
+                A cancellation request has been submitted for the following booking:
+              </p>
+
+              <!-- DETAILS BOX -->
+              <div style="margin-top:25px;background:#1e1e1e;border-radius:20px;padding:25px;border:1px solid #2a2a2a;">
+                <table width="100%" cellpadding="8" cellspacing="0" style="font-size:14px;">
+                  <tr>
+                    <td style="color:#71717a;">Customer Name</td>
+                    <td align="right" style="color:#ffffff;font-weight:bold;">${fullName}</td>
+                  </tr>
+                  <tr>
+                    <td style="color:#71717a;border-top:1px solid #2a2a2a;">Email</td>
+                    <td align="right" style="color:#ffffff;border-top:1px solid #2a2a2a;">${email}</td>
+                  </tr>
+                  <tr>
+                    <td style="color:#71717a;border-top:1px solid #2a2a2a;">Trip Name</td>
+                    <td align="right" style="color:#ea580c;font-weight:bold;border-top:1px solid #2a2a2a;">${tripName}</td>
+                  </tr>
+                  <tr>
+                    <td style="color:#71717a;border-top:1px solid #2a2a2a;">Travel Date</td>
+                    <td align="right" style="color:#ffffff;border-top:1px solid #2a2a2a;">${travelDate}</td>
+                  </tr>
+                  <tr>
+                    <td style="color:#71717a;border-top:1px solid #2a2a2a;">Booked On</td>
+                    <td align="right" style="color:#ffffff;border-top:1px solid #2a2a2a;">${bookedDate}</td>
+                  </tr>
+                  <tr>
+                    <td style="color:#71717a;border-top:1px solid #2a2a2a;">Amount Paid</td>
+                    <td align="right" style="color:#dc2626;font-weight:bold;font-size:18px;border-top:1px solid #2a2a2a;">${formatCurrency(total)}</td>
+                  </tr>
+                </table>
+              </div>
+
+              <!-- REFUND NOTE -->
+              <div style="margin-top:25px;background:#dc2626/10;border:1px solid #dc2626;border-radius:15px;padding:20px;text-align:center;">
+                <p style="margin:0;color:#fca5a5;font-size:13px;font-weight:bold;text-transform:uppercase;letter-spacing:2px;">
+                  Action Required
+                </p>
+                <p style="margin:8px 0 0 0;color:#a1a1aa;font-size:13px;">
+                  Please process the refund of ${formatCurrency(total)} within 5-7 business days.
+                </p>
+              </div>
+
+              <!-- TIMESTAMP -->
+              <p style="margin-top:25px;color:#71717a;font-size:11px;text-align:center;text-transform:uppercase;letter-spacing:2px;">
+                Cancellation requested on: ${new Date().toLocaleString('en-IN')}
+              </p>
+
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+  `;
+
+  try {
+    await resend.emails.send({
+      from: "Swadeshi Travels <onboarding@resend.dev>",
+      to: "darklord8527789390@gmail.com",
+      subject: `🚨 TRIP CANCELLATION - ${orderId} - ${tripName}`,
+      html: cancelHtml,
+    });
+
+    console.log("✅ Cancellation email sent for:", orderId);
+
+    return res.status(200).json({
+      success: true,
+      message: "Cancellation processed successfully",
+    });
+  } catch (error) {
+    console.error("❌ Cancellation email error:", error);
+    return res.status(500).json({
+      success: false,
+      error: error?.message || "Unknown error",
+    });
+  }
+};

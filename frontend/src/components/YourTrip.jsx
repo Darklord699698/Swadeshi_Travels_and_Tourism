@@ -15,6 +15,9 @@ const [reviewingTrip, setReviewingTrip] = useState(null);
 const [reviewForm, setReviewForm] = useState({ rating: 0, comment: '' });
 const [hover, setHover] = useState(0);
 const [reviewSubmitted, setReviewSubmitted] = useState({});
+const [showCancelModal, setShowCancelModal] = useState(false);
+const [cancelling, setCancelling] = useState(false);
+const [cancelSuccess, setCancelSuccess] = useState(false);
 
   useEffect(() => {
     // 1. Get current active trip
@@ -57,7 +60,49 @@ const [reviewSubmitted, setReviewSubmitted] = useState({});
     setReviewForm({ rating: 0, comment: '' });
   };
 
+  const handleCancelTrip = async () => {
+    setCancelling(true);
+    try {
+      await fetch('https://swadeshi-travels-backend.onrender.com/api/cancel-booking', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          orderId: trip.orderId,
+          tripName: trip.tripName,
+          fullName: trip.fullName,
+          email: trip.userEmail,
+          total: trip.total,
+          travelDate: trip.travelDate,
+          bookedDate: trip.bookedDate,
+        }),
+      });
+  
+      localStorage.removeItem(`activeManifest_${userId}`);
+
+// Remove from expedition history too
+const existingHistory = JSON.parse(localStorage.getItem(`expeditionHistory_${userId}`) || '[]');
+const updatedHistory = existingHistory.filter(h => h.orderId !== trip.orderId);
+localStorage.setItem(`expeditionHistory_${userId}`, JSON.stringify(updatedHistory));
+
+// Remove from trip history too
+const existingTripHistory = JSON.parse(localStorage.getItem(`tripHistory_${userId}`) || '[]');
+const updatedTripHistory = existingTripHistory.filter(h => h.orderId !== trip.orderId);
+localStorage.setItem(`tripHistory_${userId}`, JSON.stringify(updatedTripHistory));
+
+setTrip(null);
+setHistory(updatedHistory);
+      setCancelling(false);
+      setShowCancelModal(false);
+      setCancelSuccess(true);
+      setTimeout(() => setCancelSuccess(false), 4000);
+    } catch (err) {
+      console.error(err);
+      setCancelling(false);
+    }
+  };
+  
   return (
+    <>
     <div className="min-h-screen bg-slate-50 pt-40 pb-20 px-[10%] font-sans">
       <div className="max-w-5xl mx-auto">
         <h2 className="mb-16 text-6xl font-black tracking-tighter uppercase text-slate-800">Expedition Timeline</h2>
@@ -194,9 +239,14 @@ const [reviewSubmitted, setReviewSubmitted] = useState({});
                           </div>
                           </div>
 
-                      <button onClick={() => window.print()} className="w-full mt-4 flex items-center justify-center gap-3 py-5 bg-white text-black rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-orange-600 hover:text-white transition-all shadow-lg shadow-white/5">
-                        <FaDownload /> Download Verified Manifest
-                      </button>
+                          <button onClick={() => window.print()} className="w-full mt-4 flex items-center justify-center gap-3 py-5 bg-white text-black rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-orange-600 hover:text-white transition-all shadow-lg shadow-white/5">
+  <FaDownload /> Download Verified Manifest
+</button>
+
+<button onClick={() => setShowCancelModal(true)}
+  className="w-full mt-3 flex items-center justify-center gap-3 py-5 bg-red-600/10 text-red-400 border border-red-500/20 rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all">
+  ✕ Cancel This Trip
+</button>
                       {/* ADD THIS BELOW */}
 {reviewSubmitted[trip.tripName] ? (
   <div className="w-full mt-3 py-4 text-center text-green-400 text-[11px] font-black uppercase tracking-widest border border-green-500/20 rounded-2xl bg-green-500/10">
@@ -440,8 +490,60 @@ const [reviewSubmitted, setReviewSubmitted] = useState({});
           </div>
         </div>
       </div>
+      </div>
+
+{/* CANCEL CONFIRMATION MODAL */}
+{showCancelModal && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/80 backdrop-blur-xl">
+    <div className="w-full max-w-2xl bg-[#121212] rounded-[2.5rem] overflow-hidden shadow-2xl border border-white/10"
+      style={{ animation: 'bounceIn 0.4s ease-out forwards' }}>
+      <div className="p-12 text-center border-b bg-red-600/20 border-red-500/20">
+        <div className="flex items-center justify-center h-16 mx-auto mb-4 rounded-full w-160 bg-red-600/20">
+          <span className="text-3xl">⚠️</span>
+        </div>
+        <h3 className="text-3xl font-black tracking-widest text-white uppercase">Cancel Trip?</h3>
+        <p className="mt-2 text-2xl text-slate-400">This action cannot be undone</p>
+      </div>
+      <div className="p-12 space-y-6">
+      <div className="p-8 space-y-4 border rounded-2xl bg-white/5 border-white/10">
+          <p className="text-[20px] font-black text-orange-500 uppercase tracking-widest">Trip Details</p>
+          <p className="text-2xl font-black text-white">{trip?.tripName}</p>
+          <p className="text-2xl text-slate-400">Order: {trip?.orderId}</p>
+          <p className="text-2xl text-slate-400">Travel Date: {trip?.travelDate}</p>
+          <p className="text-2xl font-black text-red-400">₹{Number(trip?.total).toLocaleString()}</p>
+        </div>
+        <p className="text-2xl text-center text-slate-500">
+          A cancellation confirmation will be sent to our team. Refund processing may take 5-7 business days.
+        </p>
+        <div className="flex gap-4 pt-4">
+        <button onClick={() => setShowCancelModal(false)}
+  className="flex-1 py-6 bg-white/10 text-white text-[13px] font-black uppercase tracking-widest rounded-2xl hover:bg-white/20 transition-all">
+  Keep Trip
+</button>
+<button onClick={handleCancelTrip} disabled={cancelling}
+  className="flex-1 py-6 bg-red-600 text-white text-[13px] font-black uppercase tracking-widest rounded-2xl hover:bg-red-700 transition-all disabled:opacity-50">
+  {cancelling ? 'Cancelling...' : 'Yes, Cancel'}
+</button>
+        </div>
+      </div>
     </div>
-  );
+  </div>
+)}
+
+{/* CANCEL SUCCESS TOAST */}
+{cancelSuccess && (
+  <div className="fixed z-50 flex items-center gap-4 px-8 py-5 text-white bg-red-600 shadow-2xl top-8 right-8 rounded-2xl shadow-red-500/30"
+    style={{ animation: 'slideInRight 0.3s ease-out' }}>
+    <div className="flex items-center justify-center w-10 h-10 text-xl font-black rounded-full bg-white/20">✕</div>
+    <div>
+      <p className="text-xl font-black">Trip Cancelled!</p>
+      <p className="text-sm opacity-80">Cancellation email sent to our team</p>
+    </div>
+  </div>
+)}
+
+</>
+);
 };
 
 export default YourTrip;
