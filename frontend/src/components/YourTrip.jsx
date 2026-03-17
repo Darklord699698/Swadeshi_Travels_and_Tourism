@@ -4,6 +4,9 @@ import { FaDownload, FaUserFriends, FaMapMarkerAlt, FaCheckCircle, FaTicketAlt, 
 import { addReview, getReviewsForPackage } from '../utils/reviewsStore';
 import { Star } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import LottieReact from 'lottie-react';
+import deleteAnimation from '../assets/Delete.json';
+import basketAnimation from '../assets/basket.json';
 const YourTrip = () => {
   const [trip, setTrip] = useState(null);
   const [history, setHistory] = useState([]);
@@ -21,7 +24,8 @@ const [cancelSuccess, setCancelSuccess] = useState(false);
 const [showEditModal, setShowEditModal] = useState(false);
 const [editForm, setEditForm] = useState({});
 const [editSuccess, setEditSuccess] = useState(false);
-
+const [showDeleteAnim, setShowDeleteAnim] = useState(false);
+const [showBasketAnim, setShowBasketAnim] = useState(false);
   useEffect(() => {
     // 1. Get current active trip
     const savedTrip = localStorage.getItem(`activeManifest_${userId}`);
@@ -571,7 +575,7 @@ setHistory(updatedHistory);
   className="flex-1 py-6 bg-white/10 text-white text-[13px] font-black uppercase tracking-widest rounded-2xl hover:bg-white/20 transition-all">
   Keep Trip
 </button>
-<button onClick={handleCancelTrip} disabled={cancelling}
+<button onClick={() => { setShowDeleteAnim(true); setTimeout(() => { setShowDeleteAnim(false); handleCancelTrip(); }, 2000); }} disabled={cancelling}
   className="flex-1 py-6 bg-red-600 text-white text-[13px] font-black uppercase tracking-widest rounded-2xl hover:bg-red-700 transition-all disabled:opacity-50">
   {cancelling ? 'Cancelling...' : 'Yes, Cancel'}
 </button>
@@ -682,10 +686,10 @@ setHistory(updatedHistory);
                   className="flex-1 py-5 bg-white/10 text-white text-[12px] font-black uppercase tracking-widest rounded-2xl hover:bg-white/20 transition-all">
                   Cancel
                 </button>
-                <button onClick={handleSaveEdit}
-                  className="flex-1 py-5 bg-blue-600 text-white text-[12px] font-black uppercase tracking-widest rounded-2xl hover:bg-blue-700 transition-all">
-                  Save Changes ✓
-                </button>
+                <button onClick={() => { setShowBasketAnim(true); setTimeout(() => { setShowBasketAnim(false); handleSaveEdit(); }, 2000); }}
+  className="flex-1 py-5 bg-blue-600 text-white text-[12px] font-black uppercase tracking-widest rounded-2xl hover:bg-blue-700 transition-all">
+  Save Changes ✓
+</button>
               </div>
             </div>
           </div>
@@ -703,7 +707,37 @@ setHistory(updatedHistory);
           </div>
         </div>
       )}
+      {/* DELETE ANIMATION OVERLAY */}
+{showDeleteAnim && (
+  <div className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-white/10 backdrop-blur-2xl">
+    <LottieReact animationData={deleteAnimation} loop={true} style={{ width: '400px', height: '400px' }} />
+    <h2 className="mb-4 text-5xl font-black text-red-500"
+      style={{ animation: 'fadeInUp 0.5s 0.3s ease-out forwards', opacity: 0 }}>
+      Cancelling Trip...
+    </h2>
+    <div className="h-2 mt-8 overflow-hidden rounded-full w-80 bg-slate-200">
+      <div className="h-full bg-red-600 rounded-full"
+        style={{ animation: 'loadingBar 2s ease-out forwards' }}>
+      </div>
+    </div>
+  </div>
+)}
 
+{/* BASKET ANIMATION OVERLAY */}
+{showBasketAnim && (
+  <div className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-white/10 backdrop-blur-2xl">
+    <LottieReact animationData={basketAnimation} loop={true} style={{ width: '400px', height: '400px' }} />
+    <h2 className="mb-4 text-5xl font-black text-blue-500"
+      style={{ animation: 'fadeInUp 0.5s 0.3s ease-out forwards', opacity: 0 }}>
+      Saving Changes...
+    </h2>
+    <div className="h-2 mt-8 overflow-hidden rounded-full w-80 bg-slate-200">
+      <div className="h-full bg-blue-600 rounded-full"
+        style={{ animation: 'loadingBar 2s ease-out forwards' }}>
+      </div>
+    </div>
+  </div>
+)}
     </>
   );
 };
