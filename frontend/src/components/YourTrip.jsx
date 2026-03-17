@@ -132,7 +132,7 @@ setHistory(updatedHistory);
   
     // Update MongoDB + Resend email
     try {
-      await fetch('http://localhost:5000/api/update-booking', {
+      await fetch('https://swadeshi-travels-backend.onrender.com/api/update-booking', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedTrip),
