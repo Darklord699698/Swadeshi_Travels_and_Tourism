@@ -18,6 +18,9 @@ const [reviewSubmitted, setReviewSubmitted] = useState({});
 const [showCancelModal, setShowCancelModal] = useState(false);
 const [cancelling, setCancelling] = useState(false);
 const [cancelSuccess, setCancelSuccess] = useState(false);
+const [showEditModal, setShowEditModal] = useState(false);
+const [editForm, setEditForm] = useState({});
+const [editSuccess, setEditSuccess] = useState(false);
 
   useEffect(() => {
     // 1. Get current active trip
@@ -99,6 +102,49 @@ setHistory(updatedHistory);
       console.error(err);
       setCancelling(false);
     }
+  };
+
+
+  const handleOpenEdit = () => {
+    setEditForm({
+      fullName: trip.fullName || '',
+      email: trip.userEmail || '',
+      phone: trip.phone || '',
+      city: trip.city || '',
+      state: trip.state || '',
+      pincode: trip.pincode || '',
+      travelDate: trip.travelDate || '',
+      specialRequests: trip.specialRequests || '',
+    });
+    setShowEditModal(true);
+  };
+  
+  const handleSaveEdit = async () => {
+    const updatedTrip = { ...trip, ...editForm, userEmail: editForm.email };
+    
+    // Update localStorage
+    localStorage.setItem(`activeManifest_${userId}`, JSON.stringify(updatedTrip));
+    const existingHistory = JSON.parse(localStorage.getItem(`expeditionHistory_${userId}`) || '[]');
+    const updatedHistory = existingHistory.map(h => 
+      h.orderId === trip.orderId ? { ...h, ...editForm, userEmail: editForm.email } : h
+    );
+    localStorage.setItem(`expeditionHistory_${userId}`, JSON.stringify(updatedHistory));
+  
+    // Update MongoDB + Resend email
+    try {
+      await fetch('http://localhost:5000/api/update-booking', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedTrip),
+      });
+    } catch (err) {
+      console.error("Update error:", err);
+    }
+  
+    setTrip(updatedTrip);
+    setShowEditModal(false);
+    setEditSuccess(true);
+    setTimeout(() => setEditSuccess(false), 3000);
   };
   
   return (
@@ -246,6 +292,11 @@ setHistory(updatedHistory);
 <button onClick={() => setShowCancelModal(true)}
   className="w-full mt-3 flex items-center justify-center gap-3 py-5 bg-red-600/10 text-red-400 border border-red-500/20 rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all">
   ✕ Cancel This Trip
+</button>
+
+<button onClick={handleOpenEdit}
+  className="w-full mt-3 flex items-center justify-center gap-3 py-5 bg-blue-600/10 text-blue-400 border border-blue-500/20 rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-blue-600 hover:text-white transition-all">
+  ✎ Edit Trip Details
 </button>
                       {/* ADD THIS BELOW */}
 {reviewSubmitted[trip.tripName] ? (
@@ -542,8 +593,119 @@ setHistory(updatedHistory);
   </div>
 )}
 
-</>
-);
+{/* EDIT MODAL */}
+{showEditModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-6 overflow-y-auto bg-black/80 backdrop-blur-xl">
+          <div className="w-full max-w-2xl bg-[#121212] rounded-[2.5rem] overflow-hidden shadow-2xl border border-white/10 my-8"
+            style={{ animation: 'bounceIn 0.4s ease-out forwards' }}>
+            
+            <div className="p-10 text-center border-b bg-blue-600/20 border-blue-500/20">
+              <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 rounded-full bg-blue-600/20">
+                <span className="text-3xl">✎</span>
+              </div>
+              <h3 className="text-2xl font-black tracking-widest text-white uppercase">Edit Trip Details</h3>
+              <p className="mt-2 text-sm text-slate-400">Update your booking information</p>
+              <p className="mt-1 text-xs font-bold tracking-widest text-blue-400 uppercase">{trip?.tripName} — {trip?.orderId}</p>
+            </div>
+
+            <div className="p-10 space-y-6">
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Full Name</label>
+                  <input type="text" value={editForm.fullName}
+                    onChange={(e) => {
+                      const val = e.target.value.replace(/[^a-zA-Z\s]/g, '');
+                      setEditForm({...editForm, fullName: val});
+                    }}
+                    className="w-full p-4 text-lg font-bold text-white transition-all border outline-none bg-white/5 border-white/10 rounded-2xl focus:border-blue-500"/>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Email</label>
+                  <input type="email" value={editForm.email}
+                    onChange={(e) => setEditForm({...editForm, email: e.target.value})}
+                    className="w-full p-4 text-lg font-bold text-white transition-all border outline-none bg-white/5 border-white/10 rounded-2xl focus:border-blue-500"/>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Phone</label>
+                  <input type="text" value={editForm.phone}
+                    onChange={(e) => {
+                      const val = e.target.value.replace(/\D/g, '').slice(0, 10);
+                      setEditForm({...editForm, phone: val});
+                    }}
+                    className="w-full p-4 text-lg font-bold text-white transition-all border outline-none bg-white/5 border-white/10 rounded-2xl focus:border-blue-500"/>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Travel Date</label>
+                  <input type="date" value={editForm.travelDate}
+                    onChange={(e) => setEditForm({...editForm, travelDate: e.target.value})}
+                    className="w-full p-4 text-lg font-bold text-white transition-all border outline-none bg-white/5 border-white/10 rounded-2xl focus:border-blue-500"/>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">City</label>
+                  <input type="text" value={editForm.city}
+                    onChange={(e) => {
+                      const val = e.target.value.replace(/[^a-zA-Z\s]/g, '');
+                      setEditForm({...editForm, city: val});
+                    }}
+                    className="w-full p-4 text-lg font-bold text-white transition-all border outline-none bg-white/5 border-white/10 rounded-2xl focus:border-blue-500"/>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">State</label>
+                  <input type="text" value={editForm.state}
+                    onChange={(e) => {
+                      const val = e.target.value.replace(/[^a-zA-Z\s]/g, '');
+                      setEditForm({...editForm, state: val});
+                    }}
+                    className="w-full p-4 text-lg font-bold text-white transition-all border outline-none bg-white/5 border-white/10 rounded-2xl focus:border-blue-500"/>
+                </div>
+                <div className="col-span-2 space-y-2">
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Pincode</label>
+                  <input type="text" value={editForm.pincode}
+                    onChange={(e) => {
+                      const val = e.target.value.replace(/\D/g, '').slice(0, 6);
+                      setEditForm({...editForm, pincode: val});
+                    }}
+                    className="w-full p-4 text-lg font-bold text-white transition-all border outline-none bg-white/5 border-white/10 rounded-2xl focus:border-blue-500"/>
+                </div>
+                <div className="col-span-2 space-y-2">
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Special Requests</label>
+                  <textarea rows="3" value={editForm.specialRequests}
+                    onChange={(e) => setEditForm({...editForm, specialRequests: e.target.value})}
+                    placeholder="Any special requests..."
+                    className="w-full p-4 text-lg font-bold text-white transition-all border outline-none resize-none bg-white/5 border-white/10 rounded-2xl focus:border-blue-500"/>
+                </div>
+              </div>
+
+              <div className="flex gap-4 pt-2">
+                <button onClick={() => setShowEditModal(false)}
+                  className="flex-1 py-5 bg-white/10 text-white text-[12px] font-black uppercase tracking-widest rounded-2xl hover:bg-white/20 transition-all">
+                  Cancel
+                </button>
+                <button onClick={handleSaveEdit}
+                  className="flex-1 py-5 bg-blue-600 text-white text-[12px] font-black uppercase tracking-widest rounded-2xl hover:bg-blue-700 transition-all">
+                  Save Changes ✓
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* EDIT SUCCESS TOAST */}
+      {editSuccess && (
+        <div className="fixed z-50 flex items-center gap-4 px-8 py-5 text-white bg-blue-600 shadow-2xl top-8 right-8 rounded-2xl shadow-blue-500/30"
+          style={{ animation: 'slideInRight 0.3s ease-out' }}>
+          <div className="flex items-center justify-center w-10 h-10 text-xl font-black rounded-full bg-white/20">✓</div>
+          <div>
+            <p className="text-xl font-black">Details Updated!</p>
+            <p className="text-sm opacity-80">Your trip details have been saved</p>
+          </div>
+        </div>
+      )}
+
+    </>
+  );
 };
 
 export default YourTrip;
