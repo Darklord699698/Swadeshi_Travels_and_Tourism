@@ -139,14 +139,15 @@ const handleExecutePayment = async () => {
 
     if (response.ok) {
       localStorage.setItem(`activeManifest_${userId}`, JSON.stringify(receiptData));
-
-    const existing = JSON.parse(localStorage.getItem(`expeditionHistory_${userId}`) || '[]');
-    existing.unshift(receiptData);
-    localStorage.setItem(`expeditionHistory_${userId}`, JSON.stringify(existing));
-
-    const tripHist = JSON.parse(localStorage.getItem(`tripHistory_${userId}`) || '[]');
-    tripHist.unshift(receiptData);
-    localStorage.setItem(`tripHistory_${userId}`, JSON.stringify(tripHist));
+    
+      // ADD THIS BACK TEMPORARILY FOR DEMO
+      const existing = JSON.parse(localStorage.getItem(`expeditionHistory_${userId}`) || '[]');
+      existing.unshift(receiptData);
+      localStorage.setItem(`expeditionHistory_${userId}`, JSON.stringify(existing));
+      // END DEMO CODE
+    
+      const tripHist = JSON.parse(localStorage.getItem(`tripHistory_${userId}`) || '[]');
+      
 
     setPaymentSuccess(true);
     setToast(true);
@@ -159,16 +160,12 @@ const handleExecutePayment = async () => {
     }
   } catch (error) {
     console.error("Execution Error:", error);
-    localStorage.setItem('activeManifest', JSON.stringify(receiptData));
-
-    const existing = JSON.parse(localStorage.getItem('expeditionHistory') || '[]');
-    existing.unshift(receiptData);
-    localStorage.setItem('expeditionHistory', JSON.stringify(existing));
-
-    const tripHist = JSON.parse(localStorage.getItem('tripHistory') || '[]');
+    localStorage.setItem(`activeManifest_${userId}`, JSON.stringify(receiptData));
+  
+    const tripHist = JSON.parse(localStorage.getItem(`tripHistory_${userId}`) || '[]');
     tripHist.unshift(receiptData);
-    localStorage.setItem('tripHistory', JSON.stringify(tripHist));
-
+    localStorage.setItem(`tripHistory_${userId}`, JSON.stringify(tripHist));
+  
     setPaymentSuccess(true);
     setToast(true);
     setTimeout(() => setToast(false), 3000);

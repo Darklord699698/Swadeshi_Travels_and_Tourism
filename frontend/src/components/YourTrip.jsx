@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useUser } from '@clerk/clerk-react';
-import { FaDownload, FaUserFriends, FaMapMarkerAlt, FaCheckCircle, FaTicketAlt, FaChevronDown } from 'react-icons/fa';
+import { FaDownload, FaUserFriends, FaMapMarkerAlt, FaCheckCircle, FaTicketAlt, FaChevronDown,FaBan  } from 'react-icons/fa';
 import { addReview, getReviewsForPackage } from '../utils/reviewsStore';
 import { Star } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -26,24 +26,29 @@ const [editForm, setEditForm] = useState({});
 const [editSuccess, setEditSuccess] = useState(false);
 const [showDeleteAnim, setShowDeleteAnim] = useState(false);
 const [showBasketAnim, setShowBasketAnim] = useState(false);
+const [cancelledTrips, setCancelledTrips] = useState([]);
+
   useEffect(() => {
     // 1. Get current active trip
     const savedTrip = localStorage.getItem(`activeManifest_${userId}`);
     if (savedTrip) {
       setTrip(JSON.parse(savedTrip));
     }
-
+    // Load cancelled trips
+const savedCancelled = localStorage.getItem(`cancelledTrips_${userId}`);
+if (savedCancelled) {
+  setCancelledTrips(JSON.parse(savedCancelled));
+}
     // 2. Load expedition history
-    const savedHistory = localStorage.getItem(`expeditionHistory_${userId}`);
     const activeTripData = savedTrip ? JSON.parse(savedTrip) : null;
-
-    if (savedHistory) {
-      const allHistory = JSON.parse(savedHistory);
-      const filtered = activeTripData
-        ? allHistory.filter(h => h.orderId !== activeTripData.orderId)
-        : allHistory;
-      setHistory(filtered);
-    }
+    
+    const savedHistory = localStorage.getItem(`expeditionHistory_${userId}`);
+if (savedHistory) {
+  const allHistory = JSON.parse(savedHistory);
+  const today = new Date();
+  const filtered = allHistory.filter(h => h.orderId !== activeTripData?.orderId);
+  setHistory(filtered);
+}
   }, [userId]);
 
   const toggleHistory = (orderId) => {
@@ -83,7 +88,16 @@ const [showBasketAnim, setShowBasketAnim] = useState(false);
           bookedDate: trip.bookedDate,
         }),
       });
-  
+
+      // Save to cancelled trips
+const cancelledEntry = {
+  ...trip,
+  cancelledDate: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
+};
+const existingCancelled = JSON.parse(localStorage.getItem(`cancelledTrips_${userId}`) || '[]');
+const updatedCancelled = [cancelledEntry, ...existingCancelled];
+localStorage.setItem(`cancelledTrips_${userId}`, JSON.stringify(updatedCancelled));
+setCancelledTrips(updatedCancelled);
       localStorage.removeItem(`activeManifest_${userId}`);
 
 // Remove from expedition history too
@@ -97,7 +111,10 @@ const updatedTripHistory = existingTripHistory.filter(h => h.orderId !== trip.or
 localStorage.setItem(`tripHistory_${userId}`, JSON.stringify(updatedTripHistory));
 
 setTrip(null);
-setHistory(updatedHistory);
+// With this:
+const today = new Date();
+const filteredAfterCancel = updatedHistory.filter(h => new Date(h.travelDate) < today);
+setHistory(filteredAfterCancel);
       setCancelling(false);
       setShowCancelModal(false);
       setCancelSuccess(true);
@@ -541,7 +558,69 @@ setHistory(updatedHistory);
     )}
   </div>
 </div>
+{/* 4. CANCELLED TRIPS NODE */}
+<div className="relative">
+  <div className={`absolute -left-[43px] top-0 w-6 h-6 rounded-full border-4 border-white shadow-md transition-all duration-700 ${cancelledTrips.length > 0 ? 'bg-red-500' : 'bg-slate-200'}`}></div>
+  <p className="text-[10px] font-black tracking-[0.3em] uppercase text-slate-400">Cancelled Trips</p>
 
+  <div className="mt-8 space-y-6">
+    {cancelledTrips.length > 0 ? cancelledTrips.map((c, idx) => (
+      <div key={idx} className="max-w-xl overflow-hidden bg-white border shadow-sm rounded-[2.5rem] border-red-200">
+        <button
+          onClick={() => toggleHistory(c.orderId + '_cancelled')}
+          className="flex items-center justify-between w-full p-8 transition-colors border-l-8 hover:bg-red-50 border-l-red-500"
+        >
+          <div className="flex items-center gap-4 text-left">
+            <FaBan className="text-red-300" />
+            <div>
+              <h4 className="font-bold text-slate-800">{c.tripName}</h4>
+              <p className="text-[10px] font-black text-red-400 uppercase tracking-widest">Cancelled on {c.cancelledDate}</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-4">
+            <span className="font-mono text-sm font-bold text-red-400 line-through">₹{Number(c.total).toLocaleString()}</span>
+            <FaChevronDown className={`text-slate-300 transition-transform duration-300 ${expandedId === c.orderId + '_cancelled' ? 'rotate-180' : ''}`} />
+          </div>
+        </button>
+
+        {expandedId === c.orderId + '_cancelled' && (
+          <div className="p-10 bg-[#121212] text-white animate-in slide-in-from-top duration-500 space-y-6">
+            <div className="flex items-start justify-between pb-4 mb-2 border-b border-white/10">
+              <p className="text-[9px] font-black text-red-500 uppercase tracking-widest">Cancellation Record</p>
+              <p className="text-[9px] text-slate-500 font-mono">#{c.orderId}</p>
+            </div>
+            <h4 className="text-3xl italic font-black text-white">Namaste, {c.fullName}</h4>
+            <div className="flex flex-wrap gap-2 mt-4">
+              <span className="px-3 py-1 text-[9px] font-black uppercase bg-white/5 rounded-full border border-white/10 text-slate-400">Age: {c.age}</span>
+              <span className="px-3 py-1 text-[9px] font-black uppercase bg-white/5 rounded-full border border-white/10 text-slate-400">📍 {c.city}, {c.state}</span>
+            </div>
+            <div className="p-6 space-y-2 text-center border bg-red-600/10 border-red-500/20 rounded-2xl">
+              <p className="text-[10px] font-black text-red-400 uppercase tracking-widest">Refund Initiated</p>
+              <h2 className="text-4xl font-black tracking-tighter text-red-400">₹{Number(c.total).toLocaleString()}</h2>
+              <p className="text-[10px] text-slate-500 uppercase tracking-widest">Refund processing within 5–7 business days</p>
+              <p className="text-[10px] text-slate-500">Travel Date was: {c.travelDate}</p>
+            </div>
+          </div>
+        )}
+      </div>
+    )) : (
+      <p className="text-xl italic font-bold text-slate-300">No cancellations on record.</p>
+    )}
+  </div>
+</div>
+
+{/* 5. COMPLETED TRIPS NODE */}
+<div className="relative">
+  <div className={`absolute -left-[43px] top-0 w-6 h-6 rounded-full border-4 border-white shadow-md transition-all duration-700 ${history.length > 0 ? 'bg-purple-500' : 'bg-slate-200'}`}></div>
+  <p className="text-[10px] font-black tracking-[0.3em] uppercase text-slate-400">Completed Trips</p>
+  <div className="mt-4">
+    {history.length > 0 ? (
+      <p className="text-xl font-bold text-slate-600">{history.length} expedition{history.length > 1 ? 's' : ''} completed successfully.</p>
+    ) : (
+      <p className="text-xl italic font-bold text-slate-300">No completed expeditions yet.</p>
+    )}
+  </div>
+</div>
           </div>
         </div>
       </div>
