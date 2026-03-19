@@ -254,21 +254,20 @@ const About = () => {
 
             </div>
 
-            <div className="flex items-center justify-between pt-10 mt-10">
-
-              <div className="flex items-center gap-4">
-                <span className="text-2xl text-slate-400">Status:</span>
-                <span className="px-6 py-2 text-xl font-bold text-green-400 border border-green-400 rounded-full">
-                  Paid
-                </span>
-              </div>
-
-              <div className="text-right">
-                <p className="text-3xl text-slate-400">Timestamp</p>
-                <p className="text-2xl font-semibold">{new Date().toLocaleString()}</p>
-              </div>
-
-            </div>
+            {activeTrip && (
+  <div className="flex items-center justify-between pt-10 mt-10">
+    <div className="flex items-center gap-4">
+      <span className="text-2xl text-slate-400">Status:</span>
+      <span className="px-6 py-2 text-xl font-bold text-green-400 border border-green-400 rounded-full">
+        Paid
+      </span>
+    </div>
+    <div className="text-right">
+      <p className="text-3xl text-slate-400">Timestamp</p>
+      <p className="text-2xl font-semibold">{new Date().toLocaleString()}</p>
+    </div>
+  </div>
+)}
 
           </div>
 

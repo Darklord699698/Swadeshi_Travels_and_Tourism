@@ -232,9 +232,9 @@ const API_URL = import.meta.env.MODE === 'development'
                   <i className="text-3xl fas fa-phone-alt"></i>
                 </div>
                 <div>
-                  <p className="text-sm uppercase font-black text-gray-600 tracking-[0.3em] mb-1">Phone</p>
-                  <p className="text-3xl font-bold tracking-tight text-white">+91 88511 14020</p>
-                </div>
+  <p className="text-sm uppercase font-black text-gray-600 tracking-[0.3em] mb-1">Phone</p>
+  <p className="text-3xl font-bold tracking-tight text-white">1800 11 1363</p>
+</div>
               </div>
               <div className="p-10 bg-white/[0.03] border border-white/5 rounded-[2.5rem] flex items-center gap-8 group hover:border-orange-500/40 transition-all shadow-2xl">
                 <div className="flex items-center justify-center w-20 h-20 text-orange-500 transition-all bg-orange-500/10 rounded-2xl group-hover:bg-orange-500 group-hover:text-white">

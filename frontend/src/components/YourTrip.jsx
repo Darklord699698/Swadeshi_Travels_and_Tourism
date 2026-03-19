@@ -79,7 +79,7 @@ const filtered = allHistory.filter(h => {
   const handleCancelTrip = async () => {
     setCancelling(true);
     try {
-      await fetch('https://swadeshi-travels-backend.onrender.com/api/cancel-booking', {
+      await fetch('http://localhost:5000/api/cancel-booking', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
