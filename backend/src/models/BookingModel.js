@@ -11,6 +11,7 @@ const bookingSchema = new mongoose.Schema({
   city: String,
   state: String,
   pincode: String,
+  numberOfDays: { type: Number, default: 1 },
   travelDate: String,
   bookedDate: String,
   userEmail: String,

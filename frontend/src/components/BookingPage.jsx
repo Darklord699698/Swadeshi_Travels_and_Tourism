@@ -118,7 +118,8 @@ const handleExecutePayment = async () => {
     age: formData.age || "N/A",      
     state: formData.state || "N/A",  
     city: formData.city || "N/A",    
-    pincode: formData.pincode || "N/A", 
+    pincode: formData.pincode || "N/A",
+    numberOfDays: formData.nights || 1, 
     additionalTravelers: formData.additionalTravelers,
     breakdown: {
       homestay: (totalAmount * 0.40).toFixed(2),
@@ -260,12 +261,16 @@ if (step === 2) {
                 <p className="mt-2 text-lg text-slate-500">{formData.email} • {formData.phone}</p>
               </div>
               <div className="grid grid-cols-2 gap-8 p-10 bg-slate-50 rounded-[3rem]">
-                <div>
-                  <p className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] mb-2">Departure</p>
-                  <p className="text-xl font-bold text-slate-800">{formData.travelDate}</p>
-                </div>
-                
-              </div>
+  <div>
+    <p className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] mb-2">Departure</p>
+    <p className="text-xl font-bold text-slate-800">{formData.travelDate}</p>
+  </div>
+  <div>
+    <p className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] mb-2">Duration</p>
+    <p className="text-xl font-bold text-slate-800">{formData.nights || 1} Day{(formData.nights || 1) > 1 ? 's' : ''}</p>
+  </div>
+</div>
+              
             </div>
 
             <div className="space-y-6">
@@ -533,6 +538,20 @@ if (step === 2) {
               </div>
   </div>
 </div>
+{/* NEW: Number of Days */}
+<div className="space-y-3">
+    <label className="text-[11px] font-black uppercase text-slate-400 tracking-widest ml-1">Number of Days</label>
+    <div className="flex items-center gap-4 px-5 py-0 transition shadow-sm bg-slate-50 rounded-3xl focus-within:ring-2 focus-within:ring-orange-400">
+      <input
+        type="number"
+        min="1"
+        max="30"
+        value={formData.nights}
+        className="w-full p-6 text-3xl font-black text-orange-600 border-none outline-none bg-slate-50 rounded-3xl"
+        onChange={(e) => setFormData({...formData, nights: parseInt(e.target.value) || 1})}
+      />
+    </div>
+  </div>
               
             </div>
 

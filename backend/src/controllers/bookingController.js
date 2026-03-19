@@ -13,6 +13,7 @@ export const sendReceipt = async (req, res) => {
     state,
     city,
     pincode,
+    numberOfDays,  // ADD THIS
     tripName,
     total,
     orderId,
@@ -155,8 +156,11 @@ export const sendReceipt = async (req, res) => {
                 </div>
 
                 <div style="font-size:11px;color:#71717a;text-transform:uppercase;">
-                  Departure: ${travelDate}
-                </div>
+  Departure: ${travelDate}
+</div>
+<div style="font-size:11px;color:#71717a;text-transform:uppercase;margin-top:8px;">
+  Duration: ${numberOfDays || 1} Day${(numberOfDays || 1) > 1 ? 's' : ''}
+</div>
 
               </div>
 
@@ -263,8 +267,11 @@ export const sendReceipt = async (req, res) => {
                 </div>
 
                 <div style="font-size:11px;color:#71717a;text-transform:uppercase;">
-                  Departure: ${travelDate}
-                </div>
+                Departure: ${travelDate}
+              </div>
+              <div style="font-size:11px;color:#71717a;text-transform:uppercase;margin-top:8px;">
+                Duration: ${numberOfDays || 1} Day${(numberOfDays || 1) > 1 ? 's' : ''}
+              </div>
 
               </div>
 
@@ -316,6 +323,7 @@ export const cancelBooking = async (req, res) => {
     total,
     travelDate,
     bookedDate,
+    numberOfDays,  // ADD THIS
   } = req.body;
 
   const formatCurrency = (num) =>
@@ -374,6 +382,10 @@ export const cancelBooking = async (req, res) => {
                     <td style="color:#71717a;border-top:1px solid #2a2a2a;">Booked On</td>
                     <td align="right" style="color:#ffffff;border-top:1px solid #2a2a2a;">${bookedDate}</td>
                   </tr>
+                  <tr>
+  <td style="color:#71717a;border-top:1px solid #2a2a2a;">Duration</td>
+  <td align="right" style="color:#ffffff;border-top:1px solid #2a2a2a;">${numberOfDays || 1} Day${(numberOfDays || 1) > 1 ? 's' : ''}</td>
+</tr>
                   <tr>
                     <td style="color:#71717a;border-top:1px solid #2a2a2a;">Amount Paid</td>
                     <td align="right" style="color:#dc2626;font-weight:bold;font-size:18px;border-top:1px solid #2a2a2a;">${formatCurrency(total)}</td>
@@ -509,6 +521,7 @@ export const updateBooking = async (req, res) => {
     pincode,
     travelDate,
     tripName,
+    numberOfDays,  // ADD THIS
     total,
     breakdown = {},
     additionalTravelers = [],
@@ -596,6 +609,7 @@ export const updateBooking = async (req, res) => {
                 <div style="margin-top:25px;font-size:11px;color:#71717a;text-transform:uppercase;">Grand Total</div>
                 <div style="font-size:36px;font-weight:bold;color:#ea580c;margin:10px 0;">${formatCurrency(total)}</div>
                 <div style="font-size:11px;color:#71717a;text-transform:uppercase;">Departure: ${travelDate}</div>
+<div style="font-size:11px;color:#71717a;text-transform:uppercase;margin-top:8px;">Duration: ${numberOfDays || 1} Day${(numberOfDays || 1) > 1 ? 's' : ''}</div>
               </div>
             </td>
           </tr>
