@@ -46,7 +46,11 @@ if (savedCancelled) {
 if (savedHistory) {
   const allHistory = JSON.parse(savedHistory);
   const today = new Date();
-  const filtered = allHistory.filter(h => h.orderId !== activeTripData?.orderId);
+  // BACK TO THIS:
+const filtered = allHistory.filter(h => {
+  const travelDate = new Date(h.travelDate);
+  return travelDate < today && h.orderId !== activeTripData?.orderId;
+});
   setHistory(filtered);
 }
   }, [userId]);

@@ -140,13 +140,12 @@ const handleExecutePayment = async () => {
     if (response.ok) {
       localStorage.setItem(`activeManifest_${userId}`, JSON.stringify(receiptData));
     
-      // ADD THIS BACK TEMPORARILY FOR DEMO
-      const existing = JSON.parse(localStorage.getItem(`expeditionHistory_${userId}`) || '[]');
-      existing.unshift(receiptData);
-      localStorage.setItem(`expeditionHistory_${userId}`, JSON.stringify(existing));
+      
       // END DEMO CODE
     
       const tripHist = JSON.parse(localStorage.getItem(`tripHistory_${userId}`) || '[]');
+tripHist.unshift(receiptData);
+localStorage.setItem(`tripHistory_${userId}`, JSON.stringify(tripHist));
       
 
     setPaymentSuccess(true);
