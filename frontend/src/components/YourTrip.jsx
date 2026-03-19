@@ -79,7 +79,7 @@ const filtered = allHistory.filter(h => {
   const handleCancelTrip = async () => {
     setCancelling(true);
     try {
-      await fetch('https://swadeshi-travels-backend.onrender.com/api/cancel-booking', {
+      await fetch('http://localhost:5000/api/cancel-booking', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -670,12 +670,12 @@ setHistory(filteredAfterCancel);
 
 {/* CANCEL SUCCESS TOAST */}
 {cancelSuccess && (
-  <div className="fixed z-50 flex items-center gap-4 px-8 py-5 text-white bg-red-600 shadow-2xl top-8 right-8 rounded-2xl shadow-red-500/30"
+  <div className="fixed z-50 flex items-center gap-4 px-8 py-5 text-white bg-red-600 shadow-2xl top-36 right-8 rounded-2xl shadow-red-500/30"
     style={{ animation: 'slideInRight 0.3s ease-out' }}>
     <div className="flex items-center justify-center w-10 h-10 text-xl font-black rounded-full bg-white/20">✕</div>
     <div>
-      <p className="text-xl font-black">Trip Cancelled!</p>
-      <p className="text-sm opacity-80">Cancellation email sent to our team</p>
+      <p className="text-4xl font-black">Trip Cancelled!</p>
+      <p className="text-2xl opacity-80">Cancellation email sent to our team</p>
     </div>
   </div>
 )}
@@ -781,12 +781,12 @@ setHistory(filteredAfterCancel);
 
       {/* EDIT SUCCESS TOAST */}
       {editSuccess && (
-        <div className="fixed z-50 flex items-center gap-4 px-8 py-5 text-white bg-blue-600 shadow-2xl top-8 right-8 rounded-2xl shadow-blue-500/30"
+        <div className="fixed z-50 flex items-center gap-4 px-8 py-5 text-white bg-blue-600 shadow-2xl top-36 right-8 rounded-2xl shadow-blue-500/30"
           style={{ animation: 'slideInRight 0.3s ease-out' }}>
           <div className="flex items-center justify-center w-10 h-10 text-xl font-black rounded-full bg-white/20">✓</div>
           <div>
-            <p className="text-xl font-black">Details Updated!</p>
-            <p className="text-sm opacity-80">Your trip details have been saved</p>
+            <p className="text-4xl font-black">Details Updated!</p>
+            <p className="text-2xl opacity-80">Your trip details have been saved</p>
           </div>
         </div>
       )}

@@ -17,7 +17,7 @@ const BookingPage = ({ packageData: propPackage }) => {
   const [paymentSuccess, setPaymentSuccess] = useState(false);
 const [toast, setToast] = useState(false);
 const [showLightning, setShowLightning] = useState(false);
-
+const [bookingBlockToast, setBookingBlockToast] = useState(false);
   const [formData, setFormData] = useState({
     fullName: '', 
     email: '', 
@@ -138,6 +138,13 @@ const handleExecutePayment = async () => {
     });
 
     if (response.ok) {
+      // Block second booking
+  const existingTrip = localStorage.getItem(`activeManifest_${userId}`);
+  if (existingTrip) {
+    setBookingBlockToast(true);
+setTimeout(() => setBookingBlockToast(false), 4000);
+return;
+  }
       localStorage.setItem(`activeManifest_${userId}`, JSON.stringify(receiptData));
     
       
@@ -159,6 +166,12 @@ localStorage.setItem(`tripHistory_${userId}`, JSON.stringify(tripHist));
     }
   } catch (error) {
     console.error("Execution Error:", error);
+    // Block second booking
+  const existingTrip = localStorage.getItem(`activeManifest_${userId}`);
+  if (existingTrip) {
+    alert('You already have an active booking! Please cancel your current trip before booking a new one.');
+    return;
+  }
     localStorage.setItem(`activeManifest_${userId}`, JSON.stringify(receiptData));
   
     const tripHist = JSON.parse(localStorage.getItem(`tripHistory_${userId}`) || '[]');
@@ -209,15 +222,25 @@ if (step === 2) {
 
     {/* TOAST */}
     {toast && (
-      <div className="fixed z-50 flex items-center gap-4 px-8 py-5 text-white bg-green-600 shadow-2xl top-8 right-8 rounded-2xl shadow-green-500/30"
+      <div className="fixed z-50 flex items-center gap-4 px-8 py-5 text-white bg-green-600 shadow-2xl top-36 right-8 rounded-2xl shadow-green-500/30"
         style={{ animation: 'slideInRight 0.3s ease-out' }}>
         <div className="flex items-center justify-center w-10 h-10 text-xl font-black rounded-full bg-white/20">✓</div>
         <div>
-          <p className="text-xl font-black">Booking Confirmed!</p>
-          <p className="text-sm opacity-80">Receipt sent to {formData.email}</p>
+          <p className="text-4xl font-black">Booking Confirmed!</p>
+          <p className="text-2xl opacity-80">Receipt sent to {formData.email}</p>
         </div>
       </div>
     )}
+    {bookingBlockToast && (
+  <div className="fixed z-50 flex items-center gap-4 px-8 py-5 text-white bg-orange-600 shadow-2xl top-36 right-8 rounded-2xl shadow-orange-500/30"
+    style={{ animation: 'slideInRight 0.3s ease-out' }}>
+    <div className="flex items-center justify-center w-10 h-10 text-xl font-black rounded-full bg-white/20">⚠️</div>
+    <div>
+      <p className="text-4xl font-black">Active Booking Exists!</p>
+      <p className="text-2xl opacity-80">Please cancel your current trip before booking a new one.</p>
+    </div>
+  </div>
+)}
 
     <div className="min-h-screen bg-slate-50 pt-32 pb-20 px-[5%]">
         <div className="max-w-6xl mx-auto bg-white rounded-[4rem] shadow-2xl p-20 border border-slate-100 animate-in zoom-in duration-500">
