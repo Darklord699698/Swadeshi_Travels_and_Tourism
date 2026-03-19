@@ -307,8 +307,10 @@ setHistory(filteredAfterCancel);
                           <h2 className="text-5xl font-black text-[#ea580c] tracking-tighter">₹{Number(trip.total).toLocaleString()}</h2>
                           <div className="flex justify-center mt-6"> 
                               <p className="text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] border-t border-white/10 pt-4 w-full">Departure: {trip.travelDate}</p>
-                              <p className="text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] mt-1">Duration: {trip.numberOfDays || 1} Day{(trip.numberOfDays || 1) > 1 ? 's' : ''}</p>
                           </div>
+                          <div className="flex justify-center mt-2">
+  <p className="text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] w-full">Duration: {trip.numberOfDays || 1} Day{(trip.numberOfDays || 1) > 1 ? 's' : ''}</p>
+</div>
                           </div>
 
                           <button onClick={() => window.print()} className="w-full mt-4 flex items-center justify-center gap-3 py-5 bg-white text-black rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-orange-600 hover:text-white transition-all shadow-lg shadow-white/5">
