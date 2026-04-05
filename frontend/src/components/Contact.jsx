@@ -166,7 +166,9 @@ const API_URL = import.meta.env.MODE === 'development'
                   <i className="text-6xl fas fa-check"></i>
                 </div>
                 <h2 className="text-5xl font-bold">Inquiry Sent!</h2>
-                <p className="max-w-md mx-auto text-2xl leading-relaxed text-gray-300">Check your inbox. We've sent a notification to darklord8527789390@gmail.com.</p>
+                <p className="max-w-md mx-auto text-2xl leading-relaxed text-gray-300">
+  Your enquiry has been submitted successfully. Our team will review it and get back to you within 24–48 hours.
+</p>
                 <button onClick={() => setSubmitted(false)} className="text-xl font-bold text-orange-500 hover:underline underline-offset-4">Send another message</button>
               </div>
             )}
