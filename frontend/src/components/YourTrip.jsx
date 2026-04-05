@@ -28,32 +28,43 @@ const [showDeleteAnim, setShowDeleteAnim] = useState(false);
 const [showBasketAnim, setShowBasketAnim] = useState(false);
 const [cancelledTrips, setCancelledTrips] = useState([]);
 
-  useEffect(() => {
-    // 1. Get current active trip
-    const savedTrip = localStorage.getItem(`activeManifest_${userId}`);
-    if (savedTrip) {
-      setTrip(JSON.parse(savedTrip));
-    }
-    // Load cancelled trips
-const savedCancelled = localStorage.getItem(`cancelledTrips_${userId}`);
-if (savedCancelled) {
-  setCancelledTrips(JSON.parse(savedCancelled));
-}
-    // 2. Load expedition history
-    const activeTripData = savedTrip ? JSON.parse(savedTrip) : null;
-    
-    const savedHistory = localStorage.getItem(`expeditionHistory_${userId}`);
-if (savedHistory) {
-  const allHistory = JSON.parse(savedHistory);
+useEffect(() => {
+  const savedTrip = localStorage.getItem(`activeManifest_${userId}`);
   const today = new Date();
-  // BACK TO THIS:
-const filtered = allHistory.filter(h => {
-  const travelDate = new Date(h.travelDate);
-  return travelDate < today && h.orderId !== activeTripData?.orderId;
-});
-  setHistory(filtered);
-}
-  }, [userId]);
+
+  if (savedTrip) {
+    const tripData = JSON.parse(savedTrip);
+    const travelDate = new Date(tripData.travelDate);
+
+    // If travel date has passed, move to expedition history automatically
+    if (travelDate < today) {
+      const existingHistory = JSON.parse(localStorage.getItem(`expeditionHistory_${userId}`) || '[]');
+      const alreadyExists = existingHistory.find(h => h.orderId === tripData.orderId);
+      
+      if (!alreadyExists) {
+        existingHistory.unshift(tripData);
+        localStorage.setItem(`expeditionHistory_${userId}`, JSON.stringify(existingHistory));
+      }
+
+      localStorage.removeItem(`activeManifest_${userId}`);
+      setTrip(null);
+      setHistory(existingHistory.filter(h => new Date(h.travelDate) < today));
+    } else {
+      setTrip(tripData);
+    }
+  }
+
+  // Load cancelled trips
+  const savedCancelled = localStorage.getItem(`cancelledTrips_${userId}`);
+  if (savedCancelled) setCancelledTrips(JSON.parse(savedCancelled));
+
+  // Load expedition history
+  const savedHistory = localStorage.getItem(`expeditionHistory_${userId}`);
+  if (savedHistory) {
+    const allHistory = JSON.parse(savedHistory);
+    setHistory(allHistory.filter(h => new Date(h.travelDate) < today));
+  }
+}, [userId]);
 
   const toggleHistory = (orderId) => {
     setExpandedId(expandedId === orderId ? null : orderId);
