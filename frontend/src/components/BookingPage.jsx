@@ -56,7 +56,7 @@ const [bookingBlockToast, setBookingBlockToast] = useState(false);
 
   const getMinDate = () => {
     const date = new Date();
-    date.setDate(date.getDate() -2); 
+    date.setDate(date.getDate() + 2); 
     return date.toISOString().split('T')[0];
   };
 
